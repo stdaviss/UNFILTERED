@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Office Unfiltered™ — Play-Based Human Connection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0e1b3d; --navy2:#182a5e; --ink:#12203f; --paper:#ffffff;
+  --yellow:#ffd23f; --truth:#3b82f6; --dare:#ff7a45; --scen:#ef5350; --arch:#8b5cf6; --safe:#14b8a6;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+[hidden]{display:none !important;}
+html,body{min-height:100%;}
+body{
+  font-family:'Nunito',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  color:#eef2ff; overflow-x:hidden;
+  background:radial-gradient(1200px 800px at 80% -10%, #22356f 0%, transparent 60%),
+             radial-gradient(900px 700px at -10% 110%, #1d2f66 0%, transparent 55%),
+             linear-gradient(160deg, var(--navy) 0%, var(--navy2) 100%);
+  background-attachment:fixed;
+}
+h1,h2,h3,.display{font-family:'Baloo 2','Nunito',sans-serif;}
+button{font-family:inherit; cursor:pointer;}
+input{font-family:inherit;}
+
+/* ---------- background fx ---------- */
+#bgfx span{position:fixed; opacity:.07; pointer-events:none; z-index:0; animation:floaty ease-in-out infinite alternate;}
+@keyframes floaty{from{transform:translateY(-14px) rotate(-6deg);} to{transform:translateY(14px) rotate(6deg);}}
+
+/* ---------- screens ---------- */
+.screen{display:none; position:relative; z-index:1; min-height:100vh; flex-direction:column; align-items:center; padding:28px 20px 60px;}
+.screen.active{display:flex; animation:fadein .45s ease;}
+@keyframes fadein{from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:none;}}
+
+/* ---------- buttons ---------- */
+.btn{border:none; border-radius:999px; padding:13px 26px; font-weight:800; font-size:16px; transition:transform .12s ease, box-shadow .12s ease, background .12s;}
+.btn:hover{transform:translateY(-2px);}
+.btn:active{transform:translateY(0);}
+.btn.primary{background:var(--yellow); color:var(--ink); box-shadow:0 8px 24px rgba(255,210,63,.35);}
+.btn.ghost{background:rgba(255,255,255,.09); color:#eef2ff; border:1.5px solid rgba(255,255,255,.28);}
+.btn.danger{background:#ef4444; color:#fff;}
+.btn.small{padding:8px 16px; font-size:13px;}
+.iconbtn{background:rgba(255,255,255,.09); border:1.5px solid rgba(255,255,255,.25); color:#fff; border-radius:12px; width:38px; height:38px; font-size:17px;}
+
+/* ---------- title screen ---------- */
+.logo-card{background:linear-gradient(160deg,#1d3f8f,#16306e); border:4px solid #fff; outline:3px solid #0d2c6b; border-radius:26px; padding:34px 44px; text-align:center; box-shadow:0 24px 60px rgba(0,0,0,.45); transform:rotate(-1.5deg); max-width:560px;}
+.logo-band{background:var(--yellow); color:var(--ink); border-radius:16px; padding:14px 18px; font-family:'Baloo 2'; font-weight:800; font-size:clamp(28px,5.4vw,44px); line-height:1.05; letter-spacing:.01em; box-shadow:0 6px 0 rgba(0,0,0,.18);}
+.logo-sub{margin-top:16px; font-weight:700; color:#cfe0ff; letter-spacing:.14em; font-size:12px; text-transform:uppercase;}
+.tagline{margin:26px 0 6px; font-size:clamp(16px,2.4vw,21px); font-weight:700; color:#dbe6ff; text-align:center; max-width:640px;}
+.cat-row{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin:18px 0 30px;}
+.cat-chip{padding:7px 14px; border-radius:999px; font-weight:800; font-size:13px; color:#fff; letter-spacing:.05em;}
+.note{margin-top:22px; font-size:13px; color:#9fb3e8; max-width:520px; text-align:center;}
+
+/* ---------- setup ---------- */
+.panel{background:rgba(255,255,255,.06); border:1.5px solid rgba(255,255,255,.16); border-radius:20px; padding:22px; width:min(920px,100%); margin-top:18px;}
+.panel h3{font-size:18px; margin-bottom:12px; color:var(--yellow);}
+.mode-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px;}
+.mode-card{border:2px solid rgba(255,255,255,.2); border-radius:16px; padding:14px; background:rgba(255,255,255,.05); text-align:left; color:#eef2ff; transition:.15s;}
+.mode-card.sel{border-color:var(--yellow); background:rgba(255,210,63,.12); box-shadow:0 0 0 3px rgba(255,210,63,.18);}
+.mode-card b{display:block; font-size:16px; margin-bottom:4px;}
+.mode-card span{font-size:12.5px; color:#c6d4f7; line-height:1.35; display:block;}
+.pills-row{display:flex; gap:10px; flex-wrap:wrap;}
+.pillbtn{border-radius:999px; padding:9px 20px; font-weight:800; background:rgba(255,255,255,.08); border:2px solid rgba(255,255,255,.2); color:#eef2ff;}
+.pillbtn.sel{background:var(--yellow); color:var(--ink); border-color:var(--yellow);}
+.cast-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px;}
+.cast-card{display:flex; flex-direction:column; align-items:center; gap:6px; padding:12px 8px; border-radius:16px; border:2px solid rgba(255,255,255,.18); background:rgba(255,255,255,.05); color:#eef2ff; transition:.15s;}
+.cast-card.sel{border-color:var(--yellow); background:rgba(255,210,63,.14);}
+.cast-card .cname{font-weight:800; font-size:14px;}
+.cast-card .crole{font-size:11px; color:#b9c8ef;}
+.human-row{display:flex; align-items:center; gap:10px; margin-bottom:10px;}
+.human-row input{flex:1; max-width:260px; background:rgba(255,255,255,.1); border:1.5px solid rgba(255,255,255,.25); color:#fff; border-radius:12px; padding:9px 14px; font-weight:700;}
+.human-row input::placeholder{color:#93a7dd;}
+.xbtn{background:rgba(255,80,80,.15); border:1.5px solid rgba(255,120,120,.5); color:#ffb4b4; border-radius:10px; width:34px; height:34px;}
+.counter{margin-top:14px; font-weight:800; color:#cfe0ff;}
+.counter.warn{color:#ffb4b4;}
+
+/* ---------- ritual ---------- */
+.ritual-list{width:min(640px,100%); display:flex; flex-direction:column; gap:12px; margin:24px 0;}
+.ritual-item{display:flex; gap:14px; align-items:flex-start; background:rgba(255,255,255,.06); border:1.5px solid rgba(255,255,255,.16); border-radius:16px; padding:14px 18px; font-weight:700; font-size:15.5px;}
+.ritual-item .ri{font-size:22px;}
+
+/* ---------- game screen ---------- */
+.topbar{width:min(1100px,100%); display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+.brand-mini{display:flex; align-items:center; gap:9px; font-family:'Baloo 2'; font-weight:800; font-size:17px;}
+.ou-chip{background:var(--yellow); color:var(--ink); border-radius:9px; padding:3px 8px; font-size:14px; box-shadow:0 3px 0 rgba(0,0,0,.25);}
+.pills{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+.pill{background:rgba(255,255,255,.1); border:1.5px solid rgba(255,255,255,.22); border-radius:999px; padding:6px 14px; font-weight:800; font-size:12px; letter-spacing:.08em;}
+.meter-wrap{display:flex; align-items:center; gap:8px;}
+.meter{width:120px; height:10px; border-radius:999px; background:rgba(255,255,255,.14); overflow:hidden;}
+.meter>div{height:100%; width:40%; border-radius:999px; background:linear-gradient(90deg,var(--yellow),var(--dare)); transition:width .5s ease;}
+#energyLabel{font-size:11.5px; font-weight:800; color:#ffd9a8; letter-spacing:.06em;}
+.tb-btns{display:flex; gap:8px; align-items:center;}
+
+.rail{width:min(1100px,100%); display:flex; gap:10px; overflow-x:auto; padding:18px 2px 6px;}
+.pchip{flex:0 0 auto; display:flex; flex-direction:column; align-items:center; gap:4px; padding:9px 12px; border-radius:16px; background:rgba(255,255,255,.06); border:2px solid transparent; min-width:86px; transition:.2s;}
+.pchip.active{border-color:var(--yellow); background:rgba(255,210,63,.13); transform:translateY(-3px); box-shadow:0 10px 24px rgba(0,0,0,.3);}
+.pchip .pname{font-weight:800; font-size:12.5px;}
+.pchip .prole{font-size:10px; color:#a9bce8;}
+.pchip .parch{font-size:10px; font-weight:800; color:var(--arch); background:rgba(139,92,246,.18); border-radius:999px; padding:2px 8px;}
+
+.stage{width:min(1100px,100%); display:grid; grid-template-columns:220px minmax(240px,300px) 1fr; gap:26px; align-items:start; margin-top:10px;}
+.deck-wrap{display:flex; flex-direction:column; align-items:center; gap:10px;}
+.deck{position:relative; width:180px; height:252px; cursor:default;}
+.deck.awaiting{cursor:pointer; animation:pulse 1.4s ease-in-out infinite;}
+@keyframes pulse{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.deck .layer{position:absolute; inset:0; border-radius:16px; background:#16306e; border:3px solid #fff; box-shadow:0 10px 24px rgba(0,0,0,.35);}
+.deck .l1{transform:translate(8px,8px) rotate(2.5deg); opacity:.7;}
+.deck .l2{transform:translate(4px,4px) rotate(1.2deg); opacity:.85;}
+.deck-count{position:absolute; right:-10px; top:-10px; background:var(--yellow); color:var(--ink); font-weight:800; font-size:12px; border-radius:999px; padding:4px 10px; z-index:3; box-shadow:0 4px 10px rgba(0,0,0,.3);}
+.deck-hint{font-size:13px; font-weight:800; color:var(--yellow); min-height:18px;}
+
+/* card */
+.card{width:240px; height:336px; perspective:1300px; margin:0 auto;}
+.card .inner{position:relative; width:100%; height:100%; transform-style:preserve-3d; transition:transform .55s cubic-bezier(.4,.2,.2,1);}
+.card.flipped .inner{transform:rotateY(180deg);}
+.card.snap .inner{transition:none;}
+.face{position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; border-radius:16px; overflow:hidden; box-shadow:0 16px 40px rgba(0,0,0,.4);}
+.face.front{transform:rotateY(180deg); background:var(--paper); color:var(--ink); display:flex; flex-direction:column;}
+.c-top{color:#fff; display:flex; justify-content:space-between; align-items:center; padding:10px 12px; font-weight:800; letter-spacing:.07em; font-size:13px;}
+.c-num{font-size:11px; opacity:.85; font-weight:700;}
+.c-mid{flex:1; display:grid; place-items:center; position:relative;}
+.c-art{font-size:64px; transform:rotate(-6deg); filter:drop-shadow(0 6px 10px rgba(0,0,0,.18));}
+.c-bottom{margin:10px; background:#f6f8ff; border:2.5px solid #ccc; border-radius:13px; padding:11px 12px; font-weight:700; font-size:14px; line-height:1.38;}
+.c-name{font-family:'Baloo 2'; font-size:16px; margin-bottom:3px;}
+.c-desc{font-size:12.5px; font-weight:600; color:#3c4a6b;}
+.arch-badge{margin:10px auto 0; width:fit-content; background:rgba(139,92,246,.2); border:1.5px solid var(--arch); color:#d8c9ff; font-weight:800; font-size:12.5px; border-radius:999px; padding:6px 14px;}
+
+/* card back */
+.backface{width:100%; height:100%; background:linear-gradient(160deg,#1d3f8f,#16306e); border:3px solid #fff; outline:2.5px solid #0d2c6b; border-radius:16px; position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; overflow:hidden;}
+.backface .bp{position:absolute; font-size:18px; opacity:.16;}
+.backface .bubbles{font-size:13px; letter-spacing:4px; opacity:.9;}
+.backface .bbrand{background:var(--yellow); color:var(--ink); font-family:'Baloo 2'; font-weight:800; font-size:12px; border-radius:10px; padding:6px 12px; transform:rotate(-2deg); box-shadow:0 4px 0 rgba(0,0,0,.22); margin-top:6px; text-align:center; line-height:1.15;}
+
+/* conversation column */
+.talk{display:flex; flex-direction:column; gap:10px; min-height:300px;}
+.bubble{display:flex; gap:10px; align-items:flex-start; animation:pop .3s ease;}
+@keyframes pop{from{opacity:0; transform:translateY(8px) scale(.97);} to{opacity:1; transform:none;}}
+.bubble .btxt{background:#fff; color:var(--ink); border-radius:16px; border-top-left-radius:4px; padding:11px 15px; font-weight:600; font-size:14.5px; line-height:1.4; max-width:430px; box-shadow:0 8px 20px rgba(0,0,0,.25);}
+.bubble .btxt .who{display:block; font-size:11px; font-weight:800; letter-spacing:.06em; opacity:.6; margin-bottom:2px;}
+.bubble .btxt em{color:#64748b;}
+.dots span{display:inline-block; width:7px; height:7px; margin-right:4px; border-radius:50%; background:#94a3b8; animation:blink 1s infinite;}
+.dots span:nth-child(2){animation-delay:.18s;} .dots span:nth-child(3){animation-delay:.36s;}
+@keyframes blink{0%,80%,100%{opacity:.25;} 40%{opacity:1;}}
+#toasts{display:flex; flex-direction:column; gap:8px;}
+.toast{display:flex; gap:8px; align-items:center; background:rgba(255,255,255,.1); border:1.5px solid rgba(255,255,255,.2); border-radius:999px; padding:6px 14px 6px 7px; font-size:13px; font-weight:700; width:fit-content; max-width:100%; animation:pop .3s ease;}
+.toast .t-txt{line-height:1.3; padding:2px 0;}
+
+.status{width:min(1100px,100%); text-align:center; font-weight:800; font-size:16.5px; color:var(--yellow); margin-top:18px; min-height:24px;}
+
+/* actions + reactions */
+#actions{width:min(620px,100%); margin:16px auto 0; background:rgba(255,255,255,.07); border:1.5px solid rgba(255,255,255,.18); border-radius:20px; padding:16px; text-align:center;}
+#answerInput{width:100%; background:rgba(255,255,255,.1); border:1.5px solid rgba(255,255,255,.28); border-radius:12px; color:#fff; padding:11px 14px; font-weight:600; margin-bottom:12px;}
+#answerInput::placeholder{color:#93a7dd;}
+.abtns{display:flex; gap:10px; justify-content:center; flex-wrap:wrap;}
+.hint{margin-top:10px; font-size:12px; color:#9fb3e8; font-weight:700;}
+#reactbar{margin-top:14px; display:flex; gap:10px; align-items:center; justify-content:center; flex-wrap:wrap;}
+#reactbar .rlabel{font-weight:800; font-size:13px; color:#cfe0ff;}
+.react-btn{font-size:18px; font-weight:800; background:rgba(255,255,255,.1); border:1.5px solid rgba(255,255,255,.28); color:#fff; border-radius:999px; padding:8px 16px; transition:.12s;}
+.react-btn:hover{transform:scale(1.1); background:rgba(255,210,63,.2);}
+.float-emoji{position:fixed; z-index:80; font-size:26px; pointer-events:none; animation:rise 1.15s ease-out forwards;}
+@keyframes rise{from{opacity:1; transform:translateY(0) scale(1);} to{opacity:0; transform:translateY(-130px) scale(1.5);}}
+
+/* ---------- end screen ---------- */
+.stats-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px; width:min(640px,100%); margin:22px 0;}
+.stat{background:rgba(255,255,255,.07); border:1.5px solid rgba(255,255,255,.18); border-radius:16px; padding:16px; text-align:center;}
+.stat .v{font-family:'Baloo 2'; font-size:30px; color:var(--yellow);}
+.stat .k{font-size:11.5px; font-weight:800; letter-spacing:.1em; color:#a9bce8; text-transform:uppercase;}
+#wordChips{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin:16px 0;}
+.word-chip{background:rgba(255,255,255,.1); border:1.5px solid rgba(255,255,255,.25); border-radius:999px; padding:8px 18px; font-weight:800; animation:pop .4s ease;}
+.word-chip b{color:var(--yellow);}
+.word-input{display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-bottom:26px;}
+.word-input input{background:rgba(255,255,255,.1); border:1.5px solid rgba(255,255,255,.28); border-radius:999px; color:#fff; padding:10px 18px; font-weight:700; width:220px;}
+.word-input input::placeholder{color:#93a7dd;}
+.confetti{position:fixed; top:-24px; width:10px; height:15px; z-index:90; animation:fall linear forwards; border-radius:3px;}
+@keyframes fall{to{transform:translateY(105vh) rotate(720deg);}}
+
+/* ---------- overlays ---------- */
+.overlay{position:fixed; inset:0; z-index:60; display:grid; place-items:center; background:rgba(7,12,32,.78); backdrop-filter:blur(5px); padding:20px;}
+.overlay .obox{background:linear-gradient(160deg,#1c2f68,#14244f); border:2px solid rgba(255,255,255,.25); border-radius:24px; padding:30px; max-width:520px; width:100%; text-align:center; box-shadow:0 30px 80px rgba(0,0,0,.5); animation:pop .3s ease;}
+.overlay h2{color:var(--yellow); margin-bottom:12px;}
+.overlay ul{text-align:left; margin:14px 0 20px; padding-left:4px; list-style:none; display:flex; flex-direction:column; gap:9px; font-weight:700; font-size:14.5px;}
+.breath{width:110px; height:110px; border-radius:50%; background:radial-gradient(circle, rgba(20,184,166,.9), rgba(20,184,166,.25)); margin:18px auto; animation:breath 3.8s ease-in-out;}
+@keyframes breath{0%,100%{transform:scale(.7); opacity:.65;} 50%{transform:scale(1.15); opacity:1;}}
+
+@media (max-width:900px){
+  .stage{grid-template-columns:1fr; justify-items:center;}
+  .talk{min-height:auto; width:100%;}
+  .card{width:210px; height:294px;}
+}
+</style>
+</head>
+<body>
+<div id="bgfx"></div>
+
+<!-- ============ TITLE ============ -->
+<section id="screen-title" class="screen active">
+  <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+    <div class="logo-card">
+      <div class="logo-band">OFFICE<br>UNFILTERED™</div>
+      <div class="logo-sub">Play-based human connection · 155 cards</div>
+    </div>
+    <p class="tagline">A consent-first social game that turns familiar workplace moments into laughter, recognition and connection — without forced vulnerability.</p>
+    <div class="cat-row">
+      <span class="cat-chip" style="background:var(--truth)">TRUTH · 50</span>
+      <span class="cat-chip" style="background:var(--dare)">DARE · 50</span>
+      <span class="cat-chip" style="background:var(--scen)">SCENARIO · 25</span>
+      <span class="cat-chip" style="background:var(--arch)">ARCHETYPE · 20</span>
+      <span class="cat-chip" style="background:var(--safe)">SAFETY · 10</span>
+    </div>
+    <button class="btn primary" id="btnToSetup" style="font-size:19px; padding:16px 40px;">▶&nbsp; Set up a session</button>
+    <p class="note">Play solo against a table of bots, or pass the device for local multiplayer. Online multiplayer would require a server — this build is fully offline.</p>
+  </div>
+</section>
+
+<!-- ============ SETUP ============ -->
+<section id="screen-setup" class="screen">
+  <h1 style="margin-top:8px;">🪑 Table Setup</h1>
+
+  <div class="panel">
+    <h3>1 · Energy mode</h3>
+    <div class="mode-grid" id="modeGrid">
+      <button class="mode-card" data-mode="LIGHT"><b>💡 Light</b><span>New teams, mixed seniority, formal rooms. Truth + Scenarios + gentle Dares only.</span></button>
+      <button class="mode-card sel" data-mode="SOCIAL"><b>☕ Social <small>(default)</small></b><span>All five categories in balanced rotation. The recommended experience.</span></button>
+      <button class="mode-card" data-mode="HIGH"><b>🔥 High-Energy</b><span>More Dares, more Archetypes. Only if the whole group is in for it.</span></button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>2 · Session length</h3>
+    <div class="pills-row" id="roundsRow">
+      <button class="pillbtn" data-r="2">2 rounds</button>
+      <button class="pillbtn sel" data-r="3">3 rounds</button>
+      <button class="pillbtn" data-r="4">4 rounds</button>
+      <button class="pillbtn" data-r="5">5 rounds</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>3 · Humans at the table <small style="color:#9fb3e8; font-weight:600;">(pass &amp; play)</small></h3>
+    <div id="humanSlots"></div>
+    <button class="btn ghost small" id="btnAddHuman">＋ Add human player</button>
+  </div>
+
+  <div class="panel">
+    <h3>4 · Bot coworkers <small style="color:#9fb3e8; font-weight:600;">(the Office Unfiltered cast)</small></h3>
+    <div class="cast-grid" id="castGrid"></div>
+  </div>
+
+  <p class="counter" id="tableCounter"></p>
+  <div style="margin-top:14px; display:flex; gap:12px; flex-wrap:wrap; justify-content:center;">
+    <button class="btn ghost" id="btnBackTitle">← Back</button>
+    <button class="btn primary" id="btnToRitual" style="font-size:18px;">Continue → Opening ritual</button>
+  </div>
+</section>
+
+<!-- ============ OPENING RITUAL ============ -->
+<section id="screen-ritual" class="screen">
+  <h1 style="margin-top:20px;">✋ Before we deal…</h1>
+  <p class="tagline" style="margin-top:10px;">The opening ritual. Read it once, out loud if you can. Then we play.</p>
+  <div class="ritual-list">
+    <div class="ritual-item"><span class="ri">🎲</span> This is a game — not therapy, not an evaluation, not a performance review.</div>
+    <div class="ritual-item"><span class="ri">⏭️</span> You can skip any card, anytime. No explanation needed. Ever.</div>
+    <div class="ritual-item"><span class="ri">🕵️</span> Keep real names and identifiable incidents out of the game.</div>
+    <div class="ritual-item"><span class="ri">🤝</span> We're here to have fun — not to judge, score, or extract anything from each other.</div>
+    <div class="ritual-item"><span class="ri">💚</span> If something doesn't feel right, skip it. Opt-out is power.</div>
+  </div>
+  <button class="btn primary" id="btnStart" style="font-size:19px; padding:16px 44px;">🃏 Deal me in</button>
+</section>
+
+<!-- ============ GAME ============ -->
+<section id="screen-game" class="screen">
+  <header class="topbar">
+    <div class="brand-mini"><span class="ou-chip">OU</span> Office Unfiltered™</div>
+    <div class="pills">
+      <span class="pill" id="modePill">SOCIAL</span>
+      <span class="pill" id="roundPill">ROUND 1/3</span>
+      <div class="meter-wrap"><div class="meter"><div id="energyFill"></div></div><span id="energyLabel">WARM</span></div>
+    </div>
+    <div class="tb-btns">
+      <button class="iconbtn" id="rulesBtn" title="House rules">ℹ️</button>
+      <button class="btn ghost small" id="endBtn">End session</button>
+    </div>
+  </header>
+
+  <div class="rail" id="rail"></div>
+
+  <div class="stage">
+    <div class="deck-wrap">
+      <div class="deck" id="deck">
+        <div class="layer l1"></div><div class="layer l2"></div>
+        <div class="layer" style="position:absolute; inset:0;" id="deckTop"></div>
+        <div class="deck-count" id="deckCount">155</div>
+      </div>
+      <div class="deck-hint" id="deckHint"></div>
+    </div>
+    <div>
+      <div class="card" id="gcard"><div class="inner">
+        <div class="face back" id="gcardBack"></div>
+        <div class="face front" id="gcardFront"></div>
+      </div></div>
+      <div class="arch-badge" id="archBadge" hidden></div>
+    </div>
+    <div class="talk">
+      <div id="bubbleZone"></div>
+      <div id="toasts"></div>
+    </div>
+  </div>
+
+  <div class="status" id="status"></div>
+
+  <div id="actions" hidden>
+    <input id="answerInput" placeholder="Say it out loud — or type it for the record (optional)">
+    <div class="abtns" id="actionBtns"></div>
+    <p class="hint">Skipping never needs an explanation. 💚</p>
+  </div>
+
+  <div id="reactbar" hidden>
+    <span class="rlabel">React:</span>
+    <button class="react-btn" data-e="😂">😂</button>
+    <button class="react-btn" data-e="👏">👏</button>
+    <button class="react-btn" data-e="💯">💯</button>
+    <button class="react-btn" data-e="🫠">🫠</button>
+    <button class="react-btn" data-e="🗣️">SO TRUE</button>
+  </div>
+</section>
+
+<!-- ============ END ============ -->
+<section id="screen-end" class="screen">
+  <h1 style="margin-top:26px;">🎉 Session complete</h1>
+  <p class="tagline" id="endReason" style="margin-top:8px;"></p>
+  <div class="stats-grid" id="statsGrid"></div>
+  <h3 style="color:var(--yellow);">Closing ritual — one word for how that felt <span style="color:#9fb3e8; font-weight:600;">(optional)</span></h3>
+  <div id="wordChips"></div>
+  <div class="word-input">
+    <input id="wordInput" placeholder="Your one word…" maxlength="24">
+    <button class="btn primary small" id="btnAddWord">Add</button>
+    <button class="btn ghost small" id="btnSkipWord">Pass</button>
+  </div>
+  <button class="btn primary" id="btnAgain" style="font-size:18px;">↻ Play again</button>
+  <button class="btn ghost" id="btnChangeSetup" style="margin-top:12px;">Change setup</button>
+</section>
+
+<!-- ============ OVERLAYS ============ -->
+<div class="overlay" id="pauseOverlay" hidden>
+  <div class="obox"><h2>🫁 Pause the game</h2><div class="breath"></div><p style="font-weight:700;">A moment to breathe. We'll be right back.</p></div>
+</div>
+<div class="overlay" id="rulesOverlay" hidden>
+  <div class="obox">
+    <h2>House rules</h2>
+    <ul>
+      <li>⏭️ Skip any card — no explanation needed.</li>
+      <li>💭 You may always answer hypothetically.</li>
+      <li>🚫 No naming coworkers negatively. No confidential info.</li>
+      <li>🤝 No humiliation, no scoring, no pressure.</li>
+      <li>🎴 Safety cards override normal play at any time.</li>
+      <li>🧑‍⚖️ The host/facilitator can veto any card or end the session.</li>
+    </ul>
+    <button class="btn primary" id="rulesClose">Got it</button>
+  </div>
+</div>
+<div class="overlay" id="confirmOverlay" hidden>
+  <div class="obox">
+    <h2>End this session?</h2>
+    <p style="font-weight:700; margin-bottom:18px;">The game will close with the optional one-word ritual.</p>
+    <div style="display:flex; gap:10px; justify-content:center;">
+      <button class="btn ghost" id="confirmNo">Keep playing</button>
+      <button class="btn danger" id="confirmYes">End it</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   OFFICE UNFILTERED™ — single-file digital prototype (Human Play Engine)
+   ===================================================================== */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const rand=(a,b)=>a+Math.random()*(b-a);
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+let AVUID=0;
+
+/* ---------------- FULL 155-CARD DECK (from Master Spec v1.0) ---------------- */
+const TRUTH=[
+`What's one office habit that exists in almost every company, no matter the industry?`,
+`What's something companies say they value, but rarely practice?`,
+`What's an unwritten rule that everyone seems to understand?`,
+`What's a behavior that's technically "allowed" but silently judged?`,
+`What's something that feels mandatory even though it isn't written anywhere?`,
+`What's a tradition or ritual that people follow without knowing why?`,
+`What's something people complain about privately but accept publicly?`,
+`What's a rule that sounds good on paper but feels unrealistic in real life?`,
+`What's something that makes a workplace feel "corporate" instantly?`,
+`What's a sign that tells you a workplace culture is actually healthy?`,
+`What phrase usually means "I don't agree, but I don't want to argue"?`,
+`What sentence sounds productive but often delays action?`,
+`What's the most polite way people say "this isn't my responsibility"?`,
+`What phrase usually means "this meeting could have been shorter"?`,
+`What kind of message feels urgent but usually isn't?`,
+`What's something people say to sound aligned, even when they're confused?`,
+`What's the clearest sign that a meeting has lost its purpose?`,
+`What phrase usually means "we're not ready to decide yet"?`,
+`What's something people say when they want to end a discussion without conflict?`,
+`What's the most common reason meetings go longer than planned?`,
+`What part of the workday feels the longest, no matter how short it is?`,
+`What's something that takes more time than people expect?`,
+`What's something people rush, even when it shouldn't be rushed?`,
+`What's a task that always gets postponed?`,
+`What's the biggest distraction that looks like productivity?`,
+`What's something people do to look busy, not to be productive?`,
+`What's a sign that someone's workload is underestimated?`,
+`What's something that saves time but isn't used enough?`,
+`What's a moment in the day when focus is hardest to keep?`,
+`What's something that feels urgent but usually isn't important?`,
+`What usually gives people an energy boost during the workday?`,
+`What usually drains energy the fastest?`,
+`What makes a day feel "lighter" even if the workload is heavy?`,
+`What makes a day feel heavier than it should?`,
+`What's a small win that changes the mood of a whole team?`,
+`What's something that quietly motivates people more than rewards?`,
+`What's a sign that a team is mentally tired?`,
+`What's something that helps people reset after a stressful moment?`,
+`What makes people feel appreciated without being praised publicly?`,
+`What's a simple thing that improves morale more than expected?`,
+`What makes a job feel meaningful beyond the salary?`,
+`What's a sign that someone is growing, even if their role hasn't changed?`,
+`What makes people feel proud of their work?`,
+`What's something that makes work feel more "human"?`,
+`What's a small moment that reminds people why their role matters?`,
+`What's a sign that someone feels trusted at work?`,
+`What makes a workplace feel like a place of growth, not just performance?`,
+`What's something people learn at work that helps them outside of it?`,
+`What makes people feel like they belong to a team?`,
+`What's one thing that turns a job into a craft?`];
+
+const DARE=[
+`Act out what "Monday energy" looks like without using words.`,
+`Act out what "Friday energy" looks like without using words.`,
+`Show your version of a "professional smile."`,
+`Show your version of an "I need coffee" face.`,
+`Act like you just heard unexpectedly good news at work.`,
+`Act like you just realized a meeting was canceled.`,
+`Show what "I'm pretending to understand" looks like.`,
+`Show what "I'm actually excited" looks like.`,
+`Act like you're presenting something extremely boring with total enthusiasm.`,
+`Show your most exaggerated "thinking" face.`,
+`Invent a new job title for yourself that sounds impressive but unclear.`,
+`Create a fake company slogan using only three words.`,
+`Invent a meeting name that would make people curious to attend.`,
+`Create a new emoji that represents "work life."`,
+`Imagine a company mascot and describe it in one sentence.`,
+`Create a rule that would make work more fun but still realistic.`,
+`Invent a holiday that teams would secretly love.`,
+`Create a name for a coffee that sounds like a luxury product.`,
+`Imagine a button on your desk that fixes one work problem. What does it do?`,
+`Create a one-sentence mission statement for "having a good day at work."`,
+`Say "I agree" using three completely different tones.`,
+`Explain what you do at work without using any work-related words.`,
+`Say "Let's move on" in the most polite way possible.`,
+`Describe a meeting using only one-word sentences.`,
+`Explain a simple task as if it were extremely complicated.`,
+`Say "No" in the nicest way you can, without using the word "no."`,
+`Explain "teamwork" as if you were explaining it to an alien.`,
+`Describe your mood using only weather terms.`,
+`Turn a boring sentence into something that sounds exciting.`,
+`Say "I need help" as if you were announcing great news.`,
+`Everyone nods in rhythm together for five seconds.`,
+`One person starts a slow clap, the group joins, then stops together.`,
+`Everyone shows a thumbs-up, thumbs-down, or neutral at the same time.`,
+`Create a silent "wave" using only your hands around the group.`,
+`Everyone takes a deep breath together and exhales at the same time.`,
+`Count from 1 to 5 as a group, but only one person can speak at a time. If two speak, restart.`,
+`Everyone shows their "ready to focus" face at the same time.`,
+`Choose a simple word, like "go" or "now," and say it together once.`,
+`Everyone points gently toward the center at the same time, then relax.`,
+`Create a three-second moment of complete silence together.`,
+`Sit or stand a little taller and take one confident breath.`,
+`Look around the group and give one slow, calm nod.`,
+`Say your name with a confident tone, as if being introduced on stage.`,
+`Hold eye contact with the group for three seconds and smile.`,
+`Say "I'm ready" in a calm, confident voice.`,
+`Show what "quiet confidence" looks like using only posture.`,
+`Give yourself a silent, respectful round of applause.`,
+`Say one word that represents strength to you.`,
+`Show a gesture that means "I've got this."`,
+`Take one deep breath and release it slowly.`];
+
+const SCENARIO=[
+`A meeting ends with "great discussion" but no decisions. What usually happens next?`,
+`A deadline was agreed on, but everyone interpreted it differently.`,
+`A project has three owners and none of them feel fully responsible.`,
+`A new tool is introduced that nobody asked for.`,
+`A calendar invite arrives with no agenda and a long guest list.`,
+`A task keeps getting postponed because it's "not urgent yet."`,
+`Someone says "let's take this offline," and the topic disappears forever.`,
+`A change is announced, but no one explains why.`,
+`A meeting runs overtime because "we're almost done."`,
+`A report is finished, but nobody is sure who should read it.`,
+`Feedback is requested, but no one knows how honest to be.`,
+`A decision is made, then quietly revisited later.`,
+`A process exists that everyone follows but no one understands.`,
+`A task feels simple, but approval takes weeks.`,
+`A conversation happens in private that should have happened publicly.`,
+`A role changes, but the responsibilities don't.`,
+`A meeting is scheduled to prepare for another meeting.`,
+`A success happens, but it feels rushed past.`,
+`A mistake happens, and everyone focuses on fixing instead of learning.`,
+`A rule exists that slows things down, but no one questions it.`,
+`A project starts with excitement and slowly loses momentum.`,
+`Everyone agrees in the meeting, but nothing changes afterward.`,
+`A message is written very carefully to avoid misunderstandings.`,
+`A decision is delayed because not everyone is present.`,
+`A task is labeled "quick," but becomes complex.`];
+
+const ARCHETYPE=[
+{name:`The Optimist`,desc:`Always sees potential and opportunity, even in chaos.`},
+{name:`The Realist`,desc:`Focuses on what is practical, possible, and grounded.`},
+{name:`The Big-Picture Thinker`,desc:`Looks beyond details to long-term impact.`},
+{name:`The Detail Guardian`,desc:`Notices small things others overlook.`},
+{name:`The Calm Presence`,desc:`Keeps things steady when tension rises.`},
+{name:`The Question Asker`,desc:`Always wants clarity and deeper understanding.`},
+{name:`The Creative Spark`,desc:`Brings fresh ideas and unconventional thinking.`},
+{name:`The Connector`,desc:`Focuses on people, collaboration, and relationships.`},
+{name:`The Problem Solver`,desc:`Moves quickly toward solutions.`},
+{name:`The Reflector`,desc:`Thinks before speaking and observes dynamics.`},
+{name:`The Challenger`,desc:`Gently questions assumptions and habits.`},
+{name:`The Supporter`,desc:`Encourages others and builds confidence.`},
+{name:`The Time Keeper`,desc:`Cares about efficiency and deadlines.`},
+{name:`The Explorer`,desc:`Open to trying new approaches and change.`},
+{name:`The Simplifier`,desc:`Turns complex ideas into clear ones.`},
+{name:`The Listener`,desc:`Makes others feel heard and understood.`},
+{name:`The Strategist`,desc:`Thinks in steps, plans, and outcomes.`},
+{name:`The Harmonizer`,desc:`Seeks balance and reduces conflict.`},
+{name:`The Learner`,desc:`Approaches everything with curiosity.`},
+{name:`The Encourager`,desc:`Lifts energy and motivation in the group.`}];
+
+const SAFETY=[
+{name:`Skip, No Explanation Needed`,desc:`You may skip this card or any future card without giving a reason.`,key:`skip`},
+{name:`Answer Hypothetically`,desc:`You may answer as "someone," "a team," or "in general," not as yourself.`,key:`hypo`},
+{name:`Replace the Card`,desc:`Discard this card and draw a new one immediately.`,key:`replace`},
+{name:`Group Response Only`,desc:`Everyone answers together. No individual spotlight.`,key:`group`},
+{name:`Pause the Game`,desc:`The facilitator pauses for a short break or reset.`,key:`pause`},
+{name:`Change the Energy Level`,desc:`Switch to Light Mode (Truth + Scenario focus) for the next 5 turns.`,key:`energy`},
+{name:`Humor Mode`,desc:`For the next round, answers must stay playful and non-serious.`,key:`humor`},
+{name:`Silent Round`,desc:`For the next card, responses are shown with gestures or one word only.`,key:`silent`},
+{name:`Facilitator's Choice`,desc:`The facilitator decides how the next card is handled: skip, group answer, or replace.`,key:`facil`},
+{name:`End with Appreciation`,desc:`The game can be closed immediately with one optional round of appreciation or gratitude.`,key:`end`}];
+
+const CATMETA={
+ TRUTH:{color:'#3b82f6',icon:'❓',label:'TRUTH',art:'💭',tag:'T'},
+ DARE:{color:'#ff7a45',icon:'⚡',label:'DARE',art:'🎯',tag:'D'},
+ SCENARIO:{color:'#ef5350',icon:'🎬',label:'SCENARIO',art:'🗂️',tag:'S'},
+ ARCHETYPE:{color:'#8b5cf6',icon:'🎭',label:'ARCHETYPE',art:'🎭',tag:'A'},
+ SAFETY:{color:'#14b8a6',icon:'🛡️',label:'SAFETY',art:'🛡️',tag:'✚'}};
+
+const MODE_WEIGHTS={
+ LIGHT:{TRUTH:46,SCENARIO:34,DARE:20,ARCHETYPE:0,SAFETY:0},
+ SOCIAL:{TRUTH:28,DARE:28,SCENARIO:20,ARCHETYPE:14,SAFETY:10},
+ HIGH:{DARE:40,ARCHETYPE:26,SCENARIO:20,TRUTH:14,SAFETY:0}};
+
+/* ---------------- FOUNDING CAST ---------------- */
+const CAST=[
+{id:'nova',name:'Nova',role:'The Optimist',color:'#ffb703',skin:'#a96a43',hair:'#241a12',style:'curly',eyes:'happy',mouth:'smile',shirt:'#ffd23f',
+ openers:[`Okay but I love this —`,`Positive spin:`,`Honestly? Iconic.`]},
+{id:'atlas',name:'Atlas',role:'The Strategist',color:'#3b82f6',skin:'#c98d5f',hair:'#232a33',style:'short',beard:true,eyes:'dots',mouth:'smile',shirt:'#3b82f6',
+ openers:[`Strategically speaking,`,`If we organize this properly,`,`Calm. Structured. Answer:`]},
+{id:'echo',name:'Echo',role:'The Listener',color:'#14b8a6',skin:'#fcd7b6',hair:'#a34a2a',style:'long',eyes:'dots',mouth:'smile',shirt:'#14b8a6',
+ openers:[`I hear this one a lot —`,`Listening to the room…`,`This comes up more than you think:`]},
+{id:'spark',name:'Spark',role:'The Creative',color:'#8b5cf6',skin:'#7c4a2d',hair:'#7c3aed',style:'curly',eyes:'happy',mouth:'open',shirt:'#ff7a45',
+ openers:[`Ooh, wild take:`,`Creative answer incoming:`,`What if — okay, hear me out:`]},
+{id:'pulse',name:'Pulse',role:'The Energizer',color:'#ef5350',skin:'#e8b184',hair:'#1f2937',style:'spiky',eyes:'happy',mouth:'open',shirt:'#ef5350',
+ openers:[`FAST ANSWER:`,`No hesitation:`,`LET'S GO:`]},
+{id:'zen',name:'Zen',role:'The Calm Anchor',color:'#a3e635',skin:'#d9a06b',hair:'#4a3226',style:'bun',eyes:'closed',mouth:'flat',shirt:'#8b5cf6',
+ openers:[`Deep breath. Then:`,`Peaceful take:`,`Slowly, and with total calm:`]},
+{id:'logic',name:'Logic',role:'The Analyzer',color:'#2563eb',skin:'#eab88f',hair:'#111827',style:'short',glasses:true,eyes:'dots',mouth:'smile',shirt:'#2563eb',
+ openers:[`Logically,`,`The data points to`,`If we analyze this:`]},
+{id:'link',name:'Link',role:'The Connector',color:'#f59e0b',skin:'#5b3320',hair:'#0f1219',style:'short',eyes:'happy',mouth:'open',shirt:'#f59e0b',
+ openers:[`Bringing the team into this:`,`Together answer:`,`Looping everyone in:`]},
+{id:'bold',name:'Bold',role:'The Challenger',color:'#e11d48',skin:'#c98d5f',hair:'#3f2a1d',style:'short',brow:'raised',eyes:'dots',mouth:'smile',shirt:'#ef4444',
+ openers:[`Hot take:`,`I'll say what we're all thinking:`,`Devil's advocate, but:`]},
+{id:'rise',name:'Rise',role:'The Encourager',color:'#10b981',skin:'#eab88f',hair:'#e8b84b',style:'long',eyes:'happy',mouth:'smile',shirt:'#10b981',
+ openers:[`Love this. My answer:`,`Cheerleader mode: ON.`,`You want an answer? Here we go:`]}];
+
+const HUMAN_AVATARS=[
+{skin:'#fcd7b6',hair:'#6b4226',style:'short',eyes:'dots',mouth:'smile',shirt:'#4cc9f0'},
+{skin:'#a96a43',hair:'#1f2937',style:'long',eyes:'happy',mouth:'smile',shirt:'#f472b6'},
+{skin:'#e8b184',hair:'#b45309',style:'bun',eyes:'dots',mouth:'smile',shirt:'#a3e635'},
+{skin:'#7c4a2d',hair:'#111827',style:'curly',eyes:'happy',mouth:'open',shirt:'#fbbf24'}];
+const ATLAS=CAST[1];
+
+/* ---------------- BOT BRAINS ---------------- */
+const TRUTH_POOL=[
+`Meetings that could have been one email. Every single time.`,
+`"Per my last email" is 100% a battle cry.`,
+`The printer jamming is a team-building exercise nobody asked for.`,
+`"Quick sync" is never quick.`,
+`Someone always says "can everyone see my screen?" while sharing nothing.`,
+`The thermostat war never ends. Never.`,
+`"Let's circle back" is where ideas go to hibernate.`,
+`Reply-all accidents are the office's true jump scare.`,
+`"Hope this helps" rarely helps.`,
+`Every office has one drawer of mystery cables.`,
+`"As per my previous email" is corporate for "I told you so."`,
+`Microwaved fish is a universal constant.`,
+`"We're like a family here" is a red flag wearing a party hat.`,
+`"This could have been an email" — and the email could have been nothing.`,
+`Sticky notes multiply when nobody's watching.`,
+`"Can we take this offline?" The offline never happens.`,
+`The good pens vanish first. Always.`,
+`"I'll loop you in" — the loop has no exit.`,
+`Camera-off meetings are just radio with more coughing.`,
+`"Just checking in" is never just.`,
+`Someone is always on mute, delivering the performance of a lifetime.`,
+`"EOD" means wildly different things depending on who says it.`,
+`The snack table is the real company headquarters.`,
+`"Great question!" means "I need three more seconds."`,
+`"Action items" are promises wearing business casual.`,
+`Every team has one spreadsheet held together by hope.`,
+`"Five more minutes" in meeting time is fifteen. Minimum.`,
+`The office plant is the only employee with zero stress.`,
+`"Let's park that" — the parking lot is full.`,
+`Autocomplete has ended careers. Well, almost.`];
+
+const SCEN_POOL=[
+`We all know what happens next: three follow-up meetings and a thread nobody reads.`,
+`Someone writes the longest Slack message of their life. Nobody reads past line two.`,
+`It becomes everyone's problem and somehow nobody's job.`,
+`A new group chat appears. It is named something "fun."`,
+`Everyone nods. Nothing changes. The cycle continues.`,
+`Someone says "let's align quickly" and forty minutes vanish.`,
+`The task gets labeled URGENT!!! and then waits two more weeks.`,
+`A hero quietly fixes it at 5:59pm and tells no one.`,
+`There's a meeting about the meeting. Attendance is "optional."`,
+`Someone decides, someone else un-decides by Friday.`,
+`Everyone has a theory. Nobody has the doc.`,
+`It gets escalated one level up and comes back with more questions.`,
+`The timeline says "agile." The energy says "haunted."`,
+`Someone proposes a workshop. The workshop needs a workshop.`,
+`We circle back so many times we achieve orbit.`];
+
+const DARE_ACT=[
+`*stands, performs with total conviction, sits back down like nothing happened*`,
+`*gives it 110%. Possibly 112%.*`,
+`*performs while maintaining suspicious eye contact*`,
+`*commits fully. Zero hesitation. Some would say too much.*`,
+`*executes flawlessly, then bows to nobody in particular*`,
+`*does it with the energy of someone who's waited all day for this*`,
+`*nails it in one take. The room is altered.*`,
+`*goes for it. Sells it. Ships it.*`];
+const DARE_QUIP=[
+`I prepared nothing and I regret nothing.`,
+`This is what peak performance looks like.`,
+`I'd like to thank the team. And coffee. Mostly coffee.`,
+`Adding this to my résumé immediately.`,
+`Hold your applause. Actually, don't.`,
+`That one was for the culture.`,
+`No notes. Only vibes.`,
+`I'm open to feedback but will not be applying it.`];
+
+const ARCH_LINES={
+'The Optimist':[`Good news: this is absolutely solvable.`,`I see three opportunities here and zero disasters. New record.`],
+'The Realist':[`Let's look at what we can actually do by Thursday.`,`Love the vision. Now let's look at the calendar.`],
+'The Big-Picture Thinker':[`Zoom out. What does this look like in five years?`,`Details matter — but direction matters more.`],
+'The Detail Guardian':[`Small thing: row 47 is doing something mysterious.`,`I found the one flaw. You're welcome.`],
+'The Calm Presence':[`Okay. One thing at a time, starting with the easiest.`,`Nobody panic. This is already half-solved.`],
+'The Question Asker':[`Quick question: what are we actually deciding today?`,`Can we define that word before we agree to it?`],
+'The Creative Spark':[`Wild idea: what if we did the exact opposite?`,`Give me five minutes and a whiteboard.`],
+'The Connector':[`Who else should be in this conversation?`,`Let's make sure every voice gets a turn.`],
+'The Problem Solver':[`Options: A, B, or C. I recommend B. Moving on.`,`I already drafted the fix. Where do I send it?`],
+'The Reflector':[`...give me a minute. The answer is forming.`,`I'm listening more than talking. It's intentional.`],
+'The Challenger':[`Do we actually need this process, or is it a tradition?`,`Devil's advocate: what if the deadline is the problem?`],
+'The Supporter':[`You've got this. What do you need from me?`,`Small progress is still progress. Keep going.`],
+'The Time Keeper':[`We have seven minutes. Let's make them count.`,`I'll say it: this should have ended ten minutes ago.`],
+'The Explorer':[`New tool? New process? I'm in. Let's try it.`,`The old way worked. The new way might work better.`],
+'The Simplifier':[`In one sentence: fewer tabs — literal and figurative.`,`Let me restate it: what actually matters here?`],
+'The Listener':[`Before we move on — anything anyone wants to add?`,`I heard three concerns. Want me to repeat them back?`],
+'The Strategist':[`Step one, step two, step three. In that order.`,`Let's define what winning looks like before we start.`],
+'The Harmonizer':[`Both ideas work — what if we combined the best parts?`,`Let's keep it friendly. We're on the same team.`],
+'The Learner':[`Teach me how this works. I have seventeen questions.`,`I don't know yet — but I will by tomorrow.`],
+'The Encourager':[`This team is closer than it thinks. One more push.`,`Energy check: we've got this!`]};
+
+const REACT_LINES=[
+`So true it hurts.`,`Called it.`,`I felt that in my inbox.`,`That's the whole meeting right there.`,
+`No lies detected.`,`Print it and frame it.`,`I'm writing that down.`,`Too real.`,`The accuracy is aggressive.`,
+`Somebody say it louder.`,`😂😂😂`,`👏👏👏`,`💯`,`No notes.`,`That's going on the office wall.`];
+const BOT_SKIP=[
+`I'll pass on this one — no reason needed. 🙂`,`Skipping this round — that's what the safety cards are for.`,
+`Pass! The rules say I can, so I do.`,`Sitting this one out — cheering from here though. 👏`];
+const SUPPORT=[
+`Respect. Skip away. 🙌`,`All good — skipping is a feature, not a bug.`,`The deck protects. 👍`,`No explanation needed. Ever. 💚`];
+const HYPO_PREFIX=[`Hypothetically speaking… `,`If this happened to "someone" at "a company"… `,`In a parallel office… `];
+const HUMOR_TAG=[`(this is the humor round — I'm contractually funny now)`,`😂`,`(laugh track plays)`,`(I was told to keep it playful)`];
+const SILENT_EMOJIS=['👍','🫡','🙌','😌','🤝','✌️','🤫','💪','🎈','☕'];
+const GROUP_POOL=[`Teamwork makes the dream work.`,`Can we put that in the handbook?`,`Accurate.`,`I second this.`,`Motion carried.`,`So true.`,`Big yes.`,`Agreed, emphatically.`];
+const GRATITUDE=[
+`Grateful for this table. Genuinely.`,`Appreciation round: glad we did this.`,
+`Thank you for the laughs. Same time next week?`,`Gratitude: best meeting ever, zero action items.`];
+const CLOSERS=['Warmer','Lighter','Human','Fun','Connected','Refreshed','Seen','Alive','Good'];
+
+/* ---------------- AVATAR ENGINE ---------------- */
+function avatarSVG(c,s=48,bg=true){
+  const uid='av'+(AVUID++);
+  let hairBack='',hairFront='';
+  if(c.style==='long') hairBack=`<path d="M10,27 Q9,6 30,6 Q51,6 50,27 L51,46 Q40,39 30,41 Q20,39 9,46 Z" fill="${c.hair}"/>`;
+  if(c.style==='bun') hairBack+=`<circle cx="30" cy="7" r="6" fill="${c.hair}"/>`;
+  switch(c.style){
+    case 'curly': hairFront=`<circle cx="19" cy="14" r="7" fill="${c.hair}"/><circle cx="30" cy="10.5" r="8" fill="${c.hair}"/><circle cx="41" cy="14" r="7" fill="${c.hair}"/>`;break;
+    case 'spiky': hairFront=`<path d="M15,24 Q15,12 30,12 Q45,12 45,24 Z" fill="${c.hair}"/><polygon points="15,21 19,9 24,16 30,7 36,16 41,9 45,21" fill="${c.hair}"/>`;break;
+    case 'long': hairFront=`<path d="M15,26 Q15,10 30,10 Q45,10 45,26 Q43,16 30,15 Q17,16 15,26 Z" fill="${c.hair}"/>`;break;
+    default: hairFront=`<path d="M15,26 Q15,11 30,11 Q45,11 45,26 Q42,17 30,16 Q18,17 15,26 Z" fill="${c.hair}"/>`;
+  }
+  const eye=x=> c.eyes==='closed' ? `<path d="M${x-3},26 q3,2.6 6,0" stroke="#242a33" stroke-width="1.8" fill="none" stroke-linecap="round"/>`
+    : c.eyes==='happy' ? `<path d="M${x-3},25.5 q3,-4 6,0" stroke="#242a33" stroke-width="1.9" fill="none" stroke-linecap="round"/>`
+    : `<circle cx="${x}" cy="25.5" r="1.9" fill="#242a33"/>`;
+  const brows=c.brow==='raised'
+    ? `<path d="M20,21.5 q3.5,-2 7,0" stroke="#3a2a1c" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M33,18.5 q4,-2.6 7,0" stroke="#3a2a1c" stroke-width="1.6" fill="none" stroke-linecap="round"/>` : '';
+  const glasses=c.glasses?`<circle cx="23.5" cy="25.5" r="4.6" fill="rgba(255,255,255,.18)" stroke="#242a33" stroke-width="1.6"/><circle cx="36.5" cy="25.5" r="4.6" fill="rgba(255,255,255,.18)" stroke="#242a33" stroke-width="1.6"/><path d="M28.1,25.5 h3.8" stroke="#242a33" stroke-width="1.6"/>`:'';
+  let mouth;
+  if(c.beard) mouth='';
+  else if(c.mouth==='open') mouth=`<path d="M24,32 q6,8 12,0 z" fill="#8a4a3d"/>`;
+  else if(c.mouth==='flat') mouth=`<path d="M25,33.5 q5,2.6 10,0" stroke="#8a4a3d" stroke-width="1.9" fill="none" stroke-linecap="round"/>`;
+  else mouth=`<path d="M24,32.5 q6,5.6 12,0" stroke="#8a4a3d" stroke-width="1.9" fill="none" stroke-linecap="round"/>`;
+  const beard=c.beard?`<path d="M15.2,27 Q15,44 30,44 Q45,44 44.8,27 L44.8,31 Q44,40.5 30,40.8 Q16,40.5 15.2,31 Z" fill="${c.hair}"/><path d="M24.5,32.6 q5.5,-2.8 11,0 q-5.5,2.5 -11,0 Z" fill="${c.hair}"/>`:'';
+  const blush=`<circle cx="19.5" cy="30" r="2" fill="rgba(255,120,120,.35)"/><circle cx="40.5" cy="30" r="2" fill="rgba(255,120,120,.35)"/>`;
+  return `<svg viewBox="0 0 60 60" width="${s}" height="${s}" aria-hidden="true">
+    <defs><clipPath id="${uid}"><circle cx="30" cy="30" r="30"/></clipPath></defs>
+    ${bg?`<circle cx="30" cy="30" r="30" fill="${c.shirt}40"/>`:''}
+    <g clip-path="url(#${uid})">${hairBack}
+      <path d="M8,62 Q30,44 52,62 Z" fill="${c.shirt}"/>
+      <circle cx="30" cy="26" r="15" fill="${c.skin}"/>
+      ${hairFront}${brows}${eye(23.5)}${eye(36.5)}${glasses}${beard}${mouth}${blush}
+    </g></svg>`;
+}
+
+function cardBackHTML(){
+  const spots=[[8,10,'💼'],[78,16,'📎'],[40,6,'☕'],[10,78,'📅'],[82,72,'✏️'],[46,88,'🖇️'],[6,44,'💬'],[86,42,'📌']]
+    .map(p=>`<span class="bp" style="left:${p[0]}%; top:${p[1]}%;">${p[2]}</span>`).join('');
+  return `<div class="backface">${spots}
+    <div class="bubbles">❓ 💡 ✅ ❌ 💬</div>
+    <div style="filter:drop-shadow(0 6px 10px rgba(0,0,0,.35));">${avatarSVG(ATLAS,92)}</div>
+    <div class="bbrand">OFFICE<br>UNFILTERED™</div>
+  </div>`;
+}
+
+/* ---------------- STATE ---------------- */
+let SESSION=0;
+let state={};
+let piles={}, discards={};
+const setup={mode:'SOCIAL',rounds:3,bots:new Set(['nova','echo','spark','logic']),humans:['You']};
+
+function makePlayers(){
+  const ps=[];
+  setup.humans.forEach((n,i)=>{
+    ps.push({name:n||('Player '+(i+1)), isBot:false, color:i===0?'#ffd23f':['#4cc9f0','#f472b6','#a3e635'][i-1]||'#ffd23f',
+      av:HUMAN_AVATARS[i%HUMAN_AVATARS.length], activeArch:null});
+  });
+  CAST.filter(c=>setup.bots.has(c.id)).forEach(c=>ps.push({name:c.name,isBot:true,cast:c,color:c.color,av:c,openers:c.openers,activeArch:null}));
+  return ps;
+}
+function hasCards(c){return piles[c].length>0||discards[c].length>0;}
+function takeFrom(cat){ if(!piles[cat].length){piles[cat]=shuffle(discards[cat]);discards[cat]=[];} if(!piles[cat].length)return null; return piles[cat].pop(); }
+function drawCard(only){
+  const mode=(state.lightTurns>0)?'LIGHT':state.mode;
+  let cat;
+  if(only){ const cs=only.filter(hasCards); if(!cs.length)return null; cat=pick(cs); }
+  else{
+    const w=MODE_WEIGHTS[mode];
+    const opts=Object.keys(w).filter(k=>w[k]>0&&hasCards(k));
+    if(!opts.length)return null;
+    let tot=opts.reduce((s,k)=>s+w[k],0), r=Math.random()*tot; cat=opts[0];
+    for(const k of opts){r-=w[k]; if(r<=0){cat=k;break;}}
+  }
+  let idx;
+  if(cat==='DARE'&&mode==='LIGHT'){
+    const lows=piles.DARE.map((v,i)=>({v,i})).filter(o=>o.v>=30);
+    if(lows.length){const o=pick(lows); idx=piles.DARE.splice(o.i,1)[0];}
+    else{cat='TRUTH'; idx=takeFrom('TRUTH');}
+  } else idx=takeFrom(cat);
+  if(idx==null)return null;
+  return makeCard(cat,idx);
+}
+function makeCard(cat,i){
+  if(cat==='ARCHETYPE')return {cat,name:ARCHETYPE[i].name,desc:ARCHETYPE[i].desc,num:`A-${i+1}`};
+  if(cat==='SAFETY')return {cat,name:SAFETY[i].name,desc:SAFETY[i].desc,key:SAFETY[i].key,num:`✚-${i+1}`};
+  return {cat,text:{TRUTH,DARE,SCENARIO}[cat][i],num:`${CATMETA[cat].tag}-${i+1}`};
+}
+
+/* waiters */
+function waitFor(key){return new Promise(r=>{state.waiters.push({key,r});});}
+function resolveWait(key,val){const i=state.waiters.findIndex(w=>w.key===key); if(i>-1){const w=state.waiters.splice(i,1)[0]; w.r(val);}}
+function wakeAll(){state.waiters.forEach(w=>w.r(undefined)); state.waiters=[];}
+
+/* ---------------- UI helpers ---------------- */
+function showScreen(id){$$('.screen').forEach(s=>s.classList.remove('active')); $('#'+id).classList.add('active'); window.scrollTo(0,0);}
+function status(t){$('#status').textContent=t;}
+function bumpEnergy(n){state.energy=Math.max(0,Math.min(100,state.energy+n)); $('#energyFill').style.width=state.energy+'%';
+  $('#energyLabel').textContent= state.energy<30?'CHILL':state.energy<60?'WARM':state.energy<85?'BUZZING':'ON FIRE 🔥';}
+function updateDeckBadge(){const n=['TRUTH','DARE','SCENARIO','ARCHETYPE','SAFETY'].reduce((s,k)=>s+piles[k].length,0); $('#deckCount').textContent=n;}
+function updateTopbar(){$('#modePill').textContent=(state.lightTurns>0?'LIGHT (forced)':state.mode)+' MODE'; $('#roundPill').textContent=`ROUND ${Math.max(1,state.round)}/${state.rounds}`;}
+function updateChips(){
+  $('#rail').innerHTML=state.players.map(p=>`
+    <div class="pchip ${state.active===p?'active':''}" style="${state.active===p?`border-color:${p.color}`:''}">
+      ${avatarSVG(p.av,44)}
+      <span class="pname">${esc(p.name)}</span>
+      <span class="prole">${p.isBot?p.cast.role:(p===state.players[0]?'You · host':'Human')}</span>
+      ${p.activeArch?`<span class="parch">🎭 ${p.activeArch.replace('The ','')}</span>`:''}
+    </div>`).join('');
+}
+function clearTalk(){$('#bubbleZone').innerHTML=''; $('#toasts').innerHTML=''; $('#archBadge').hidden=true;}
+function showTyping(p){$('#bubbleZone').innerHTML=`<div class="bubble">${avatarSVG(p.av,40)}<div class="btxt"><span class="who">${esc(p.name).toUpperCase()}</span><span class="dots"><span></span><span></span><span></span></span></div></div>`;}
+function showSpeech(p,html){$('#bubbleZone').innerHTML=`<div class="bubble">${avatarSVG(p.av,40)}<div class="btxt"><span class="who">${esc(p.name).toUpperCase()}</span>${html}</div></div>`;}
+function toast(p,text){
+  const t=$('#toasts'); const el=document.createElement('div'); el.className='toast';
+  el.innerHTML=`${avatarSVG(p.av,26)}<span class="t-txt">${text}</span>`; t.appendChild(el);
+  while(t.children.length>4)t.removeChild(t.firstChild);
+}
+function clearToasts(){$('#toasts').innerHTML='';}
+function floatEmoji(e,x,y){const s=document.createElement('span'); s.className='float-emoji'; s.textContent=e;
+  s.style.left=(x+rand(-14,14))+'px'; s.style.top=y+'px'; document.body.appendChild(s); setTimeout(()=>s.remove(),1200);}
+
+function buildFront(card){
+  const m=CATMETA[card.cat];
+  let bottom;
+  if(card.cat==='ARCHETYPE'||card.cat==='SAFETY') bottom=`<div class="c-name" style="color:${m.dark}">${card.name}</div><div class="c-desc">${card.desc}</div>`;
+  else bottom=`<div>${card.text}</div>`;
+  $('#gcardFront').innerHTML=`
+    <div class="c-top" style="background:${m.color}"><span>${m.icon} ${m.label}</span><span class="c-num">№ ${card.num}</span></div>
+    <div class="c-mid" style="background:radial-gradient(circle at 50% 42%, ${m.color}26, transparent 65%);"><div class="c-art">${m.art}</div></div>
+    <div class="c-bottom" style="border-color:${m.color}">${bottom}</div>`;
+}
+async function revealCard(card){
+  const el=$('#gcard');
+  el.classList.add('snap'); el.classList.remove('flipped');
+  buildFront(card); void el.offsetWidth; el.classList.remove('snap');
+  await sleep(60); el.classList.add('flipped'); await sleep(600);
+}
+
+/* ---------------- actions / reactions ---------------- */
+function showActions(kind){
+  const box=$('#actions'), btns=$('#actionBtns'), inp=$('#answerInput');
+  inp.hidden=false; box.hidden=false; $('#reactbar').hidden=true;
+  if(kind==='default'){
+    inp.placeholder=`Say it out loud — or type it for the record (optional)`;
+    btns.innerHTML=`<button class="btn primary" data-a="answer">✅ I answered</button>
+      <button class="btn ghost" data-a="hypo">💭 Hypothetically</button>
+      <button class="btn ghost" data-a="skip">⏭️ Skip</button>`;
+  } else {
+    inp.placeholder=`One word or one line — everyone answers together`;
+    btns.innerHTML=`<button class="btn primary" data-a="answer">👍 That's my answer</button>
+      <button class="btn ghost" data-a="skip">⏭️ Pass</button>`;
+  }
+  btns.onclick=e=>{const a=e.target.dataset.a; if(!a)return; const text=inp.value.trim(); inp.value=''; box.hidden=true; resolveWait('action',{type:a,text});};
+  inp.focus();
+}
+function hideActions(){$('#actions').hidden=true;}
+function showReactBar(){
+  const bar=$('#reactbar'); bar.hidden=false;
+  clearTimeout(bar._t); bar._t=setTimeout(()=>bar.hidden=true,5200);
+}
+$$('#reactbar .react-btn').forEach(b=>b.onclick=e=>{
+  state.stats.reactions++; bumpEnergy(3);
+  floatEmoji(b.dataset.e,e.clientX,e.clientY);
+});
+
+/* ---------------- response generation ---------------- */
+function genResponse(bot,card,ctx={}){
+  if(ctx.silent)return pick(SILENT_EMOJIS);
+  let body;
+  if(ctx.archetype)body=pick(ARCH_LINES[ctx.archetype]||[`*answers thoughtfully in character*`]);
+  else if(card.cat==='TRUTH')body=pick(TRUTH_POOL);
+  else if(card.cat==='SCENARIO')body=pick(SCEN_POOL);
+  else body=pick(DARE_ACT)+' '+pick(DARE_QUIP);
+  if(ctx.hypo)body=pick(HYPO_PREFIX)+body;
+  else if(Math.random()<.42)body=pick(bot.openers)+' '+body;
+  if(state.turn<=state.humorUntil)body+=' '+pick(HUMOR_TAG);
+  return body;
+}
+function humanDoneLine(card,hypo){
+  if(hypo)return `💭 You answer hypothetically — “someone” at “a company” relates hard.`;
+  if(card.cat==='DARE')return `⚡ You go for it. The table applauds.`;
+  if(card.cat==='SCENARIO')return `🎬 You walk everyone through exactly how it plays out.`;
+  return `💬 You answer. Heads nod around the table.`;
+}
+
+/* ---------------- turn engine ---------------- */
+async function doTurn(p,tok){
+  if(state.finished||tok!==SESSION)return;
+  state.turn++; if(state.lightTurns>0)state.lightTurns--;
+  state.active=p; updateChips(); clearTalk(); updateTopbar();
+  const humans=state.players.filter(x=>!x.isBot);
+  if(p.isBot)status(`${p.name} is up…`);
+  else if(humans.length>1)status(`📱 Pass the device to ${p.name} — tap the deck when ready!`);
+  else status(`Your turn — tap the deck to draw!`);
+  if(!p.isBot){
+    state.awaitingDraw=true; $('#deck').classList.add('awaiting'); $('#deckHint').textContent='👆 Tap to draw';
+    await waitFor('draw');
+    state.awaitingDraw=false; $('#deck').classList.remove('awaiting'); $('#deckHint').textContent='';
+    if(state.finished||tok!==SESSION)return;
+  } else {await sleep(rand(850,1500)); if(state.finished)return;}
+  const card=drawCard();
+  if(!card){endGame('deck');return;}
+  state.stats.drawn++; updateDeckBadge();
+  await revealCard(card);
+  await processCard(card,p,tok);
+  p.activeArch=null; updateChips();
+}
+
+async function processCard(card,p,tok){
+  if(state.finished)return;
+  if(p.isBot&&card.cat!=='SAFETY'&&Math.random()<0.05){
+    state.stats.skips++; showSpeech(p,pick(BOT_SKIP));
+    await sleep(800); toast(pick(state.players.filter(x=>x!==p&&x.isBot)),pick(SUPPORT)); return;
+  }
+  const ctx={hypo:state.hypoNext,silent:state.silentNext,archetype:p.activeArch};
+  state.hypoNext=false; state.silentNext=false;
+  if(ctx.archetype){const b=$('#archBadge'); b.textContent=`🎭 Answering as ${ctx.archetype}`; b.hidden=false;}
+  if(card.cat==='SAFETY')return safetyFlow(card,p,tok);
+  if(card.cat==='ARCHETYPE')return archetypeFlow(card,p,tok);
+  return respondTo(card,p,ctx,tok);
+}
+
+async function respondTo(card,p,ctx,tok){
+  if(state.finished)return;
+  if(!p.isBot){
+    showActions('default');
+    const ch=await waitFor('action'); hideActions();
+    if(state.finished||tok!==SESSION||!ch||ch.type==='skip'){
+      if(ch&&ch.type==='skip'){state.stats.skips++; status('Skipped — no explanation needed. 💚'); toast(pick(state.players.filter(x=>x.isBot)),pick(SUPPORT));}
+      return;
+    }
+    const hypo=ch.type==='hypo'||ctx.hypo;
+    showSpeech(p, ch.text?`“${esc(ch.text)}”`:`<em>${humanDoneLine(card,hypo)}</em>`);
+    if(card.cat==='DARE')bumpEnergy(6); else bumpEnergy(2);
+    await sleep(650);
+    const bots=shuffle(state.players.filter(x=>x.isBot&&x!==p)).slice(0,2+Math.floor(Math.random()*2));
+    for(const b of bots){if(state.finished)return; toast(b,pick(REACT_LINES)); await sleep(rand(450,750));}
+  } else {
+    showTyping(p); await sleep(rand(950,1800)); if(state.finished)return;
+    showSpeech(p,esc(genResponse(p,card,ctx)));
+    if(card.cat==='DARE')bumpEnergy(6); else bumpEnergy(2);
+    await sleep(600);
+    const other=state.players.filter(x=>x.isBot&&x!==p);
+    if(other.length)toast(pick(other),pick(REACT_LINES));
+    if(state.players.some(x=>!x.isBot))showReactBar();
+    await sleep(1400);
+  }
+}
+
+async function archetypeFlow(card,p,tok){
+  p.activeArch=card.name; updateChips();
+  status(`${p.name} steps into “${card.name}” for the next card…`);
+  await sleep(1200); if(state.finished)return;
+  let fu=drawCard(['TRUTH','SCENARIO']);
+  if(fu){state.stats.drawn++; updateDeckBadge(); await revealCard(fu);}
+  else fu={cat:'TRUTH',text:`(Deck's nearly empty — improvise in character: how is your week going?)`,num:'✱'};
+  await respondTo(fu,p,{archetype:card.name},tok);
+}
+
+async function redrawAndProcess(p,tok,cats){
+  let c=drawCard(cats||['TRUTH','DARE','SCENARIO','ARCHETYPE']);
+  if(!c)c=drawCard(['TRUTH','SCENARIO']);
+  if(!c){endGame('deck');return;}
+  state.stats.drawn++; updateDeckBadge();
+  await revealCard(c); await processCard(c,p,tok);
+}
+
+async function groupResponse(p,tok){
+  const prompt=drawCard(['TRUTH','SCENARIO']);
+  if(prompt){state.stats.drawn++; updateDeckBadge(); await revealCard(prompt);}
+  status('GROUP RESPONSE — everyone answers together. No spotlight.');
+  const bots=shuffle(state.players.filter(x=>x.isBot&&x!==p)).slice(0,4);
+  for(const b of bots){if(state.finished)return; showSpeech(b,pick(GROUP_POOL)); await sleep(rand(800,1200));}
+  if(state.players.some(x=>!x.isBot)){
+    showActions('group');
+    const ch=await waitFor('action'); hideActions();
+    if(state.finished)return;
+    const human=state.players.find(x=>!x.isBot);
+    if(ch&&ch.type==='answer'){showSpeech(human,ch.text?`“${esc(ch.text)}”`:`<em>👍 You add your voice to the group.</em>`);}
+    else {state.stats.skips++; toast(pick(state.players.filter(x=>x.isBot)),pick(SUPPORT));}
+  }
+}
+
+async function safetyFlow(card,p,tok){
+  status(`🛡️ SAFETY CARD — ${card.name}`);
+  await sleep(1100); if(state.finished)return;
+  switch(card.key){
+    case 'skip':
+      state.stats.skips++;
+      showSpeech(p,`<em>Free skip on the house. Turn passes — zero explanation required. 💚</em>`);
+      toast(pick(state.players.filter(x=>x.isBot&&x!==p)||[p]),pick(SUPPORT));
+      return;
+    case 'hypo':
+      toast(p,`💭 Next answer is hypothetical — “someone” at “a company”…`);
+      state.hypoNext=true; await sleep(700);
+      return redrawAndProcess(p,tok,['TRUTH','DARE','SCENARIO']);
+    case 'replace':
+      toast(p,`🔄 Swapping it out for a fresh card…`); await sleep(700);
+      return redrawAndProcess(p,tok,['TRUTH','DARE','SCENARIO','ARCHETYPE']);
+    case 'group':
+      return groupResponse(p,tok);
+    case 'pause':
+      $('#pauseOverlay').hidden=false; await sleep(3800); $('#pauseOverlay').hidden=true;
+      toast(p,`🫁 Reset complete. Back to play.`);
+      return redrawAndProcess(p,tok,['TRUTH','DARE','SCENARIO']);
+    case 'energy':
+      state.lightTurns=5; bumpEnergy(-8);
+      toast(p,`💡 Energy reset — Light Mode for the next 5 turns.`);
+      return redrawAndProcess(p,tok,['TRUTH','SCENARIO']);
+    case 'humor':
+      state.humorUntil=state.turn+state.players.length;
+      toast(p,`🤡 Humor Mode ON for the next round. Seriously. It's the rules.`);
+      return redrawAndProcess(p,tok,['TRUTH','DARE','SCENARIO']);
+    case 'silent':
+      state.silentNext=true;
+      toast(p,`🤫 Silent round — gestures and one word only.`);
+      return redrawAndProcess(p,tok,['TRUTH','DARE','SCENARIO']);
+    case 'facil':{
+      const r=pick(['replace','group','skip']);
+      toast(p,`🧑‍⚖️ Facilitator's choice: <b>${r.toUpperCase()}</b>`);
+      await sleep(800);
+      if(r==='skip'){state.stats.skips++; showSpeech(p,`<em>Facilitator grants a free skip. 💚</em>`);}
+      else if(r==='group')return groupResponse(p,tok);
+      else return redrawAndProcess(p,tok,['TRUTH','DARE','SCENARIO','ARCHETYPE']);
+      return;
+    }
+    case 'end':{
+      const bots=shuffle(state.players.filter(x=>x.isBot)).slice(0,3);
+      for(const b of bots){if(state.finished)return; showSpeech(b,pick(GRATITUDE)); await sleep(1300);}
+      return endGame('gratitude');
+    }
+  }
+}
+
+async function startSession(){
+  const tok=++SESSION;
+  piles={TRUTH:shuffle([...Array(50).keys()]),DARE:shuffle([...Array(50).keys()]),SCENARIO:shuffle([...Array(25).keys()]),ARCHETYPE:shuffle([...Array(20).keys()]),SAFETY:shuffle([...Array(10).keys()])};
+  discards={TRUTH:[],DARE:[],SCENARIO:[],ARCHETYPE:[],SAFETY:[]};
+  state={mode:setup.mode,rounds:setup.rounds,players:makePlayers(),finished:false,round:0,turn:0,
+    lightTurns:0,hypoNext:false,silentNext:false,humorUntil:0,awaitingDraw:false,waiters:[],
+    stats:{drawn:0,skips:0,reactions:0},energy:42,active:null};
+  $('#gcardBack').innerHTML=cardBackHTML(); $('#deckTop').innerHTML=cardBackHTML();
+  $('#gcard').classList.add('snap'); $('#gcard').classList.remove('flipped');
+  clearTalk(); hideActions(); $('#reactbar').hidden=true;
+  updateTopbar(); updateChips(); updateDeckBadge(); bumpEnergy(0);
+  showScreen('screen-game');
+  status(`Round 1 — let's go!`);
+  await sleep(600);
+  for(let r=1;r<=state.rounds;r++){
+    if(state.finished)break;
+    state.round=r; updateTopbar();
+    for(const p of state.players){
+      if(state.finished)break;
+      await doTurn(p,tok);
+    }
+  }
+  if(!state.finished&&tok===SESSION)endGame('rounds');
+}
+
+/* ---------------- ending ---------------- */
+function endGame(reason){
+  if(state.finished)return;
+  state.finished=true; wakeAll();
+  const reasons={rounds:'You completed all the rounds. Textbook.',called:'Session closed by the host. Clean exit.',
+    gratitude:'The deck called it: End with Appreciation. 💚',deck:'The deck ran out. Impressive stamina.'};
+  $('#endReason').textContent=reasons[reason]||'';
+  $('#statsGrid').innerHTML=`
+    <div class="stat"><div class="v">${state.stats.drawn}</div><div class="k">Cards drawn</div></div>
+    <div class="stat"><div class="v">${state.stats.skips}</div><div class="k">Skips honored</div></div>
+    <div class="stat"><div class="v">${state.stats.reactions}</div><div class="k">Your reactions</div></div>
+    <div class="stat"><div class="v">${Math.min(state.round,state.rounds)}</div><div class="k">Rounds played</div></div>`;
+  $('#wordChips').innerHTML=''; $('#wordInput').value='';
+  showScreen('screen-end'); confetti();
+  const tok=SESSION;
+  (async()=>{
+    await sleep(700);
+    const bots=shuffle(state.players.filter(p=>p.isBot)).slice(0,Math.min(5,state.players.filter(p=>p.isBot).length));
+    for(const b of bots){
+      if(tok!==SESSION)return;
+      const w=document.createElement('div'); w.className='word-chip';
+      w.innerHTML=`${b.name}: <b>${pick(CLOSERS)}</b>`; $('#wordChips').appendChild(w);
+      await sleep(rand(550,900));
+    }
+  })();
+}
+function confetti(){
+  const colors=['#ffd23f','#ff7a45','#3b82f6','#8b5cf6','#14b8a6','#ef5350','#ffffff'];
+  for(let i=0;i<90;i++){
+    const c=document.createElement('div'); c.className='confetti';
+    c.style.left=rand(0,100)+'vw'; c.style.background=pick(colors);
+    c.style.animationDuration=rand(2.4,4.6)+'s'; c.style.animationDelay=rand(0,.9)+'s';
+    c.style.transform=`rotate(${rand(0,360)}deg)`;
+    document.body.appendChild(c); setTimeout(()=>c.remove(),6000);
+  }
+}
+
+/* ---------------- setup UI ---------------- */
+function renderCastGrid(){
+  $('#castGrid').innerHTML=CAST.map(c=>`
+    <button class="cast-card ${setup.bots.has(c.id)?'sel':''}" data-cast="${c.id}">
+      ${avatarSVG(c,52)}<span class="cname">${c.name}</span><span class="crole">${c.role}</span>
+    </button>`).join('');
+  $$('#castGrid .cast-card').forEach(b=>b.onclick=()=>{
+    const id=b.dataset.cast;
+    if(setup.bots.has(id))setup.bots.delete(id); else setup.bots.add(id);
+    renderCastGrid(); updateCounter();
+  });
+}
+function renderHumans(){
+  $('#humanSlots').innerHTML=setup.humans.map((h,i)=>`
+    <div class="human-row">
+      ${avatarSVG(HUMAN_AVATARS[i%HUMAN_AVATARS.length]||HUMAN_AVATARS[0],38)}
+      <input data-h="${i}" value="${esc(h)}" placeholder="Player ${i+1}" ${i===0?'':''}>
+      ${i>0?`<button class="xbtn" data-x="${i}">✕</button>`:`<span style="font-size:12px; color:#9fb3e8; font-weight:800;">HOST</span>`}
+    </div>`).join('');
+  $$('#humanSlots input').forEach(inp=>inp.oninput=()=>{setup.humans[+inp.dataset.h]=inp.value;});
+  $$('#humanSlots .xbtn').forEach(b=>b.onclick=()=>{setup.humans.splice(+b.dataset.x,1); renderHumans(); updateCounter();});
+}
+function updateCounter(){
+  const total=setup.humans.length+setup.bots.size;
+  const el=$('#tableCounter');
+  el.textContent=`Table size: ${total} player${total!==1?'s':''} · ideal 4–8 · minimum 3`;
+  el.classList.toggle('warn',total<3);
+  $('#btnToRitual').disabled=total<3;
+  $('#btnToRitual').style.opacity=total<3?.45:1;
+}
+function initSetup(){
+  renderCastGrid(); renderHumans(); updateCounter();
+  $$('#modeGrid .mode-card').forEach(b=>b.onclick=()=>{
+    $$('#modeGrid .mode-card').forEach(x=>x.classList.remove('sel')); b.classList.add('sel'); setup.mode=b.dataset.mode;
+  });
+  $$('#roundsRow .pillbtn').forEach(b=>b.onclick=()=>{
+    $$('#roundsRow .pillbtn').forEach(x=>x.classList.remove('sel')); b.classList.add('sel'); setup.rounds=+b.dataset.r;
+  });
+  $('#btnAddHuman').onclick=()=>{if(setup.humans.length<4){setup.humans.push(''); renderHumans(); updateCounter();}};
+}
+
+/* ---------------- wiring ---------------- */
+$('#btnToSetup').onclick=()=>showScreen('screen-setup');
+$('#btnBackTitle').onclick=()=>showScreen('screen-title');
+$('#btnToRitual').onclick=()=>{if(setup.humans.length+setup.bots.size>=3)showScreen('screen-ritual');};
+$('#btnStart').onclick=()=>startSession();
+$('#btnAgain').onclick=()=>startSession();
+$('#btnChangeSetup').onclick=()=>{SESSION++; showScreen('screen-setup');};
+$('#deck').onclick=()=>{if(state.awaitingDraw)resolveWait('draw',true);};
+$('#endBtn').onclick=()=>$('#confirmOverlay').hidden=false;
+$('#confirmNo').onclick=()=>$('#confirmOverlay').hidden=true;
+$('#confirmYes').onclick=()=>{$('#confirmOverlay').hidden=true; endGame('called');};
+$('#rulesBtn').onclick=()=>$('#rulesOverlay').hidden=false;
+$('#rulesClose').onclick=()=>$('#rulesOverlay').hidden=true;
+$('#rulesOverlay').addEventListener('click',e=>{if(e.target.id==='rulesOverlay')$('#rulesOverlay').hidden=true;});
+$('#btnAddWord').onclick=()=>{const v=$('#wordInput').value.trim(); if(!v)return;
+  const w=document.createElement('div'); w.className='word-chip';
+  w.innerHTML=`${esc(setup.humans[0]||'You')}: <b>${esc(v)}</b>`; $('#wordChips').appendChild(w); $('#wordInput').value='';};
+$('#btnSkipWord').onclick=()=>{$('#wordInput').value='';};
+
+/* background fx */
+(function(){
+  const ems=['💼','☕','📎','🗓️','✏️','💬','📌','🖇️','📊','🪑','⌨️','📁'];
+  const fx=$('#bgfx');
+  for(let i=0;i<16;i++){
+    const s=document.createElement('span'); s.textContent=pick(ems);
+    s.style.left=rand(0,96)+'vw'; s.style.top=rand(0,96)+'vh';
+    s.style.fontSize=rand(20,44)+'px'; s.style.animationDuration=rand(9,18)+'s';
+    fx.appendChild(s);
+  }
+})();
+
+initSetup();
+</script>
+</body>
+</html>

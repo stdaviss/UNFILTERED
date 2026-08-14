@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Office Unfiltered — Redacted Edition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   OFFICE UNFILTERED — REDACTED EDITION
+   Design language: corporate stationery on a dark table.
+   Manila stock, toner black, stamp red, highlighter yellow.
+   Signature: the redaction bar that wipes to reveal the hot card.
+   ============================================================ */
+:root{
+  --ink:#131418;         /* table */
+  --ink-2:#1B1D23;
+  --ink-3:#242730;
+  --line:#33373F;
+  --paper:#F4F0E6;       /* office paper */
+  --manila:#E0C18C;      /* card stock */
+  --manila-d:#C7A369;
+  --toner:#16171B;
+  --stamp:#C43B2E;       /* rubber stamp red */
+  --hl:#F2CE1B;          /* highlighter */
+  --safe:#2F9E75;
+  --blue:#3160D8;
+  --violet:#6E45C8;
+  --graph:#E4EBE2;
+  --mute:#8C93A1;
+  --r:14px;
+  --shadow:0 24px 48px -18px rgba(0,0,0,.72), 0 4px 12px rgba(0,0,0,.4);
+  --font-d:'Archivo Black', 'Arial Black', system-ui, sans-serif;
+  --font-b:'Instrument Sans', system-ui, -apple-system, sans-serif;
+  --font-m:'Space Mono', ui-monospace, 'Courier New', monospace;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+html,body{margin:0; padding:0;}
+body{
+  font-family:var(--font-b);
+  background:
+    radial-gradient(120% 90% at 50% -10%, #23262E 0%, var(--ink) 55%, #0C0D10 100%);
+  color:var(--paper);
+  min-height:100dvh;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+/* faint paper grain over the whole table */
+body::after{
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:9999; opacity:.16;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;
+}
+button{font-family:inherit; cursor:pointer; border:0; background:none; color:inherit;}
+input,textarea{font-family:inherit;}
+:focus-visible{outline:3px solid var(--hl); outline-offset:2px; border-radius:4px;}
+
+/* ---------- type ---------- */
+.d{font-family:var(--font-d); letter-spacing:-.01em; line-height:.95;}
+.m{font-family:var(--font-m); letter-spacing:.08em; text-transform:uppercase;}
+.eyebrow{font-family:var(--font-m); font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--mute);}
+
+/* ---------- screens ---------- */
+.screen{display:none; min-height:100dvh; padding:22px 18px 40px; max-width:1120px; margin:0 auto;}
+.screen.active{display:block; animation:fadein .4s ease both;}
+@keyframes fadein{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:none;}}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  padding:13px 22px; border-radius:10px; font-weight:600; font-size:15px;
+  border:1.5px solid var(--line); background:var(--ink-2); color:var(--paper);
+  transition:transform .12s ease, background .18s ease, border-color .18s ease;
+}
+.btn:hover{transform:translateY(-1px); border-color:#4A505C;}
+.btn:active{transform:translateY(1px);}
+.btn.primary{background:var(--hl); color:#17171B; border-color:#C6A600; font-weight:700;}
+.btn.primary:hover{background:#FFDE3A;}
+.btn.hot{background:var(--stamp); color:#fff; border-color:#8E271D;}
+.btn.hot:hover{background:#D9463A;}
+.btn.safe{background:transparent; border-color:var(--safe); color:#7DDCB8;}
+.btn.sm{padding:8px 14px; font-size:13px; border-radius:8px;}
+.btn[disabled]{opacity:.4; pointer-events:none;}
+
+/* ============================================================
+   TITLE SCREEN
+   ============================================================ */
+.hero{padding:min(9vh,70px) 0 30px; text-align:center;}
+.filestamp{
+  display:inline-block; font-family:var(--font-m); font-size:10px; letter-spacing:.3em;
+  color:var(--stamp); border:2px solid var(--stamp); padding:6px 14px; border-radius:3px;
+  transform:rotate(-2.5deg); opacity:.9; margin-bottom:26px;
+}
+.wordmark{font-family:var(--font-d); font-size:clamp(38px,10vw,86px); line-height:.86; letter-spacing:-.02em;}
+.wordmark .l2{position:relative; display:inline-block; color:var(--hl);}
+/* the signature: a redaction bar that retracts off the word on load */
+.wordmark .l2::after{
+  content:''; position:absolute; left:-6px; right:-6px; top:6%; bottom:10%;
+  background:var(--toner); border-radius:2px;
+  transform-origin:right center; animation:unredact 1.15s cubic-bezier(.76,0,.24,1) .55s both;
+}
+@keyframes unredact{0%{transform:scaleX(1);} 100%{transform:scaleX(0);}}
+.tagline{max-width:620px; margin:22px auto 0; color:#C9C6BC; font-size:clamp(15px,2.1vw,17.5px); line-height:1.55;}
+.chipwrap{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin:28px 0 30px;}
+.chip{font-family:var(--font-m); font-size:10.5px; padding:6px 11px; border-radius:999px; color:#17171B; font-weight:700;}
+.note{color:var(--mute); font-size:13px; max-width:560px; margin:20px auto 0; line-height:1.6;}
+.rulestrip{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px;
+  max-width:860px; margin:44px auto 0; text-align:left;
+}
+.rulecard{background:var(--ink-2); border:1px solid var(--line); border-radius:var(--r); padding:16px 18px;}
+.rulecard h4{font-family:var(--font-d); font-size:13px; margin:0 0 6px; letter-spacing:.02em;}
+.rulecard p{margin:0; font-size:13.5px; color:#ABAFB9; line-height:1.5;}
+
+/* ============================================================
+   PANELS / SETUP
+   ============================================================ */
+.pagehead{display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:20px;}
+.pagehead h2{font-family:var(--font-d); font-size:clamp(24px,5vw,36px); margin:0;}
+.panel{background:var(--ink-2); border:1px solid var(--line); border-radius:var(--r); padding:18px; margin-bottom:14px;}
+.panel > h3{font-family:var(--font-m); font-size:10.5px; letter-spacing:.2em; color:var(--mute); margin:0 0 12px;}
+.grid{display:grid; gap:10px;}
+.g3{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+.optcard{
+  text-align:left; padding:14px 15px; border-radius:11px; border:1.5px solid var(--line);
+  background:var(--ink-3); transition:.18s; display:block; width:100%;
+}
+.optcard b{display:block; font-size:15px; margin-bottom:4px;}
+.optcard span{font-size:12.5px; color:#9DA3AF; line-height:1.45; display:block;}
+.optcard.sel{border-color:var(--hl); background:#2C2A1C;}
+.optcard:hover{border-color:#565D6B;}
+.pillrow{display:flex; flex-wrap:wrap; gap:8px;}
+.pill{padding:9px 15px; border-radius:999px; border:1.5px solid var(--line); background:var(--ink-3); font-size:13.5px; font-weight:500;}
+.pill.sel{background:var(--hl); color:#17171B; border-color:#C6A600; font-weight:700;}
+.slotrow{display:flex; gap:8px; margin-bottom:8px; align-items:center;}
+.slotrow input{
+  flex:1; padding:11px 13px; border-radius:9px; border:1.5px solid var(--line);
+  background:#101116; color:var(--paper); font-size:14.5px;
+}
+.xbtn{width:38px; height:38px; border-radius:9px; border:1.5px solid var(--line); background:var(--ink-3); font-size:15px;}
+.castgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(112px,1fr)); gap:9px;}
+.castcard{
+  border:1.5px solid var(--line); background:var(--ink-3); border-radius:11px; padding:11px 7px;
+  text-align:center; transition:.15s;
+}
+.castcard.sel{border-color:var(--hl); background:#2C2A1C;}
+.castcard b{display:block; font-size:13px; margin-top:6px;}
+.castcard span{display:block; font-size:10.5px; color:#9DA3AF; margin-top:2px; line-height:1.3;}
+.toggle{display:flex; align-items:center; justify-content:space-between; gap:14px; padding:12px 0; border-bottom:1px solid var(--line);}
+.toggle:last-child{border-bottom:0;}
+.toggle p{margin:3px 0 0; font-size:12.5px; color:#9DA3AF; line-height:1.45; max-width:56ch;}
+.toggle b{font-size:14.5px;}
+.sw{width:52px; height:30px; border-radius:999px; background:#33373F; position:relative; flex:none; transition:.2s;}
+.sw::after{content:''; position:absolute; top:3px; left:3px; width:24px; height:24px; border-radius:50%; background:#E9E5DA; transition:.2s;}
+.sw.on{background:var(--safe);}
+.sw.on::after{transform:translateX(22px);}
+.counter{text-align:center; color:var(--mute); font-size:13px; margin:14px 0;}
+.actions-row{display:flex; gap:10px; justify-content:space-between; flex-wrap:wrap; margin-top:6px;}
+
+/* ---------- ritual ---------- */
+.ritual{max-width:640px; margin:0 auto;}
+.ritual-item{
+  display:flex; gap:13px; align-items:flex-start; padding:14px 16px; background:var(--ink-2);
+  border:1px solid var(--line); border-left:3px solid var(--safe); border-radius:10px; margin-bottom:9px;
+  font-size:14.5px; line-height:1.5;
+}
+.ritual-item .n{font-family:var(--font-m); font-size:11px; color:var(--safe); flex:none; padding-top:2px;}
+</style>
+</head>
+<body>
+<style>
+/* ============================================================
+   GAME SCREEN
+   ============================================================ */
+#screen-game.active{display:flex; flex-direction:column; padding:12px 14px 18px; max-width:1180px;}
+.topbar{display:flex; align-items:center; gap:10px; flex-wrap:wrap; padding-bottom:10px; border-bottom:1px solid var(--line);}
+.brandmini{display:flex; align-items:center; gap:8px; font-family:var(--font-d); font-size:12.5px; letter-spacing:.01em;}
+.oubadge{background:var(--hl); color:#17171B; font-size:10px; padding:3px 6px; border-radius:4px; font-family:var(--font-m); font-weight:700;}
+.tags{display:flex; gap:6px; flex-wrap:wrap; align-items:center; margin-left:auto;}
+.tag{font-family:var(--font-m); font-size:9.5px; padding:5px 9px; border-radius:5px; background:var(--ink-3); border:1px solid var(--line); color:#C2C6CE;}
+.tag.live{background:#2C2A1C; border-color:#6D5E14; color:var(--hl);}
+.meter{width:76px; height:6px; background:var(--ink-3); border-radius:99px; overflow:hidden; border:1px solid var(--line);}
+.meter i{display:block; height:100%; width:42%; background:linear-gradient(90deg,var(--safe),var(--hl),var(--stamp)); transition:width .5s ease;}
+.iconbtn{width:34px; height:34px; border-radius:8px; border:1px solid var(--line); background:var(--ink-2); font-size:14px;}
+
+/* player rail */
+.rail{display:flex; gap:8px; overflow-x:auto; padding:12px 2px; scrollbar-width:none;}
+.rail::-webkit-scrollbar{display:none;}
+.seat{
+  flex:none; width:88px; padding:9px 6px 8px; border-radius:12px; text-align:center;
+  background:var(--ink-2); border:1.5px solid var(--line); position:relative; transition:.2s;
+}
+.seat.act{border-color:var(--hl); background:#2A2819; transform:translateY(-3px);}
+.seat .nm{font-size:11.5px; font-weight:600; margin-top:5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.seat .sc{font-family:var(--font-m); font-size:15px; color:var(--hl); font-weight:700; line-height:1.1;}
+.seat .rl{font-size:9px; color:var(--mute); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.seat .arch{
+  position:absolute; top:-7px; left:50%; transform:translateX(-50%); font-size:8.5px;
+  background:var(--violet); color:#fff; padding:2px 6px; border-radius:99px; white-space:nowrap;
+  font-family:var(--font-m); max-width:96%; overflow:hidden; text-overflow:ellipsis;
+}
+.seat.you::before{content:'YOU'; position:absolute; top:4px; right:5px; font-family:var(--font-m); font-size:7.5px; color:var(--hl);}
+
+/* stage */
+.stage{display:grid; grid-template-columns:130px 1fr; gap:18px; align-items:start; flex:1; padding-top:6px;}
+@media(max-width:760px){ .stage{grid-template-columns:1fr; gap:10px;} .deckcol{display:flex; align-items:center; gap:14px; justify-content:center;} }
+
+.deckcol{padding-top:8px;}
+.deck{width:118px; height:166px; position:relative; margin:0 auto; cursor:default;}
+.deck .lyr{position:absolute; inset:0; border-radius:11px; background:var(--manila-d); border:1px solid #8E7442;}
+.deck .lyr.a{transform:translate(5px,5px) rotate(1.6deg);}
+.deck .lyr.b{transform:translate(2.5px,2.5px) rotate(-1deg);}
+.deck.ready{cursor:pointer; animation:breathe 2.1s ease-in-out infinite;}
+@keyframes breathe{0%,100%{transform:translateY(0);} 50%{transform:translateY(-6px);}}
+.deckface{position:absolute; inset:0; border-radius:11px; overflow:hidden;}
+.deckcount{
+  position:absolute; bottom:-11px; left:50%; transform:translateX(-50%);
+  background:var(--ink); border:1px solid var(--line); border-radius:99px; padding:3px 11px;
+  font-family:var(--font-m); font-size:10.5px; color:#C2C6CE;
+}
+.deckhint{text-align:center; margin-top:22px; font-family:var(--font-m); font-size:10px; color:var(--hl); letter-spacing:.14em;}
+
+/* ---------- the card ---------- */
+.cardzone{min-height:330px; display:flex; flex-direction:column; align-items:center; gap:12px;}
+.card3d{width:min(100%,420px); aspect-ratio:63/88; max-height:min(52vh,430px); perspective:1400px;}
+.cardinner{position:relative; width:100%; height:100%; transform-style:preserve-3d; transition:transform .78s cubic-bezier(.3,1.1,.35,1);}
+.cardinner.flip{transform:rotateY(180deg);}
+.cardinner.instant{transition:none;}
+.face{
+  position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden;
+  border-radius:15px; box-shadow:var(--shadow); overflow:hidden;
+}
+.face.back{background:var(--manila-d);}
+.face.front{transform:rotateY(180deg); background:var(--paper); display:flex; flex-direction:column;}
+
+/* card back — a manila file cover */
+.backart{position:absolute; inset:0; padding:16px; display:flex; flex-direction:column; justify-content:space-between;
+  background:
+    repeating-linear-gradient(135deg, rgba(0,0,0,.045) 0 2px, transparent 2px 9px),
+    linear-gradient(160deg,#E3C68F,#C29B5C);
+  border:1px solid #8E7442; border-radius:15px;}
+.backart .bstamp{border:2.5px solid rgba(31,26,15,.5); color:rgba(31,26,15,.62); border-radius:4px;
+  font-family:var(--font-m); font-size:9px; letter-spacing:.2em; padding:5px 9px; align-self:flex-start; transform:rotate(-3deg);}
+.backart .bmark{font-family:var(--font-d); font-size:23px; color:#4A3A1C; line-height:.92; letter-spacing:-.01em;}
+.backart .bbar{height:12px; background:#2A2317; border-radius:2px; margin-top:8px; width:64%;}
+.backart .bfoot{font-family:var(--font-m); font-size:8.5px; color:rgba(42,35,23,.65); letter-spacing:.16em;}
+
+/* card front */
+.cband{padding:11px 16px; display:flex; align-items:center; justify-content:space-between; color:#fff;}
+.cband .lab{font-family:var(--font-d); font-size:15px; letter-spacing:.03em;}
+.cband .num{font-family:var(--font-m); font-size:10px; opacity:.85;}
+.cbody{flex:1; padding:18px 20px 14px; display:flex; flex-direction:column; color:#1A1B1F; overflow-y:auto;}
+.ctext{font-size:clamp(16px,3.1vw,21px); line-height:1.32; font-weight:600; letter-spacing:-.005em; position:relative;}
+.ctext.hot{color:#8E271D;}
+.csit{font-size:12.5px; color:#5C5F68; line-height:1.45; margin-bottom:9px; font-style:italic;}
+.cdo{
+  margin-top:auto; padding-top:12px; border-top:1.5px dashed rgba(26,27,31,.24);
+  font-size:12.8px; line-height:1.45; color:#33363E;
+}
+.cdo b{font-family:var(--font-m); font-size:9px; letter-spacing:.18em; color:#6B6F79; display:block; margin-bottom:4px;}
+/* the redaction bar that sweeps across on unredact */
+.wipe{position:absolute; inset:-4px -6px; background:var(--toner); border-radius:3px; transform-origin:left center; transform:scaleX(0);}
+.wipe.go{animation:sweep .82s cubic-bezier(.7,0,.3,1) both;}
+@keyframes sweep{0%{transform:scaleX(0); transform-origin:left center;} 46%{transform:scaleX(1); transform-origin:left center;}
+  54%{transform:scaleX(1); transform-origin:right center;} 100%{transform:scaleX(0); transform-origin:right center;}}
+/* rubber stamp */
+.stamp{
+  position:absolute; top:44%; left:50%; font-family:var(--font-m); font-size:clamp(17px,4.4vw,27px);
+  letter-spacing:.12em; padding:8px 16px; border:4px solid currentColor; border-radius:6px;
+  opacity:0; pointer-events:none; z-index:5; white-space:nowrap;
+}
+.stamp.hit{animation:thump .55s cubic-bezier(.2,1.5,.4,1) both;}
+@keyframes thump{0%{opacity:0; transform:translate(-50%,-50%) rotate(-16deg) scale(2.6);}
+  60%{opacity:.95; transform:translate(-50%,-50%) rotate(-11deg) scale(.96);}
+  100%{opacity:.88; transform:translate(-50%,-50%) rotate(-11deg) scale(1);}}
+.card3d.shake{animation:shk .4s ease;}
+@keyframes shk{0%,100%{transform:translateX(0);} 25%{transform:translateX(-7px);} 75%{transform:translateX(7px);}}
+
+/* timer ring */
+.ring{position:absolute; top:10px; right:12px; width:46px; height:46px; z-index:6;}
+.ring svg{transform:rotate(-90deg);}
+.ring .t{position:absolute; inset:0; display:grid; place-items:center; font-family:var(--font-m); font-size:13px; font-weight:700; color:#1A1B1F;}
+
+/* ---------- interaction column ---------- */
+.talk{width:min(100%,560px); min-height:56px;}
+.bubble{display:flex; gap:10px; align-items:flex-start; background:var(--ink-2); border:1px solid var(--line);
+  border-radius:13px; padding:11px 13px; animation:pop .3s ease both;}
+@keyframes pop{from{opacity:0; transform:translateY(7px) scale(.98);} to{opacity:1; transform:none;}}
+.bubble .who{display:block; font-family:var(--font-m); font-size:9.5px; color:var(--hl); letter-spacing:.14em; margin-bottom:3px;}
+.bubble .say{font-size:14.5px; line-height:1.45; color:#E7E4DA;}
+.dots span{display:inline-block; width:6px; height:6px; margin-right:3px; border-radius:50%; background:var(--mute); animation:bl 1.2s infinite;}
+.dots span:nth-child(2){animation-delay:.18s;} .dots span:nth-child(3){animation-delay:.36s;}
+@keyframes bl{0%,60%,100%{opacity:.28;} 30%{opacity:1;}}
+.toasts{display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; justify-content:center;}
+.toast{background:var(--ink-3); border:1px solid var(--line); border-radius:99px; padding:5px 11px; font-size:12px;
+  display:flex; align-items:center; gap:6px; animation:pop .3s ease both;}
+.toast .pts{font-family:var(--font-m); font-size:10px; color:var(--safe); font-weight:700;}
+
+.controls{width:min(100%,560px); display:flex; flex-direction:column; gap:9px;}
+.answerbox{display:flex; flex-direction:column; gap:8px; background:var(--ink-2); border:1px solid var(--line); border-radius:13px; padding:13px;}
+.answerbox textarea{
+  width:100%; min-height:62px; resize:vertical; border-radius:9px; border:1.5px solid var(--line);
+  background:#101116; color:var(--paper); padding:10px 12px; font-size:14.5px; line-height:1.45;
+}
+.answerbox .hint{font-size:11.5px; color:var(--mute); line-height:1.4;}
+.btnrow{display:flex; gap:8px; flex-wrap:wrap;}
+.btnrow .btn{flex:1; min-width:118px;}
+.votebar{display:flex; gap:8px; justify-content:center; flex-wrap:wrap;}
+.vbtn{padding:10px 15px; border-radius:99px; border:1.5px solid var(--line); background:var(--ink-2); font-size:13.5px; font-weight:600;}
+.vbtn:hover{border-color:var(--hl);}
+.status{text-align:center; font-size:13.5px; color:#B9BDC6; min-height:20px; line-height:1.45;}
+.curve{
+  width:min(100%,560px); background:var(--toner); color:var(--hl); border:1.5px solid var(--hl);
+  border-radius:11px; padding:11px 14px; font-size:13px; line-height:1.45; animation:pop .3s ease both;
+}
+.curve b{font-family:var(--font-m); font-size:10px; letter-spacing:.16em; display:block; margin-bottom:3px;}
+
+/* overlays */
+.overlay{position:fixed; inset:0; background:rgba(9,10,13,.86); backdrop-filter:blur(6px); z-index:200;
+  display:grid; place-items:center; padding:22px;}
+.sheet{background:var(--ink-2); border:1px solid var(--line); border-radius:var(--r); padding:22px; max-width:520px;
+  width:100%; max-height:82dvh; overflow-y:auto;}
+.sheet h3{font-family:var(--font-d); margin:0 0 12px; font-size:20px;}
+.sheet p,.sheet li{font-size:14px; line-height:1.55; color:#C4C8D0;}
+.sheet ul{padding-left:18px; margin:8px 0;}
+[hidden]{display:none !important;}
+
+/* end screen */
+.podium{display:flex; flex-direction:column; gap:8px; max-width:520px; margin:0 auto 20px;}
+.prow{display:flex; align-items:center; gap:12px; background:var(--ink-2); border:1px solid var(--line);
+  border-radius:12px; padding:11px 14px;}
+.prow.first{border-color:var(--hl); background:#2A2819;}
+.prow .rk{font-family:var(--font-d); font-size:19px; width:30px; color:var(--mute);}
+.prow.first .rk{color:var(--hl);}
+.prow .pn{flex:1; font-weight:600; font-size:15px;}
+.prow .pp{font-family:var(--font-m); font-size:17px; color:var(--hl); font-weight:700;}
+.awards{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px; max-width:760px; margin:0 auto 22px;}
+.award{background:var(--ink-2); border:1px solid var(--line); border-left:3px solid var(--hl); border-radius:11px; padding:13px 15px;}
+.award b{display:block; font-family:var(--font-m); font-size:9.5px; letter-spacing:.16em; color:var(--hl); margin-bottom:5px;}
+.award span{font-size:14px; font-weight:600;}
+.award em{display:block; font-size:12px; color:var(--mute); font-style:normal; margin-top:3px;}
+.confetti{position:fixed; inset:0; pointer-events:none; z-index:300; overflow:hidden;}
+.conf{position:absolute; width:9px; height:14px; border-radius:1px; animation:fall linear forwards;}
+@keyframes fall{to{transform:translateY(108vh) rotate(760deg); opacity:0;}}
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms !important; transition-duration:.01ms !important;}
+  .wordmark .l2::after{display:none;}
+}
+</style>
+
+<!-- ══════════════ TITLE ══════════════ -->
+<section id="screen-title" class="screen active">
+  <div class="hero">
+    <div class="filestamp">INTERNAL USE · DO NOT CIRCULATE</div>
+    <h1 class="wordmark">OFFICE<br><span class="l2">UNFILTERED</span></h1>
+    <p class="tagline">Every card comes in two versions. You see the safe one first — then decide whether to pull the black bar off it. The honest version is worth double. Skipping is always free.</p>
+    <div class="chipwrap">
+      <span class="chip" style="background:#3160D8;color:#fff">TRUTH · 45</span>
+      <span class="chip" style="background:#E4572E;color:#fff">DARE · 40</span>
+      <span class="chip" style="background:#2F9E75;color:#fff">SCENARIO · 28</span>
+      <span class="chip" style="background:#6E45C8;color:#fff">ARCHETYPE · 20</span>
+      <span class="chip" style="background:#F2CE1B">CURVEBALL · 12</span>
+      <span class="chip" style="background:#E0C18C">SAFETY · 10</span>
+    </div>
+    <button class="btn primary" id="goSetup" style="font-size:17px;padding:16px 34px;">Set up a session</button>
+    <div class="rulestrip">
+      <div class="rulecard"><h4>Every card tells you what to do</h4><p>Not just a topic. A task, a time limit, and how the table scores it.</p></div>
+      <div class="rulecard"><h4>Redact or unredact</h4><p>Clean version: 1 point per vote. Unfiltered version: double. Your call, every turn.</p></div>
+      <div class="rulecard"><h4>Nothing is stored</h4><p>No answers, no transcripts, no accounts. Close the tab and the session is gone.</p></div>
+    </div>
+    <p class="note">Play solo against the bot cast, or pass one device around the table. Online rooms are the next build — see the roadmap that came with this file.</p>
+  </div>
+</section>
+
+<!-- ══════════════ SETUP ══════════════ -->
+<section id="screen-setup" class="screen">
+  <div class="pagehead"><h2>Session setup</h2><span class="eyebrow">Step 1 of 2</span></div>
+
+  <div class="panel">
+    <h3>Energy mode</h3>
+    <div class="grid g3" id="modeGrid">
+      <button class="optcard" data-mode="LIGHT"><b>Light</b><span>New teams, mixed seniority, a room that hasn't warmed up. Truth and Scenario, gentle Dares.</span></button>
+      <button class="optcard sel" data-mode="SOCIAL"><b>Social · recommended</b><span>All six card types in balanced rotation. This is the intended experience.</span></button>
+      <button class="optcard" data-mode="HIGH"><b>High-energy</b><span>Dare-heavy, shorter timers, more Curveballs. Only if the whole room opted in.</span></button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>Rounds</h3>
+    <div class="pillrow" id="roundRow">
+      <button class="pill" data-r="2">2</button><button class="pill sel" data-r="3">3</button>
+      <button class="pill" data-r="4">4</button><button class="pill" data-r="5">5</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>Content settings</h3>
+    <div class="toggle">
+      <div><b>Unfiltered deck</b><p>Lets players unredact cards for double points. Turn this off for a first session, a mixed-seniority room, or any group that didn't choose to be here.</p></div>
+      <button class="sw on" id="swHot" role="switch" aria-checked="true" aria-label="Unfiltered deck"></button>
+    </div>
+    <div class="toggle">
+      <div><b>Timers on Dares</b><p>A countdown ring on performance cards. Beat it for a bonus. Running out costs nothing.</p></div>
+      <button class="sw on" id="swTimer" role="switch" aria-checked="true" aria-label="Timers"></button>
+    </div>
+    <div class="toggle">
+      <div><b>Sound</b><p>Short tones on draw, stamp and score. No music.</p></div>
+      <button class="sw" id="swSound" role="switch" aria-checked="false" aria-label="Sound"></button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>Players at the table</h3>
+    <div id="humanSlots"></div>
+    <button class="btn sm" id="addHuman">Add a player</button>
+  </div>
+
+  <div class="panel">
+    <h3>Bot cast — tap to seat or remove</h3>
+    <div class="castgrid" id="castGrid"></div>
+  </div>
+
+  <div class="panel">
+    <h3>Your own cards <span style="text-transform:none;letter-spacing:0;color:#6B7280">— optional, in-memory only</span></h3>
+    <div class="slotrow">
+      <input id="customIn" placeholder="e.g. What meeting would you cancel first?" maxlength="180">
+      <button class="btn sm" id="addCustom">Add</button>
+    </div>
+    <div id="customList" class="pillrow"></div>
+  </div>
+
+  <p class="counter" id="tableCount"></p>
+  <div class="actions-row">
+    <button class="btn" id="backTitle">Back</button>
+    <button class="btn primary" id="goRitual">Continue to the ground rules</button>
+  </div>
+</section>
+
+<!-- ══════════════ RITUAL ══════════════ -->
+<section id="screen-ritual" class="screen">
+  <div class="pagehead"><h2>Ground rules</h2><span class="eyebrow">Step 2 of 2</span></div>
+  <div class="ritual">
+    <p style="color:#B9BDC6;font-size:15px;line-height:1.6;margin:0 0 18px;">Read these out loud if you can. They take twenty seconds and they are the reason this works.</p>
+    <div class="ritual-item"><span class="n">01</span><span>This is a game. Not therapy, not a review, not a culture assessment. Nothing said here follows anyone.</span></div>
+    <div class="ritual-item"><span class="n">02</span><span>Skip any card, any time, without a reason. You keep your turn points at zero and nobody asks why.</span></div>
+    <div class="ritual-item"><span class="n">03</span><span>Attack the system, never a person in the room. No real names, no identifiable incidents, no client details.</span></div>
+    <div class="ritual-item"><span class="n">04</span><span>Unredacting is optional and always will be. Playing every card clean is a legitimate way to win.</span></div>
+    <div class="ritual-item"><span class="n">05</span><span>If a card lands wrong, say so. Anyone can call a pause. The host ends the session with no debate.</span></div>
+    <button class="btn primary" id="dealIn" style="width:100%;margin-top:16px;font-size:17px;padding:16px;">Deal me in</button>
+  </div>
+</section>
+
+<!-- ══════════════ GAME ══════════════ -->
+<section id="screen-game" class="screen">
+  <header class="topbar">
+    <div class="brandmini"><span class="oubadge">OU</span> OFFICE UNFILTERED</div>
+    <div class="tags">
+      <span class="tag" id="tagMode">SOCIAL</span>
+      <span class="tag" id="tagRound">ROUND 1/3</span>
+      <span class="tag live" id="tagPot" hidden>POT ×2</span>
+      <div class="meter" title="Room energy"><i id="energyFill"></i></div>
+      <button class="iconbtn" id="btnRules" title="Rules and scoring">?</button>
+      <button class="btn sm" id="btnEnd">End</button>
+    </div>
+  </header>
+
+  <div class="rail" id="rail"></div>
+
+  <div class="stage">
+    <div class="deckcol">
+      <div class="deck" id="deck">
+        <div class="lyr a"></div><div class="lyr b"></div>
+        <div class="lyr deckface" id="deckFace"></div>
+        <span class="deckcount" id="deckCount">155</span>
+      </div>
+      <div class="deckhint" id="deckHint"></div>
+    </div>
+
+    <div class="cardzone">
+      <div class="card3d" id="card3d">
+        <div class="cardinner" id="cardInner">
+          <div class="face back" id="faceBack"></div>
+          <div class="face front" id="faceFront"></div>
+        </div>
+      </div>
+      <p class="status" id="status"></p>
+      <div class="curve" id="curveBanner" hidden></div>
+      <div class="talk" id="talk"></div>
+      <div class="controls" id="controls"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ END ══════════════ -->
+<section id="screen-end" class="screen">
+  <div class="hero" style="padding-top:34px;">
+    <div class="filestamp" style="color:var(--safe);border-color:var(--safe)">SESSION CLOSED</div>
+    <h2 class="d" style="font-size:clamp(28px,7vw,52px);margin:0 0 8px;">That's the deck.</h2>
+    <p class="tagline" id="endReason" style="margin-bottom:26px;"></p>
+    <div class="podium" id="podium"></div>
+    <div class="awards" id="awards"></div>
+    <div class="actions-row" style="justify-content:center;">
+      <button class="btn primary" id="playAgain">Play again</button>
+      <button class="btn" id="newSetup">Change the setup</button>
+    </div>
+  </div>
+</section>
+
+<div class="overlay" id="rulesOverlay" hidden>
+  <div class="sheet">
+    <h3>How scoring works</h3>
+    <ul>
+      <li><b>Answer a card</b> — 1 point, just for playing it.</li>
+      <li><b>Table votes</b> — each "too real" or "worth it" vote adds 1 point.</li>
+      <li><b>Unredacted</b> — everything you scored on that card doubles.</li>
+      <li><b>Dare beaten on the clock</b> — 2 bonus points.</li>
+      <li><b>Skip</b> — 0 points, no penalty, no explanation. Skips earn you the Boundaries award at the end.</li>
+    </ul>
+    <h3 style="margin-top:18px;">The six card types</h3>
+    <ul>
+      <li><b>Truth</b> — a question with a defined task and a time limit.</li>
+      <li><b>Dare</b> — a performance. Timer optional.</li>
+      <li><b>Scenario</b> — a workplace situation the whole table rules on.</li>
+      <li><b>Archetype</b> — you take a role and a constraint for your next card.</li>
+      <li><b>Curveball</b> — a rule that bends the next few turns for everyone.</li>
+      <li><b>Safety</b> — a mechanic that gives control back to the room.</li>
+    </ul>
+    <button class="btn" id="closeRules" style="width:100%;margin-top:16px;">Close</button>
+  </div>
+</div>
+
+<div class="overlay" id="confirmOverlay" hidden>
+  <div class="sheet" style="max-width:400px;">
+    <h3>End the session?</h3>
+    <p>Scores so far will be shown. Nothing is saved anywhere.</p>
+    <div class="btnrow" style="margin-top:14px;">
+      <button class="btn" id="confirmNo">Keep playing</button>
+      <button class="btn hot" id="confirmYes">End it</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="pauseOverlay" hidden>
+  <div class="sheet" style="max-width:380px;text-align:center;">
+    <h3 style="margin-bottom:8px;">Pause</h3>
+    <p>Everyone breathe. Nobody is on the spot. Play resumes on its own.</p>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   OFFICE UNFILTERED — REDACTED EDITION
+   Single file. No dependencies. No storage. No network.
+   Card model:  c = clean prompt · h = unfiltered prompt
+                d = the instruction (what you actually do)
+                k = theme key (drives bot answers)
+                t = seconds on the clock (optional)
+   ============================================================ */
+'use strict';
+
+/* ---------------- TRUTH · 45 ---------------- */
+const TRUTH=[
+{k:'meet',c:`What's the most pointless recurring meeting you've ever sat in?`,h:`Describe a meeting currently in your calendar so precisely that everyone here knows which one — without naming it.`,d:`One sentence, ten seconds. The table votes on whether they recognise it.`,t:20},
+{k:'meet',c:`What's the clearest sign a meeting has lost its purpose?`,h:`What do you actually do during meetings you don't need to be in?`,d:`Be specific. Name the tab, not the feeling.`,t:20},
+{k:'meet',c:`What phrase really means "this could have been an email"?`,h:`Say the exact sentence you use to leave a meeting early.`,d:`Say it out loud in the tone you'd genuinely use.`,t:15},
+{k:'meet',c:`Who really decides in a meeting — the loudest voice or the last one?`,h:`Describe a decision you watched get made by whoever was still paying attention.`,d:`Thirty seconds. No names, no company.`,t:30},
+{k:'meet',c:`What's the meeting length nobody respects?`,h:`How many meetings this week could you cancel with zero consequences?`,d:`Give a number, then defend it in one line.`,t:20},
+{k:'meet',c:`What's the worst possible moment for someone to say "one more thing"?`,h:`What have you added at the end of a meeting purely to look engaged?`,d:`One sentence. The table decides if it was worth saying.`,t:20},
+{k:'comm',c:`What's the most passive-aggressive sentence in professional English?`,h:`Say your own most passive-aggressive work sentence, in your own voice.`,d:`Deliver it properly. The table rates the frost from 1 to 5.`,t:15},
+{k:'comm',c:`What does "let's take this offline" actually mean?`,h:`What did you promise to take offline and then never mention again?`,d:`One sentence.`,t:20},
+{k:'comm',c:`Which emoji has completely lost its original meaning at work?`,h:`Which emoji do you send when you're annoyed but have to stay professional?`,d:`Show it, or draw it in the air.`,t:15},
+{k:'comm',c:`What's the worst possible time to get a "quick question"?`,h:`What kind of message do you leave on read on purpose?`,d:`Describe the message type. Never the person.`,t:20},
+{k:'comm',c:`Wall of text or two-minute voice note — which is the greater crime?`,h:`Defend the format you personally overuse.`,d:`Pick a side. Twenty seconds of genuine defence.`,t:20},
+{k:'comm',c:`What's the most useless sentence in a status update?`,h:`What have you written "on track" about while knowing it wasn't?`,d:`One sentence. No project names.`,t:20},
+{k:'tool',c:`Which software makes a simple task genuinely difficult?`,h:`Which tool would you delete tomorrow — and who in your company would cry?`,d:`Name the tool, then justify the deletion in five words.`,t:20},
+{k:'tool',c:`How many browser tabs is too many?`,h:`How many unread notifications are you sitting on right now?`,d:`Say the number. No checking first, no rounding down.`,t:15},
+{k:'tool',c:`What's a feature everybody asks for and nobody uses?`,h:`What process did you quietly stop following that nobody has noticed?`,d:`One sentence. The table votes on whether they'd have noticed.`,t:20},
+{k:'tool',c:`What's the most ignored channel in any workplace chat?`,h:`Which channel are you muted in that you're supposed to be reading?`,d:`Describe the channel, don't name it.`,t:15},
+{k:'tool',c:`Why does every company end up with four tools that do the same thing?`,h:`Which tool did you push for and then never open again?`,d:`Own it in one sentence.`,t:20},
+{k:'work',c:`What task always gets postponed, everywhere, forever?`,h:`What's on your list right now that you know you will never do?`,d:`Name it. Then delete it out loud.`,t:20},
+{k:'work',c:`What looks like productivity but isn't?`,h:`What do you do that looks like work but is genuinely avoidance?`,d:`One honest sentence.`,t:20},
+{k:'work',c:`What's the real difference between urgent and important?`,h:`What did you drop everything for last week that turned out not to matter?`,d:`Thirty seconds.`,t:30},
+{k:'work',c:`When is your actual peak focus hour?`,h:`What time of day do you stop genuinely working?`,d:`Say a time. The table votes on whether you're lying.`,t:15},
+{k:'work',c:`What five-minute task always takes an hour?`,h:`What hour-long task do you keep telling people is five minutes?`,d:`One sentence.`,t:20},
+{k:'work',c:`What's the honest maximum number of hours of real focus in a day?`,h:`How many hours did you actually work yesterday?`,d:`Give a number. Nobody is allowed to react to it.`,t:15},
+{k:'cult',c:`What makes a workplace instantly feel "corporate"?`,h:`What's the fakest thing your industry does with a completely straight face?`,d:`Attack the practice, never a person.`,t:25},
+{k:'cult',c:`Which company perk is secretly useless?`,h:`Which perk would you trade for cash, and how much would you take?`,d:`Name the perk and the price.`,t:20},
+{k:'cult',c:`What value gets painted on a wall and contradicted the same week?`,h:`Name a value your workplace preaches and the exact behaviour that breaks it.`,d:`Two sentences. No employer named.`,t:30},
+{k:'cult',c:`What's the most awkward part of any team event?`,h:`Which team-building activity made you seriously reconsider your career?`,d:`Describe it. The table scores the cringe out of 5.`,t:30},
+{k:'cult',c:`What tradition does every office have that nobody remembers starting?`,h:`Which ritual at your workplace should be quietly killed?`,d:`Propose the execution in one line.`,t:20},
+{k:'cult',c:`What's the difference between a culture and a set of posters?`,h:`What's the last thing your workplace did that actually changed how you feel about it?`,d:`One sentence. Positive or negative.`,t:25},
+{k:'powr',c:`What's a sign somebody has real influence rather than a title?`,h:`What's the most meaningless job title you've seen used seriously?`,d:`Say it. The table votes: real, or did you invent it?`,t:15},
+{k:'powr',c:`What does "we're all equal here" usually mean in practice?`,h:`What rule applies to everyone except a small number of people?`,d:`Describe the rule. Never the people.`,t:25},
+{k:'powr',c:`How can you tell a decision was made before the meeting started?`,h:`What feedback have you given that was never going anywhere?`,d:`One sentence.`,t:20},
+{k:'powr',c:`What's the most polite way to say "that isn't my job"?`,h:`What is genuinely not your job that you keep doing anyway?`,d:`Name it, then say why you still do it.`,t:25},
+{k:'powr',c:`What separates a manager from a leader?`,h:`What's the best thing and the worst thing a manager has said to you?`,d:`Two sentences. No names, ever.`,t:30},
+{k:'rmt',c:`Camera on or camera off — what's the real rule?`,h:`What's the least professional thing within arm's reach of you right now?`,d:`Describe it. Double the votes if you can hold it up.`,t:20},
+{k:'rmt',c:`What's the best excuse for a frozen screen?`,h:`What have you done during a call that you would deny under oath?`,d:`Keep it legal. One sentence.`,t:20},
+{k:'rmt',c:`Is "working from home" the same as "working"?`,h:`What's the longest you've gone in a home-office day without doing anything?`,d:`Give a duration. The table judges.`,t:20},
+{k:'rmt',c:`What's the right number of office days?`,h:`What would genuinely make you want to come in?`,d:`One concrete thing. "Better culture" doesn't count.`,t:25},
+{k:'rmt',c:`What gets lost when a team goes fully remote?`,h:`What's better about remote work that nobody will say publicly?`,d:`Say the quiet part.`,t:25},
+{k:'car',c:`What's the most useless interview question ever invented?`,h:`What's the biggest thing you've oversold in an interview?`,d:`Keep it small. One sentence.`,t:20},
+{k:'car',c:`What does a performance review actually measure?`,h:`What feedback have you been given that was simply wrong?`,d:`State the feedback, then the truth.`,t:30},
+{k:'car',c:`Which skill is undervalued in every single industry?`,h:`What are you paid for that you're not actually that good at?`,d:`Be honest. The table respects it more than you think.`,t:25},
+{k:'car',c:`What makes somebody leave a job they liked?`,h:`What's the closest you've come to walking out?`,d:`No detail you'd regret. Thirty seconds.`,t:30},
+{k:'ai',c:`Which job in your industry will change most in five years?`,h:`What part of your job have you already handed over to AI?`,d:`Be specific. Nobody in this room is judging.`,t:25},
+{k:'ai',c:`Is "busy" a badge of honour or a warning sign?`,h:`When did you last say "so busy" when you weren't?`,d:`One sentence. Own it.`,t:20}];
+
+/* ---------------- DARE · 40 ---------------- */
+const DARE=[
+{k:'perf',c:`Read an imaginary slide out loud, word for word, like the audience can't read.`,h:`Present the last slide you actually made, from memory, with total conviction.`,d:`Twenty seconds. No apologising for the slide.`,t:20},
+{k:'perf',c:`Invent a job title that sounds senior and means nothing.`,h:`Invent an honest job title for what you actually do all day.`,d:`Introduce yourself with it as if you're on a conference stage.`,t:15},
+{k:'perf',c:`Say "I agree" three ways: sincere, sarcastic, defeated.`,h:`Say "happy to help" in the tone you actually feel when you type it.`,d:`All three, back to back. The table picks the winner.`,t:20},
+{k:'perf',c:`Do thirty seconds of a status update where nothing has happened.`,h:`Give a real status update on something you've made no progress on.`,d:`Thirty seconds. You may not admit there's no progress.`,t:30},
+{k:'perf',c:`Announce a made-up company policy like it's excellent news.`,h:`Announce the worst real policy you've had to accept, as if you wrote it.`,d:`Full corporate enthusiasm. Twenty seconds.`,t:20},
+{k:'perf',c:`Do an impression of a laptop that will not connect to the projector.`,h:`Recreate your face during the last technical failure you caused.`,d:`No words. Fifteen seconds of pure physical acting.`,t:15},
+{k:'perf',c:`Deliver bad news using only good-news vocabulary.`,h:`Rewrite the last bad news you received in the language they actually used.`,d:`Twenty seconds. The table votes on whether they'd have fallen for it.`,t:20},
+{k:'perf',c:`Give a toast at a leaving party for somebody nobody remembers.`,h:`Give a thirty-second leaving speech for yourself, honestly.`,d:`Stand up if you can. Thirty seconds.`,t:30},
+{k:'perf',c:`Do a sixty-second all-hands as the most enthusiastic executive alive.`,h:`Do the same all-hands, but say what everybody is actually thinking.`,d:`Sixty seconds. Commit fully or don't start.`,t:60},
+{k:'perf',c:`Act out arriving late and pretending you were there the whole time.`,h:`Recreate the last time you actually did this.`,d:`No dialogue. Fifteen seconds.`,t:15},
+{k:'inv',c:`Invent a meeting name so intriguing people would clear their calendar.`,h:`Rename a recurring meeting you hate to describe what it really is.`,d:`Say the name. The table votes on whether they'd attend.`,t:15},
+{k:'inv',c:`Design an emoji that means "I've read it and I have nothing to add."`,h:`Design an emoji for the emotion your job causes most often.`,d:`Describe it in one sentence, then draw it in the air.`,t:20},
+{k:'inv',c:`Invent one workplace rule that would genuinely improve everything.`,h:`Invent the rule your workplace most needs and will never adopt.`,d:`One sentence. The table votes yes or no on the motion.`,t:25},
+{k:'inv',c:`Write a three-word company slogan for a company that sells nothing.`,h:`Write a three-word slogan that's honest about where you work.`,d:`Three words exactly. Not four.`,t:15},
+{k:'inv',c:`Invent a public holiday teams would secretly love.`,h:`Invent the day off you'd most want and can't ask for.`,d:`Name it and explain it in one line.`,t:20},
+{k:'inv',c:`Describe a button on your desk that fixes one work problem forever.`,h:`Same button, but it can also delete one thing from your job.`,d:`Say what it does in one sentence.`,t:20},
+{k:'inv',c:`Invent a corporate award nobody would want to win.`,h:`Invent the award you'd actually deserve this quarter.`,d:`Name the award and read the citation.`,t:20},
+{k:'inv',c:`Pitch the worst possible startup in thirty seconds, with total belief.`,h:`Pitch an idea you've genuinely had and never told anyone.`,d:`Thirty seconds. The table votes on whether they'd invest.`,t:30},
+{k:'lang',c:`Explain what you do at work without using a single work word.`,h:`Explain what you do to somebody who thinks it isn't a real job.`,d:`Thirty seconds. No jargon at all.`,t:30},
+{k:'lang',c:`Say "no" without using the word no.`,h:`Say no to something you've said yes to this month.`,d:`One sentence. Make it land.`,t:15},
+{k:'lang',c:`Explain a simple task as if it were extremely complicated.`,h:`Explain your most complicated task as if it were trivially simple.`,d:`Twenty seconds. Table votes on whether they understood.`,t:20},
+{k:'lang',c:`Describe your week using only weather terms.`,h:`Describe your last quarter using only weather terms.`,d:`No literal words about work.`,t:15},
+{k:'lang',c:`Turn the most boring sentence in your inbox into breaking news.`,h:`Read out a real subject line and translate what it actually meant.`,d:`Twenty seconds. Nothing confidential.`,t:20},
+{k:'lang',c:`Say "let's circle back" as though it's a genuine threat.`,h:`Say the phrase you use when you've stopped listening.`,d:`Deliver it. The table rates it out of 5.`,t:15},
+{k:'lang',c:`Explain "synergy" to somebody who has never heard the word.`,h:`Explain the most-used buzzword at your workplace, honestly.`,d:`Twenty seconds. No using the word itself.`,t:20},
+{k:'lang',c:`Describe your job as a film logline.`,h:`Describe your job as a film logline, in the genre it actually is.`,d:`One sentence. Name the genre first.`,t:20},
+{k:'grp',c:`Lead the table in three seconds of complete silence.`,h:`Lead the table in three seconds of silence, then say what everyone was thinking.`,d:`You count it in. Everyone participates.`,t:15},
+{k:'grp',c:`Start a slow clap. The table joins and stops together, without a signal.`,h:`Same, but the table has to stop on your unspoken cue.`,d:`One attempt only.`,t:15},
+{k:'grp',c:`Everyone shows thumbs up, down or sideways on the last week — at once.`,h:`Same, and each person says one word to explain the thumb.`,d:`Count to three. No looking first.`,t:20},
+{k:'grp',c:`Count from one to five as a group, one voice at a time. Two at once, restart.`,h:`Count to eight instead.`,d:`No pointing, no order agreed in advance.`,t:30},
+{k:'grp',c:`Get the table to agree on one word for the current mood in ten seconds.`,h:`Get the table to agree on one word for the current quarter.`,d:`Ten seconds. Majority carries.`,t:15},
+{k:'grp',c:`Everyone says their name as if being introduced on stage.`,h:`Everyone says their name plus one true thing nobody here knows.`,d:`Round the table. Skipping is free as always.`,t:40},
+{k:'grp',c:`Direct the table in a five-second silent wave around the circle.`,h:`Direct it twice, second time twice as fast.`,d:`You conduct. No words.`,t:20},
+{k:'obs',c:`Name one specific thing someone at this table is good at.`,h:`Name one thing someone here does that makes your job easier.`,d:`Be specific. Vague compliments score nothing.`,t:20},
+{k:'obs',c:`Guess which person here has the most unread emails. Then check.`,h:`Guess the actual number, then check.`,d:`One guess. Closest wins the vote.`,t:20},
+{k:'obs',c:`Predict what the person to your left would say to the next Truth card.`,h:`Predict their answer, then they say the real one.`,d:`Say it out loud first. Points if you're close.`,t:25},
+{k:'obs',c:`Point at the person most likely to reply to email at midnight.`,h:`Point, and then that person confirms or denies.`,d:`Everyone points at once, on three.`,t:15},
+{k:'obs',c:`Describe the table's collective energy as a single office object.`,h:`Describe each person as an office object. Be kind about it.`,d:`Kind, not cutting. The table vetoes anything unkind.`,t:30},
+{k:'obs',c:`Do a thirty-second impression of the group's average meeting behaviour.`,h:`Do an impression of your own meeting behaviour, honestly.`,d:`Thirty seconds. Nobody is allowed to be offended.`,t:30},
+{k:'obs',c:`Name the one thing this group does better than most teams.`,h:`Name the one thing this group does worse than most teams.`,d:`One sentence. Systems, not people.`,t:25}];
+
+/* ---------------- SCENARIO · 28 ---------------- */
+const SCENARIO=[
+{s:`A meeting ends with "great discussion" and no decisions.`,c:`What happens over the next two weeks?`,h:`Whose fault is it — the person who called it, the person who talked most, or everyone who stayed quiet?`,d:`You answer first. Then the table votes on your ruling.`,t:30},
+{s:`A deadline was agreed, and three people understood it differently.`,c:`How do you find out before it's too late?`,h:`Who should have caught it, and why didn't they?`,d:`Give one concrete action. The table votes if it would work.`,t:30},
+{s:`A project has three owners and none of them feel responsible.`,c:`How do you get to one owner without a reorganisation?`,h:`Which of the three would you remove first?`,d:`Decide out loud. Defend it in one sentence.`,t:30},
+{s:`A new tool is introduced that nobody asked for.`,c:`What's the fastest way to find out whether it's actually useful?`,h:`How long before people quietly go back to the old way?`,d:`Give a number and a reason.`,t:25},
+{s:`A calendar invite arrives with no agenda and eleven guests.`,c:`What do you do?`,h:`Do you actually decline it? Be honest about what you'd really do.`,d:`Say it. The table votes on whether they believe you.`,t:25},
+{s:`Someone says "let's take this offline" and the topic vanishes.`,c:`Whose job is it to bring it back?`,h:`What's your honest success rate at bringing things back?`,d:`One sentence and a percentage.`,t:25},
+{s:`A change is announced with no explanation of why.`,c:`What's the first question the team should ask?`,h:`What do people assume when nobody explains?`,d:`Give the assumption, not the polite version.`,t:25},
+{s:`A meeting runs over because "we're almost done".`,c:`Who's allowed to end it, and how?`,h:`Would you actually be the one to end it?`,d:`Answer, then the table votes on whether you would.`,t:25},
+{s:`Feedback is requested and nobody knows how honest to be.`,c:`What signal tells you honesty is genuinely safe?`,h:`Describe a time the signal was wrong.`,d:`No names. Thirty seconds.`,t:30},
+{s:`A decision is made, then quietly revisited two weeks later.`,c:`Is that healthy or is it a symptom?`,h:`Which is worse — a slow decision or a decision that never sticks?`,d:`Pick one. Defend it for twenty seconds.`,t:25},
+{s:`A process exists that everyone follows and nobody understands.`,c:`How would you find out why it exists?`,h:`Would you just stop doing it and see what breaks?`,d:`Yes or no, then one sentence of justification.`,t:25},
+{s:`A task is genuinely simple, and approval takes three weeks.`,c:`Where does the time actually go?`,h:`What would you break to make it take three days?`,d:`Name one thing you'd remove entirely.`,t:25},
+{s:`A role changes and the responsibilities don't.`,c:`What should the person do first?`,h:`How long would you personally put up with it?`,d:`Give a duration. The table votes on realism.`,t:25},
+{s:`A team success gets one line in an email and then everyone moves on.`,c:`What's the cost of not celebrating?`,h:`When were you last genuinely thanked at work?`,d:`Answer honestly. Skipping this one is very reasonable.`,t:30},
+{s:`A mistake happens and everyone focuses on the fix, not the cause.`,c:`When is that the right call?`,h:`What mistake at your workplace keeps happening for exactly this reason?`,d:`Systems only. No individuals.`,t:30},
+{s:`A project starts with real excitement and loses momentum by week six.`,c:`What's the earliest visible sign?`,h:`What's the last project you personally lost interest in?`,d:`One sentence. The table votes if the sign is real.`,t:25},
+{s:`Everyone agrees in the room and nothing changes afterwards.`,c:`What was the agreement actually about?`,h:`Have you ever agreed in a room purely to end the conversation?`,d:`Yes or no. If yes, one sentence.`,t:25},
+{s:`A message gets rewritten four times to avoid being misread.`,c:`What does that tell you about the relationship?`,h:`Who do you rewrite messages for, and why?`,d:`Describe the type of person, not the person.`,t:25},
+{s:`A decision waits because one person is on holiday.`,c:`Is that respect or is it a bottleneck?`,h:`Which decisions at your workplace stop entirely if one person is out?`,d:`Describe the decision, not the person.`,t:25},
+{s:`Two people disagree in a channel and everyone else goes silent.`,c:`What should the third person do?`,h:`What do you actually do when this happens?`,d:`Honest answer. Twenty seconds.`,t:25},
+{s:`Somebody joins the team and nobody has prepared anything.`,c:`What's the single most valuable thing to give them on day one?`,h:`What did nobody tell you when you started, that you needed?`,d:`One concrete thing.`,t:25},
+{s:`A recurring meeting has outlived its purpose but has a loyal defender.`,c:`How do you kill it without a fight?`,h:`Is the defender protecting the meeting or their role in it?`,d:`Give your read. The table votes.`,t:30},
+{s:`A team hits its numbers and everyone is exhausted.`,c:`Was that a success?`,h:`How many quarters can a team do that before something breaks?`,d:`Give a number. Defend it.`,t:25},
+{s:`Someone's idea gets ignored and repeated back by somebody else ten minutes later.`,c:`What should happen in the room?`,h:`What have you done when it happened to you?`,d:`Honest. Thirty seconds. No names.`,t:30},
+{s:`A policy is written for the ten percent who abuse it.`,c:`What does that cost the other ninety?`,h:`Name a policy at your workplace that exists because of a small number of people.`,d:`Describe the policy only.`,t:30},
+{s:`The team is asked for feedback on a decision that's already been made.`,c:`What's the right response?`,h:`Do you give real feedback or do you save your energy?`,d:`Pick one. One sentence of why.`,t:25},
+{s:`A great performer is impossible to work with.`,c:`Where's the line?`,h:`Would you keep them?`,d:`Yes or no first, then the reason.`,t:30},
+{s:`A meeting is scheduled to prepare for another meeting.`,c:`Is that ever justified?`,h:`What's the longest chain of preparation meetings you've witnessed?`,d:`Give a number. The table votes on plausibility.`,t:20}];
+
+/* ---------------- ARCHETYPE · 20 ---------------- */
+const ARCHETYPE=[
+{n:`The Optimist`,desc:`Everything is an opportunity, including the disasters.`,rule:`Your next card must be answered with genuine enthusiasm. No sarcasm allowed.`},
+{n:`The Realist`,desc:`Grounded, practical, immovable.`,rule:`Your next answer must contain a number or a specific constraint.`},
+{n:`The Escalator`,desc:`Everything is a P0 incident.`,rule:`Answer your next card as though it's an emergency. Raise the stakes.`},
+{n:`The Detail Guardian`,desc:`Notices the thing everyone skipped.`,rule:`Your next answer must correct or qualify something already said tonight.`},
+{n:`The Calm Anchor`,desc:`Steady when the room isn't.`,rule:`Answer the next card in under ten words. Nothing more.`},
+{n:`The Question Asker`,desc:`Clarity above all.`,rule:`Answer your next card entirely in questions.`},
+{n:`The Creative Spark`,desc:`Unconventional to a fault.`,rule:`Your next answer must include something impossible.`},
+{n:`The Connector`,desc:`People first, always.`,rule:`Your next answer must reference something another player said tonight.`},
+{n:`The Fixer`,desc:`Solutions before anyone finishes the problem.`,rule:`Answer the next card with an action, not an opinion.`},
+{n:`The Reflector`,desc:`Thinks first, speaks second.`,rule:`Take five real seconds of silence before you answer the next card.`},
+{n:`The Challenger`,desc:`Questions the premise.`,rule:`Your next answer must disagree with the card itself before answering it.`},
+{n:`The Supporter`,desc:`Lifts the room.`,rule:`Before your next answer, name something good about the previous player's answer.`},
+{n:`The Timekeeper`,desc:`The clock is the point.`,rule:`Answer your next card in under fifteen seconds. The table times you.`},
+{n:`The Explorer`,desc:`New approaches by default.`,rule:`Your next answer must be one you've never given before, on any card.`},
+{n:`The Simplifier`,desc:`Complexity is a failure of effort.`,rule:`Answer your next card in exactly one short sentence.`},
+{n:`The Listener`,desc:`Makes people feel heard.`,rule:`Ask one player a follow-up question before you answer your next card.`},
+{n:`The Strategist`,desc:`Steps, plans, outcomes.`,rule:`Your next answer must have exactly three parts. Number them out loud.`},
+{n:`The Diplomat`,desc:`Finds the middle at any cost.`,rule:`Your next answer must not take a clear side. See if the table lets you.`},
+{n:`The Learner`,desc:`Curious about everything.`,rule:`Your next answer must end with a genuine question to the table.`},
+{n:`The Straight Talker`,desc:`Says the thing.`,rule:`Your next card is played unredacted. No clean option.`}];
+
+/* ---------------- SAFETY · 10 ---------------- */
+const SAFETY=[
+{n:`Free Skip`,desc:`Take this turn off. No reason, no cost, no comment from anybody.`,key:`skip`},
+{n:`Answer Hypothetically`,desc:`Your next answer can be about "someone", "a team", "a company" — never you.`,key:`hypo`},
+{n:`Replace The Card`,desc:`Discard whatever is coming and draw fresh.`,key:`replace`},
+{n:`Everyone Answers`,desc:`No spotlight. The whole table answers the next card together.`,key:`group`},
+{n:`Pause`,desc:`The room stops. Nobody is on the spot until play resumes.`,key:`pause`},
+{n:`Cool The Room`,desc:`Light Mode for the next five turns. Unfiltered deck locked.`,key:`energy`},
+{n:`Humour Only`,desc:`For one round, every answer has to be played for laughs.`,key:`humor`},
+{n:`Silent Round`,desc:`Next card is answered with one word or a gesture. Nothing else.`,key:`silent`},
+{n:`Host's Call`,desc:`The host decides how the next card is handled. Their choice is final.`,key:`facil`},
+{n:`Close With Thanks`,desc:`The session can end here, on a good note, immediately.`,key:`end`}];
+
+/* ---------------- CURVEBALL · 12 ---------------- */
+const CURVE=[
+{n:`Buzzword Ban`,desc:`Nobody may say: synergy, alignment, bandwidth, circle back, or leverage. Break it and lose a point.`,key:`ban`,turns:6},
+{n:`Double Or Nothing`,desc:`Next card is worth double for everyone — but a skipped card scores minus one instead of zero. Skipping is still allowed.`,key:`dbl`,turns:2},
+{n:`Hot Deck`,desc:`For three turns there is no clean version. Every card is played unredacted, and skipping stays free.`,key:`hot`,turns:3},
+{n:`Steal The Turn`,desc:`Anyone may answer the next card before the drawer does. First voice takes the points.`,key:`steal`,turns:2},
+{n:`Speed Round`,desc:`All timers halved for four turns. Speak fast or don't speak.`,key:`fast`,turns:4},
+{n:`One Word`,desc:`For two turns every answer is exactly one word. The table decides if the word earned it.`,key:`oneword`,turns:2},
+{n:`Table Topic`,desc:`Everyone answers the next card in turn. Everyone scores. Nobody is singled out.`,key:`all`,turns:1},
+{n:`Second Opinion`,desc:`For three turns, whoever answers must be seconded by another player or scores nothing.`,key:`second`,turns:3},
+{n:`Reverse The Card`,desc:`Next card is answered as its opposite. Find the inversion yourself.`,key:`reverse`,turns:1},
+{n:`Sudden Truth`,desc:`Dares are suspended for three turns. Truth and Scenario only.`,key:`truthonly`,turns:3},
+{n:`The Quiet One`,desc:`Whoever has spoken least tonight answers the next card. Everyone else stays silent.`,key:`quiet`,turns:1},
+{n:`Amnesty`,desc:`For two turns, anything said cannot be referenced again for the rest of the session. Say the thing.`,key:`amnesty`,turns:2}];
+
+/* ---------------- CATEGORY STYLING ---------------- */
+const META={
+ TRUTH:{c:'#3160D8',bg:'#F4F0E6',fg:'#1A1B1F',label:'TRUTH'},
+ DARE:{c:'#E4572E',bg:'#EFE0C8',fg:'#1A1B1F',label:'DARE'},
+ SCENARIO:{c:'#2F9E75',bg:'#E4EBE2',fg:'#1A1B1F',label:'SCENARIO'},
+ ARCHETYPE:{c:'#6E45C8',bg:'#2A2140',fg:'#F0ECFF',label:'ARCHETYPE'},
+ CURVE:{c:'#F2CE1B',bg:'#16171B',fg:'#F2CE1B',label:'CURVEBALL'},
+ SAFETY:{c:'#2F9E75',bg:'#E6F2EC',fg:'#12261E',label:'SAFETY'}};
+
+const WEIGHTS={
+ LIGHT:{TRUTH:44,SCENARIO:32,DARE:14,ARCHETYPE:4,CURVE:3,SAFETY:3},
+ SOCIAL:{TRUTH:26,DARE:26,SCENARIO:18,ARCHETYPE:12,CURVE:10,SAFETY:8},
+ HIGH:{DARE:36,ARCHETYPE:20,CURVE:16,SCENARIO:14,TRUTH:12,SAFETY:2}};
+
+/* ---------------- BOT CAST ---------------- */
+const CAST=[
+{id:'nova',name:'Nova',role:'The Optimist',hue:'#F2A93B',skin:'#A96A43',hair:'#241A12',style:'curly',eyes:'happy',shirt:'#F2C14E',hot:.35,
+ open:[`Okay, I actually love this —`,`Positive spin:`,`Genuinely? Underrated.`]},
+{id:'atlas',name:'Atlas',role:'The Strategist',hue:'#3160D8',skin:'#C98D5F',hair:'#232A33',style:'short',beard:1,eyes:'dots',shirt:'#3160D8',hot:.45,
+ open:[`Structurally,`,`If we're being systematic:`,`Three parts. First —`]},
+{id:'echo',name:'Echo',role:'The Listener',hue:'#2F9E75',skin:'#FCD7B6',hair:'#A34A2A',style:'long',eyes:'dots',shirt:'#2F9E75',hot:.3,
+ open:[`I hear this constantly —`,`Something nobody says out loud:`,`This comes up more than you'd think:`]},
+{id:'spark',name:'Spark',role:'The Creative',hue:'#6E45C8',skin:'#7C4A2D',hair:'#7C3AED',style:'curly',eyes:'happy',shirt:'#E4572E',hot:.7,
+ open:[`Wild take incoming:`,`Okay, hear me out —`,`What if, and stay with me,`]},
+{id:'pulse',name:'Pulse',role:'The Energiser',hue:'#E4572E',skin:'#E8B184',hair:'#1F2937',style:'spiky',eyes:'happy',shirt:'#E4572E',hot:.75,
+ open:[`Fast answer:`,`No hesitation:`,`Right, going:`]},
+{id:'zen',name:'Zen',role:'The Calm Anchor',hue:'#8AC34A',skin:'#D9A06B',hair:'#4A3226',style:'bun',eyes:'closed',shirt:'#6E45C8',hot:.2,
+ open:[`Calmly:`,`Without any drama:`,`Quietly —`]},
+{id:'logic',name:'Logic',role:'The Analyst',hue:'#2647A8',skin:'#EAB88F',hair:'#111827',style:'short',glasses:1,eyes:'dots',shirt:'#2647A8',hot:.4,
+ open:[`Logically,`,`The pattern is clear:`,`If you actually measure it:`]},
+{id:'link',name:'Link',role:'The Connector',hue:'#F2A93B',skin:'#5B3320',hair:'#0F1219',style:'short',eyes:'happy',shirt:'#F2A93B',hot:.4,
+ open:[`Bringing everyone in:`,`Building on that:`,`For the whole table:`]},
+{id:'bold',name:'Bold',role:'The Challenger',hue:'#C43B2E',skin:'#C98D5F',hair:'#3F2A1D',style:'short',eyes:'dots',shirt:'#C43B2E',hot:.9,
+ open:[`Hot take:`,`I'll say what everyone's thinking:`,`Unpopular, but true:`]},
+{id:'rise',name:'Rise',role:'The Encourager',hue:'#2F9E75',skin:'#EAB88F',hair:'#E8B84B',style:'long',eyes:'happy',shirt:'#2F9E75',hot:.35,
+ open:[`Love this one. Here:`,`Right, my answer:`,`Genuinely glad this came up —`]}];
+
+/* ---------------- BOT ANSWER POOLS BY THEME ---------------- */
+const POOL={
+ meet:[`The weekly sync that exists because it existed last week.`,`Any meeting where the first ten minutes are people joining.`,`The one where someone reads the document out loud to people who read it.`,`A thirty-minute slot for a two-minute decision, every Tuesday.`,`The pre-meeting for the meeting that decides nothing either.`,`Whichever one has "alignment" in the title.`,`The recurring one whose owner left the company eight months ago.`,`Any meeting scheduled at 4:45 on a Friday.`],
+ comm:[`"Just checking in on this" — the four horsemen.`,`"As discussed" when nothing was discussed.`,`"Adding X for visibility" is a threat and everyone knows it.`,`"No rush!" on a message sent at 11pm.`,`A thumbs-up emoji that means "I've stopped reading."`,`"Happy to jump on a call" — the nuclear option.`,`"Per my previous message" is corporate for "read it this time."`,`Marking something urgent so it gets read, then not needing it.`],
+ tool:[`Whichever tool needs three clicks to do one thing.`,`The expense system. Universally. In every country.`,`The one we migrated to and then half-migrated back from.`,`Any tool where the search doesn't find things you wrote.`,`The internal wiki that's eight versions of the same page.`,`Whichever one logs you out every ninety minutes.`,`The ticketing system nobody has ever finished onboarding to.`,`Four chat apps, none of which are where the decision happened.`],
+ work:[`The documentation. It's always the documentation.`,`Reorganising the backlog instead of doing anything in it.`,`Answering easy emails to avoid the hard one.`,`Anything labelled "quick" in the title.`,`The task that has moved forward in the tracker eleven times.`,`Preparing to start, which is not starting.`,`Making a plan for the plan.`,`Tidying my calendar. It fixes nothing and feels excellent.`],
+ cult:[`The values poster in a building where nobody makes eye contact.`,`Mandatory fun with an attendance sheet.`,`"We're like a family" — a sentence that has never once helped.`,`Celebrating a launch with a pizza and no time off.`,`A wellbeing week during the busiest month of the year.`,`Encouraging honesty and then asking who said it.`,`The all-hands where the questions are pre-submitted.`,`Casual Friday in a company with a dress code nobody wrote down.`],
+ powr:[`The person whose calendar everyone works around.`,`Whoever can get a decision reversed with one message.`,`The rule about hours that applies to some floors and not others.`,`Titles that describe seniority instead of work.`,`The people who are always "consulted" and never accountable.`,`Whoever the room looks at before agreeing.`,`Approval chains designed to spread blame, not reduce risk.`,`The quiet person the loud people check with afterwards.`],
+ rmt:[`A tidy shelf built entirely for the camera.`,`Camera on for the first ten minutes, then a strategic exit.`,`The mute button is the single greatest workplace invention.`,`Two hours of "available" that were one hour of laundry.`,`Commuting was terrible and I miss it slightly and I hate that.`,`Being genuinely more productive and never being able to prove it.`,`The office is for the four conversations you can't schedule.`,`Nobody has ever once needed all five days.`],
+ car:[`"Where do you see yourself in five years" — nobody has ever answered honestly.`,`Reviews measure how well you documented what you did.`,`Being good at meetings is a career, apparently.`,`Everyone leaves for a manager, not a company.`,`The advice was "be patient" and it was wrong.`,`Nobody gets promoted for the work. They get promoted for the visibility.`,`I said I was "detail-oriented" while missing a typo in my CV.`,`Learning the politics is the job. Nobody tells you that.`],
+ ai:[`Anything that was a template is already gone.`,`The first draft. I have not written a first draft in months.`,`Meeting notes. I will never take notes again.`,`Renaming things. It's very good at renaming things.`,`Everything I used to bill by the hour for.`,`Reading the long document so I don't have to. Sorry.`,`The polite version of the email I actually wanted to send.`,`Honestly, more than I would admit in a performance review.`],
+ perf:[`(performs it with genuinely unnecessary commitment)`,`(does it, badly, but does not break character once)`,`(fully commits, then immediately regrets committing)`,`(nails it, refuses to acknowledge the applause)`,`(does it twice because the first take was too good to waste)`],
+ inv:[`"Director of Things That Nearly Happened."`,`"Head of Being Cc'd."`,`"Senior Manager, Slide Reformatting."`,`"Chief Reply-All Officer."`,`"VP of Meetings About Meetings."`,`"Interim Lead, Unowned Problems."`],
+ lang:[`I move information between people who could email each other.`,`I make documents that become other documents.`,`I turn other people's decisions into slides.`,`I am the reason two teams have not started a war.`,`I professionally have opinions about words.`,`I press buttons in a specific order and money appears.`],
+ grp:[`(counts it in, table actually follows, minor miracle)`,`(leads it, one person is late, we restart, it's fine)`,`(conducts it like a very small orchestra)`,`(gets it right first time and is unbearable about it)`],
+ obs:[`Genuinely — whoever writes the summaries keeps this team alive.`,`The one who asks the obvious question everyone was avoiding.`,`Whoever replies fastest is also whoever sleeps least. Not a compliment.`,`The person who always notices when someone's had a bad week.`,`We are collectively a printer with three minor faults.`],
+ gen:[`Nothing changes for two weeks, then it's urgent.`,`Somebody quietly fixes it and never gets credit.`,`It gets escalated to the person least able to help.`,`Everyone waits to see who blinks first.`,`It goes into a document that nobody opens again.`,`Someone raises it in the retro and the retro action is "discuss further".`,`Whoever cares most ends up doing it. Every time.`,`It resolves itself, badly, and we call that a process.`]};
+
+const REACT=[`Too real.`,`That's the one.`,`Painfully accurate.`,`I felt that.`,`Called out.`,`Correct and upsetting.`,`Filing that.`,`No notes.`,`Immediately true.`,`Ouch. Fair.`];
+const SUPPORT=[`Skipped — completely fine.`,`Good call, next.`,`Zero questions asked.`,`Respect. Moving on.`,`That's the mechanic working.`];
+const SKIPLINE=[`Passing on this one.`,`I'll take the skip.`,`Not tonight. Next.`,`Skipping, no explanation.`];
+const GRAT=[`Best thing tonight: nobody performed.`,`I learned two real things and one useless one.`,`Genuinely lighter than when we started.`,`Good table. Good deck. Good enough.`];
+const AWARD_TITLES={
+ top:['Most Recognised','The table agreed with you most'],
+ hot:['The Unredactor','Pulled the black bar off the most cards'],
+ skip:['Boundaries','Used the skip and owed nobody a reason'],
+ fast:['Beat The Clock','Finished the most dares inside the timer'],
+ quiet:['The Slow Burn','Said least, landed hardest']};
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+const $=s=>document.querySelector(s);
+const $$=s=>[...document.querySelectorAll(s)];
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const rnd=(a,b)=>a+Math.random()*(b-a);
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+/* tiny audio — oscillator only, no assets */
+let AC=null;
+function tone(f,dur,type,vol){
+  if(!setup.sound)return;
+  try{
+    AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.type=type||'sine'; o.frequency.value=f;
+    g.gain.setValueAtTime(vol||.05,AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+(dur||.16));
+    o.connect(g); g.connect(AC.destination); o.start(); o.stop(AC.currentTime+(dur||.16));
+  }catch(e){}
+}
+const sfx={draw:()=>tone(320,.14,'triangle',.05),flip:()=>tone(520,.1,'sine',.04),
+  stamp:()=>tone(140,.22,'square',.05),score:()=>tone(760,.13,'sine',.05),
+  hot:()=>{tone(200,.1,'sawtooth',.05); setTimeout(()=>tone(120,.24,'sawtooth',.05),90);}};
+
+/* ---------------- avatars ---------------- */
+let AVID=0;
+function avatar(c,size){
+  const s=size||46,id='av'+(AVID++);
+  const hair=c.hair||'#2A2118', skin=c.skin||'#E0B58C', shirt=c.shirt||'#3160D8';
+  let top='';
+  if(c.style==='long')     top=`<path d="M14 40c-3-16 4-27 18-27s21 11 18 27c1-9-4-13-4-13s-6 4-14 4-14-4-14-4-5 4-4 13z" fill="${hair}"/>`;
+  else if(c.style==='curly')top=`<g fill="${hair}"><circle cx="20" cy="18" r="7"/><circle cx="32" cy="14" r="8"/><circle cx="43" cy="19" r="7"/><circle cx="26" cy="12" r="7"/><circle cx="38" cy="12" r="7"/></g>`;
+  else if(c.style==='bun') top=`<path d="M15 26c0-11 7-16 17-16s17 5 17 16c0-6-5-8-17-8s-17 2-17 8z" fill="${hair}"/><circle cx="32" cy="7" r="6" fill="${hair}"/>`;
+  else if(c.style==='spiky')top=`<path d="M15 25l3-10 4 7 4-11 5 9 4-10 5 10 4-6 4 11z" fill="${hair}"/>`;
+  else                     top=`<path d="M15 26c0-11 7-17 17-17s17 6 17 17c0-6-6-9-17-9s-17 3-17 9z" fill="${hair}"/>`;
+  const eyes = c.eyes==='happy' ? `<path d="M24 32q3-4 6 0M38 32q3-4 6 0" stroke="#2A2118" stroke-width="2.2" fill="none" stroke-linecap="round"/>`
+    : c.eyes==='closed' ? `<path d="M24 33h6M38 33h6" stroke="#2A2118" stroke-width="2.2" stroke-linecap="round"/>`
+    : `<circle cx="27" cy="32" r="2.4" fill="#2A2118"/><circle cx="41" cy="32" r="2.4" fill="#2A2118"/>`;
+  return `<svg width="${s}" height="${s}" viewBox="0 0 64 64" role="img" aria-label="${esc(c.name||'player')}">
+    <defs><clipPath id="${id}"><circle cx="32" cy="32" r="31"/></clipPath></defs>
+    <g clip-path="url(#${id})">
+      <rect width="64" height="64" fill="${c.hue||'#2A2E38'}" opacity=".22"/>
+      <path d="M10 64c0-13 10-19 22-19s22 6 22 19z" fill="${shirt}"/>
+      <path d="M26 46l6 8 6-8-6-3z" fill="#F4F0E6" opacity=".9"/>
+      <rect x="29" y="52" width="6" height="9" rx="1.5" fill="#E9E5DA" stroke="#8C8778" stroke-width=".7"/>
+      <rect x="18" y="20" width="28" height="26" rx="13" fill="${skin}"/>
+      ${c.beard?`<path d="M19 34c0 10 6 15 13 15s13-5 13-15c0 6-6 8-13 8s-13-2-13-8z" fill="${hair}" opacity=".85"/>`:''}
+      ${eyes}
+      <path d="M28 40q4 3 8 0" stroke="#2A2118" stroke-width="2" fill="none" stroke-linecap="round"/>
+      ${c.glasses?`<g stroke="#2A2118" stroke-width="1.8" fill="none"><circle cx="27" cy="32" r="6"/><circle cx="41" cy="32" r="6"/><path d="M33 32h2"/></g>`:''}
+      ${top}
+    </g>
+    <circle cx="32" cy="32" r="30.5" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="1.5"/>
+  </svg>`;
+}
+
+/* ============================================================
+   STATE
+   ============================================================ */
+const setup={mode:'SOCIAL',rounds:3,humans:['You'],bots:new Set(['nova','atlas','bold']),
+  hot:true,timers:true,sound:false,custom:[]};
+let SESSION=0,state=null,piles=null,discards=null;
+
+function deckArrays(){
+  const T=TRUTH.concat(setup.custom.map(t=>({k:'gen',c:t,h:t,d:`Custom card. Answer it properly — twenty seconds.`,t:20})));
+  return {TRUTH:T,DARE,SCENARIO,ARCHETYPE,CURVE,SAFETY};
+}
+let DECKS=deckArrays();
+
+function newPiles(){
+  DECKS=deckArrays();
+  piles={};discards={};
+  for(const k in DECKS){piles[k]=shuffle(DECKS[k].map((_,i)=>i)); discards[k]=[];}
+}
+function totalLeft(){return Object.keys(piles).reduce((s,k)=>s+piles[k].length,0);}
+function takeFrom(cat){
+  if(!piles[cat].length){piles[cat]=shuffle(discards[cat]); discards[cat]=[];}
+  if(!piles[cat].length)return null;
+  const i=piles[cat].pop(); discards[cat].push(i);
+  return {cat,i,data:DECKS[cat][i],num:i+1,of:DECKS[cat].length};
+}
+function drawCard(only){
+  let w={...WEIGHTS[state.lightTurns>0?'LIGHT':state.mode]};
+  if(only)for(const k in w)if(!only.includes(k))w[k]=0;
+  if(state.mod&&state.mod.key==='truthonly'){w.DARE=0;w.ARCHETYPE=0;}
+  if(state.mod)w.CURVE=0;                       /* no stacked curveballs */
+  for(const k in w)if(!piles[k].length&&!discards[k].length)w[k]=0;
+  const tot=Object.values(w).reduce((a,b)=>a+b,0);
+  if(tot<=0)return null;
+  let r=Math.random()*tot;
+  for(const k in w){r-=w[k]; if(r<=0)return takeFrom(k);}
+  return takeFrom(Object.keys(w).find(k=>w[k]>0));
+}
+
+/* waiters: the loop parks here until the player acts */
+function waitFor(key){return new Promise(res=>{state.waiters.push({key,res});});}
+function resolve(key,val){
+  const i=state.waiters.findIndex(w=>w.key===key);
+  if(i>-1){const w=state.waiters.splice(i,1)[0]; w.res(val);}
+}
+function wakeAll(){state.waiters.forEach(w=>w.res(undefined)); state.waiters=[];}
+
+/* ============================================================
+   RENDERING
+   ============================================================ */
+function showScreen(id){$$('.screen').forEach(s=>s.classList.remove('active')); $('#'+id).classList.add('active'); window.scrollTo(0,0);}
+function status(t){$('#status').innerHTML=t||'';}
+function energy(n){
+  state.energy=Math.max(4,Math.min(100,state.energy+n));
+  $('#energyFill').style.width=state.energy+'%';
+}
+function cardBack(){
+  return `<div class="backart">
+    <div class="bstamp">CONFIDENTIAL</div>
+    <div><div class="bmark">OFFICE<br>UNFILTERED</div><div class="bbar"></div></div>
+    <div class="bfoot">HUMAN PLAY ENGINE · 155</div></div>`;
+}
+function renderRail(){
+  $('#rail').innerHTML=state.players.map(p=>`
+    <div class="seat ${p===state.active?'act':''} ${p.isBot?'':'you'}">
+      ${p.arch?`<span class="arch">${esc(p.arch)}</span>`:''}
+      ${avatar(p.av,40)}
+      <div class="nm">${esc(p.name)}</div>
+      <div class="sc">${p.pts}</div>
+      <div class="rl">${esc(p.role||'Player')}</div>
+    </div>`).join('');
+}
+function renderTop(){
+  $('#tagMode').textContent=(state.lightTurns>0?'LIGHT · COOLED':state.mode);
+  $('#tagRound').textContent=`ROUND ${Math.max(1,state.round)}/${state.rounds}`;
+  $('#deckCount').textContent=totalLeft();
+  const pot=$('#tagPot');
+  if(state.mod){pot.hidden=false; pot.textContent=state.mod.n.toUpperCase()+' · '+state.modTurns;}
+  else pot.hidden=true;
+}
+function say(p,html,typing){
+  $('#talk').innerHTML=`<div class="bubble">${avatar(p.av,36)}
+    <div><span class="who">${esc(p.name).toUpperCase()}</span>
+    <div class="say">${typing?'<span class="dots"><span></span><span></span><span></span></span>':html}</div></div></div>`;
+}
+function clearTalk(){$('#talk').innerHTML='';}
+function toasts(list){
+  const t=document.createElement('div'); t.className='toasts';
+  t.innerHTML=list.map(x=>`<span class="toast">${avatar(x.p.av,20)} ${esc(x.line)} ${x.pts?`<b class="pts">+${x.pts}</b>`:''}</span>`).join('');
+  $('#talk').appendChild(t);
+}
+function controls(html){$('#controls').innerHTML=html||'';}
+
+/* --- card face --- */
+function renderFront(card,hot){
+  const m=META[card.cat], d=card.data;
+  let title='',sit='',doline='';
+  if(card.cat==='ARCHETYPE'){title=d.n; sit=d.desc; doline=d.rule;}
+  else if(card.cat==='SAFETY'){title=d.n; doline=d.desc;}
+  else if(card.cat==='CURVE'){title=d.n; doline=d.desc;}
+  else if(card.cat==='SCENARIO'){sit=d.s; title=hot?d.h:d.c; doline=d.d;}
+  else {title=hot?d.h:d.c; doline=d.d;}
+  const num=(card.cat==='SCENARIO'||card.cat==='TRUTH'||card.cat==='DARE')
+    ? String(card.num).padStart(2,'0')+' / '+card.of : m.label;
+  $('#faceFront').innerHTML=`
+    <div class="cband" style="background:${m.c}">
+      <span class="lab">${m.label}</span><span class="num">${esc(num)}</span>
+    </div>
+    <div class="cbody" style="background:${m.bg};color:${m.fg}">
+      ${sit?`<p class="csit">${esc(sit)}</p>`:''}
+      <p class="ctext ${hot?'hot':''}" id="ctext">${esc(title)}<span class="wipe" id="wipe"></span></p>
+      ${doline?`<div class="cdo"><b>What you do</b>${esc(doline)}</div>`:''}
+    </div>
+    <div class="stamp" id="stamp" style="color:${m.c}"></div>
+    <div class="ring" id="ring" hidden>
+      <svg width="46" height="46"><circle cx="23" cy="23" r="19" fill="none" stroke="rgba(0,0,0,.14)" stroke-width="4"/>
+      <circle id="ringArc" cx="23" cy="23" r="19" fill="none" stroke="${m.c}" stroke-width="4"
+        stroke-linecap="round" stroke-dasharray="119.4" stroke-dashoffset="0"/></svg>
+      <span class="t" id="ringT"></span></div>`;
+  $('#faceFront').style.background=m.bg;
+}
+async function reveal(card){
+  const inner=$('#cardInner');
+  inner.classList.add('instant'); inner.classList.remove('flip');
+  $('#faceBack').innerHTML=cardBack();
+  void inner.offsetWidth; inner.classList.remove('instant');
+  renderFront(card,false);
+  sfx.draw(); await sleep(140);
+  inner.classList.add('flip'); sfx.flip();
+  await sleep(560);
+  renderTop();
+}
+function stamp(text,color){
+  const el=$('#stamp'); if(!el)return;
+  el.textContent=text; if(color)el.style.color=color;
+  el.classList.remove('hit'); void el.offsetWidth; el.classList.add('hit'); sfx.stamp();
+}
+async function unredact(card){
+  const bar=$('#wipe'), t=$('#ctext');
+  if(!bar||!t)return;
+  sfx.hot();
+  bar.classList.add('go');
+  await sleep(390);                                   /* bar has covered the line */
+  const first=t.firstChild;                           /* swap the text underneath it */
+  if(first)t.replaceChild(document.createTextNode(card.data.h),first);
+  t.classList.add('hot');
+  await sleep(430);                                   /* bar retracts, new text is there */
+  stamp('UNFILTERED','#C43B2E');
+  await sleep(280);
+}
+
+/* --- timer ring --- */
+let ringStop=null;
+function runTimer(secs,onEnd){
+  const ring=$('#ring'); if(!ring)return ()=>{};
+  ring.hidden=false;
+  const arc=$('#ringArc'),lab=$('#ringT'); const total=secs; let left=secs;
+  lab.textContent=left;
+  const iv=setInterval(()=>{
+    left--; if(left<=0){clearInterval(iv); ring.hidden=true; onEnd&&onEnd(false); return;}
+    lab.textContent=left; arc.style.strokeDashoffset=(119.4*(1-left/total)).toFixed(1);
+  },1000);
+  ringStop=()=>{clearInterval(iv); ring.hidden=true;};
+  return ringStop;
+}
+
+/* ============================================================
+   BOT BRAIN
+   ============================================================ */
+function botAnswer(bot,card,hot){
+  const d=card.data;
+  const theme=(card.cat==='SCENARIO')?'gen':(d.k||'gen');
+  let body=pick(POOL[theme]||POOL.gen);
+  if(card.cat==='DARE')body=pick(POOL[d.k]||POOL.perf);
+  const opener=Math.random()<.62?pick(bot.open)+' ':'';
+  const edge=hot?pick(['',' And I stand by it.',' Say it back to me in a review, I dare you.',' There, it\'s said.']):'';
+  return opener+body+edge;
+}
+function botVotes(exclude,quality){
+  const others=state.players.filter(p=>p!==exclude&&p.isBot);
+  const n=Math.min(others.length,1+Math.floor(Math.random()*3));
+  const chosen=shuffle([...others]).slice(0,n);
+  return chosen.map(p=>({p,line:pick(REACT),pts:Math.random()<quality?1:0}));
+}
+
+/* ============================================================
+   SCORING
+   ============================================================ */
+function award(p,base,hot,label){
+  let pts=base;
+  if(hot)pts*=2;
+  if(state.mod&&state.mod.key==='dbl')pts*=2;
+  p.pts+=pts; if(pts>0)sfx.score();
+  renderRail();
+  if(pts>0)status(`<b style="color:var(--hl)">+${pts}</b> to ${esc(p.name)}${label?' — '+label:''}`);
+  return pts;
+}
+function hasHot(card){
+  if(!setup.hot&&!(state.mod&&state.mod.key==='hot'))return false;
+  if(state.lightTurns>0)return false;
+  const d=card.data;
+  return ['TRUTH','DARE','SCENARIO'].includes(card.cat)&&d.h&&d.h!==d.c;
+}
+function timerFor(card){
+  if(!setup.timers)return 0;
+  let t=card.data.t||0;
+  if(state.mod&&state.mod.key==='fast')t=Math.max(8,Math.round(t/2));
+  return t;
+}
+
+/* ============================================================
+   TURN ENGINE
+   ============================================================ */
+async function doTurn(p,tok){
+  if(state.finished||tok!==SESSION)return;
+  state.turn++;
+  if(state.lightTurns>0)state.lightTurns--;
+  if(state.modTurns>0){state.modTurns--; if(state.modTurns===0){state.mod=null; $('#curveBanner').hidden=true;}}
+  state.active=p; p.arch=null; renderRail(); renderTop(); clearTalk(); controls('');
+
+  const humans=state.players.filter(x=>!x.isBot);
+  if(!p.isBot){
+    status(humans.length>1?`Pass the device to <b>${esc(p.name)}</b>, then draw.`:`Your turn. Draw a card.`);
+    $('#deck').classList.add('ready'); $('#deckHint').textContent='TAP TO DRAW';
+    state.awaitDraw=true;
+    await waitFor('draw');
+    state.awaitDraw=false; $('#deck').classList.remove('ready'); $('#deckHint').textContent='';
+    if(state.finished||tok!==SESSION)return;
+  }else{
+    status(`${esc(p.name)} is drawing…`);
+    await sleep(rnd(700,1250));
+    if(state.finished||tok!==SESSION)return;
+  }
+  const card=drawCard();
+  if(!card){endGame('deck');return;}
+  state.drawn++;
+  await reveal(card);
+  await processCard(card,p,tok);
+  p.arch=null; renderRail();
+}
+
+async function processCard(card,p,tok){
+  if(state.finished||tok!==SESSION)return;
+  if(card.cat==='SAFETY')  return safetyFlow(card,p,tok);
+  if(card.cat==='CURVE')   return curveFlow(card,p,tok);
+  if(card.cat==='ARCHETYPE')return archFlow(card,p,tok);
+  return playCard(card,p,tok);
+}
+
+async function redraw(p,tok,only){
+  const c=drawCard(only||['TRUTH','DARE','SCENARIO']);
+  if(!c){endGame('deck');return;}
+  state.drawn++;
+  await reveal(c);
+  return processCard(c,p,tok);
+}
+
+/* --- the core card --- */
+async function playCard(card,p,tok){
+  const forceHot=state.mod&&state.mod.key==='hot';
+  let hot=false;
+
+  if(p.isBot){
+    if(hasHot(card)&&(forceHot||Math.random()<p.hotChance)){hot=true; await sleep(500); await unredact(card);}
+    say(p,'',true); await sleep(rnd(900,1700));
+    if(state.finished||tok!==SESSION)return;
+    say(p,esc(botAnswer(p,card,hot)));
+    energy(card.cat==='DARE'?7:3);
+    await sleep(500);
+    const base=1+(card.cat==='DARE'?1:0);
+    award(p,base,hot);
+    if(hot)p.hots++;
+    if(state.players.some(x=>!x.isBot)) await humanVote(p,tok);
+    else{
+      const v=botVotes(p,.6);
+      if(v.length){
+        toasts(v);
+        const raw=v.reduce((s,x)=>s+x.pts,0);
+        p.pts+=raw*(hot?2:1); p.votes+=raw; renderRail();
+      }
+      await sleep(1100);
+    }
+    return;
+  }
+
+  /* human */
+  if(hasHot(card)&&!forceHot){
+    status(`Play it as written, or pull the bar off it. Unredacted is worth double.`);
+    controls(`<div class="btnrow">
+      <button class="btn" data-a="clean">Play it clean</button>
+      <button class="btn hot" data-a="hot">Unredact · ×2</button>
+      <button class="btn safe" data-a="skip">Skip</button></div>
+      <p class="status" style="font-size:12px;color:var(--mute)">Skipping costs nothing and always will.</p>`);
+    $('#controls').onclick=e=>{const a=e.target.dataset.a; if(a)resolve('choice',a);};
+    const ch=await waitFor('choice'); controls('');
+    if(state.finished||tok!==SESSION)return;
+    if(ch==='skip')return doSkip(p);
+    if(ch==='hot'){hot=true; await unredact(card);}
+  }else if(forceHot&&hasHot(card)){
+    hot=true; await unredact(card);
+  }
+
+  const secs=timerFor(card);
+  let beat=false, stopT=null;
+  const isDare=card.cat==='DARE';
+
+  status(isDare?`Perform it. Hit done when you're finished.`:`Answer out loud. Typing it is optional.`);
+  controls(`<div class="answerbox">
+      <textarea id="ansIn" placeholder="${isDare?'Optional: note what you did':'Optional: type your answer'}" maxlength="400"></textarea>
+      <p class="hint">${esc(card.data.d||'')}</p>
+      <div class="btnrow">
+        <button class="btn primary" data-a="go">${isDare?'Done':'Answered'}</button>
+        <button class="btn safe" data-a="skip">Skip</button>
+      </div></div>`);
+  $('#controls').onclick=e=>{const a=e.target.dataset.a; if(a)resolve('ans',{a,text:($('#ansIn')||{}).value||''});};
+
+  let expired=false;
+  if(secs){stopT=runTimer(secs,()=>{expired=true; status(`Time. No penalty — finish the thought, you just lose the bonus.`);});}
+  const res=await waitFor('ans');
+  if(stopT)stopT();
+  controls('');
+  if(state.finished||tok!==SESSION)return;
+  if(!res||res.a==='skip')return doSkip(p);
+  beat=!!secs&&!expired;
+
+  const txt=(res.text||'').trim();
+  say(p,txt?`“${esc(txt)}”`:`<em>${esc(pick(['Answered out loud.','Delivered. The table saw it.','Said. Moving on.']))}</em>`);
+  energy(isDare?8:3);
+  if(hot)stamp('ON THE RECORD','#C43B2E');
+  await sleep(450);
+
+  let base=1;
+  if(isDare&&beat)base+=2;
+  award(p,base,hot,isDare&&beat?'inside the clock':'');
+  if(isDare&&beat)p.fast++;
+
+  const v=botVotes(p,hot?.72:.5);
+  if(v.length){
+    toasts(v);
+    const extra=v.reduce((s,x)=>s+x.pts,0)*(hot?2:1)*((state.mod&&state.mod.key==='dbl')?2:1);
+    p.pts+=extra; p.votes+=v.reduce((s,x)=>s+x.pts,0); renderRail();
+    if(extra)status(`<b style="color:var(--hl)">+${extra}</b> from the table.`);
+  }
+  if(hot)p.hots++;
+  await sleep(1250);
+}
+
+function doSkip(p){
+  p.skips++; state.skips++;
+  stamp('SKIPPED','#5C5F68');
+  say(p,`<em>${esc(pick(SKIPLINE))}</em>`);
+  const other=state.players.filter(x=>x!==p&&x.isBot);
+  if(other.length)toasts([{p:pick(other),line:pick(SUPPORT),pts:0}]);
+  if(state.mod&&state.mod.key==='dbl'){p.pts=Math.max(0,p.pts-1); renderRail(); status(`Skipped under Double or Nothing — minus one. Still your right.`);}
+  else status(`Skipped. Nobody asks why. 💚`);
+  renderRail();
+  return sleep(1300);
+}
+
+/* --- human votes on a bot answer --- */
+async function humanVote(bot,tok){
+  status(`Your call. Did that land?`);
+  controls(`<div class="votebar">
+    <button class="vbtn" data-v="2">Too real · +2</button>
+    <button class="vbtn" data-v="1">Made me laugh · +1</button>
+    <button class="vbtn" data-v="0">Not it · +0</button></div>`);
+  $('#controls').onclick=e=>{const v=e.target.dataset.v; if(v!==undefined)resolve('vote',+v);};
+  const v=await waitFor('vote'); controls('');
+  if(state.finished||tok!==SESSION)return;
+  if(v>0){bot.pts+=v; bot.votes+=1; renderRail(); status(`<b style="color:var(--hl)">+${v}</b> to ${esc(bot.name)} from you.`); sfx.score();}
+  else status(`Nothing from the table. Brutal.`);
+  await sleep(700);
+}
+
+/* --- archetype --- */
+async function archFlow(card,p,tok){
+  p.arch=card.data.n; renderRail();
+  stamp('IN ROLE','#6E45C8');
+  status(`${esc(p.name)} is <b>${esc(card.data.n)}</b> for the next card. Rule: ${esc(card.data.rule)}`);
+  await sleep(card.data.n==='The Straight Talker'?1600:1900);
+  if(state.finished||tok!==SESSION)return;
+  if(card.data.n==='The Straight Talker'&&setup.hot)state.forceOnce=true;
+  await redraw(p,tok,['TRUTH','SCENARIO','DARE']);
+  state.forceOnce=false;
+}
+
+/* --- curveball --- */
+async function curveFlow(card,p,tok){
+  const d=card.data;
+  state.mod=d; state.modTurns=d.turns;
+  const b=$('#curveBanner'); b.hidden=false;
+  b.innerHTML=`<b>CURVEBALL · ${esc(d.n)} · ${d.turns} turn${d.turns>1?'s':''}</b>${esc(d.desc)}`;
+  stamp('IN EFFECT','#F2CE1B');
+  renderTop();
+  await sleep(2200);
+  if(state.finished||tok!==SESSION)return;
+  if(d.key==='all')return tableRound(p,tok);
+  return redraw(p,tok);
+}
+
+/* everyone answers */
+async function tableRound(p,tok){
+  const c=drawCard(['TRUTH','SCENARIO']);
+  if(!c){endGame('deck');return;}
+  state.drawn++; await reveal(c);
+  status(`Everyone answers. No spotlight, everyone scores.`);
+  for(const x of state.players){
+    if(state.finished||tok!==SESSION)return;
+    if(x.isBot){say(x,esc(botAnswer(x,c,false))); x.pts+=1; renderRail(); await sleep(rnd(900,1400));}
+    else{
+      controls(`<div class="btnrow"><button class="btn primary" data-a="go">${esc(x.name)} answered</button>
+        <button class="btn safe" data-a="skip">${esc(x.name)} skips</button></div>`);
+      $('#controls').onclick=e=>{const a=e.target.dataset.a; if(a)resolve('tbl',a);};
+      const r=await waitFor('tbl'); controls('');
+      if(state.finished||tok!==SESSION)return;
+      if(r==='go'){x.pts+=1; sfx.score();}else{x.skips++;}
+      renderRail();
+    }
+  }
+  status(`Table round complete.`);
+  await sleep(900);
+}
+
+/* --- safety --- */
+async function safetyFlow(card,p,tok){
+  const d=card.data;
+  stamp('SAFETY','#2F9E75');
+  status(`<b style="color:#7DDCB8">${esc(d.n)}</b> — ${esc(d.desc)}`);
+  await sleep(1900);
+  if(state.finished||tok!==SESSION)return;
+  switch(d.key){
+    case 'skip': return doSkip(p);
+    case 'hypo': state.hypo=true; return redraw(p,tok);
+    case 'replace': return redraw(p,tok);
+    case 'group': return tableRound(p,tok);
+    case 'pause':
+      $('#pauseOverlay').hidden=false; await sleep(3600); $('#pauseOverlay').hidden=true;
+      return redraw(p,tok);
+    case 'energy': state.lightTurns=5; energy(-14); renderTop(); return redraw(p,tok,['TRUTH','SCENARIO']);
+    case 'humor': state.mod={n:'Humour Only',desc:'Every answer played for laughs.',key:'humor'}; state.modTurns=state.players.length;
+      $('#curveBanner').hidden=false; $('#curveBanner').innerHTML=`<b>SAFETY · HUMOUR ONLY</b>Every answer is played for laughs until the round is done.`;
+      return redraw(p,tok);
+    case 'silent': state.mod={n:'Silent Round',desc:'One word or a gesture.',key:'oneword'}; state.modTurns=1;
+      $('#curveBanner').hidden=false; $('#curveBanner').innerHTML=`<b>SAFETY · SILENT ROUND</b>Next answer is one word or a gesture. Nothing more.`;
+      return redraw(p,tok);
+    case 'facil':{
+      const r=pick(['replace','group','skip']);
+      status(`Host's call: <b>${r.toUpperCase()}</b>`); await sleep(1200);
+      if(r==='skip')return doSkip(p);
+      if(r==='group')return tableRound(p,tok);
+      return redraw(p,tok);
+    }
+    case 'end':{
+      const bots=shuffle(state.players.filter(x=>x.isBot)).slice(0,3);
+      for(const b of bots){if(state.finished)return; say(b,esc(pick(GRAT))); await sleep(1500);}
+      return endGame('gratitude');
+    }
+  }
+}
+
+/* ============================================================
+   SESSION
+   ============================================================ */
+function buildPlayers(){
+  const out=[];
+  setup.humans.forEach((n,i)=>out.push({
+    name:(n||'').trim()||`Player ${i+1}`, isBot:false, role:'You',
+    av:{skin:['#FCD7B6','#A96A43','#E8B184','#7C4A2D'][i%4],hair:['#6B4226','#1F2937','#B45309','#111827'][i%4],
+        style:['short','long','bun','curly'][i%4],eyes:i%2?'happy':'dots',shirt:['#3160D8','#E4572E','#2F9E75','#F2CE1B'][i%4],hue:'#3A3F4A',name:n},
+    pts:0,skips:0,hots:0,votes:0,fast:0,arch:null}));
+  CAST.filter(c=>setup.bots.has(c.id)).forEach(c=>out.push({
+    name:c.name, isBot:true, role:c.role, av:c, open:c.open, hotChance:c.hot,
+    pts:0,skips:0,hots:0,votes:0,fast:0,arch:null}));
+  return shuffle(out);
+}
+
+async function startSession(){
+  const tok=++SESSION;
+  newPiles();
+  state={mode:setup.mode,rounds:setup.rounds,players:buildPlayers(),round:0,turn:0,
+    finished:false,waiters:[],awaitDraw:false,energy:40,drawn:0,skips:0,
+    lightTurns:0,mod:null,modTurns:0,hypo:false,forceOnce:false,active:null};
+  $('#faceBack').innerHTML=cardBack(); $('#deckFace').innerHTML=cardBack();
+  $('#faceFront').innerHTML=''; $('#cardInner').classList.remove('flip');
+  $('#curveBanner').hidden=true; clearTalk(); controls('');
+  renderRail(); renderTop(); energy(0);
+  showScreen('screen-game');
+  status(`Round 1. ${esc(state.players[0].name)} starts.`);
+  await sleep(700);
+  for(let r=1;r<=state.rounds;r++){
+    if(state.finished||tok!==SESSION)break;
+    state.round=r; renderTop();
+    for(const p of state.players){
+      if(state.finished||tok!==SESSION)break;
+      await doTurn(p,tok);
+    }
+  }
+  if(!state.finished&&tok===SESSION)endGame('rounds');
+}
+
+function endGame(reason){
+  if(!state||state.finished)return;
+  state.finished=true; wakeAll(); if(ringStop)ringStop();
+  const lines={rounds:`Every round played. That is the whole deck doing its job.`,
+    called:`Closed by the host. Clean exit, no debate.`,
+    gratitude:`The deck called it — Close With Thanks.`,
+    deck:`You emptied the deck. Genuinely impressive stamina.`};
+  $('#endReason').textContent=lines[reason]||'';
+  const ranked=[...state.players].sort((a,b)=>b.pts-a.pts);
+  $('#podium').innerHTML=ranked.map((p,i)=>`
+    <div class="prow ${i===0?'first':''}">
+      <span class="rk">${i+1}</span>${avatar(p.av,34)}
+      <span class="pn">${esc(p.name)}<br><span style="font-size:11px;color:var(--mute);font-weight:400">${esc(p.role)}</span></span>
+      <span class="pp">${p.pts}</span></div>`).join('');
+
+  const best=(key)=>[...state.players].sort((a,b)=>b[key]-a[key])[0];
+  const cards=[];
+  const w=ranked[0];
+  cards.push({t:AWARD_TITLES.top[0],n:w.name,s:`${w.pts} points · ${AWARD_TITLES.top[1]}`});
+  const h=best('hots'); if(h.hots>0)cards.push({t:AWARD_TITLES.hot[0],n:h.name,s:`${h.hots} unredacted · ${AWARD_TITLES.hot[1]}`});
+  const s=best('skips'); if(s.skips>0)cards.push({t:AWARD_TITLES.skip[0],n:s.name,s:`${s.skips} skips · ${AWARD_TITLES.skip[1]}`});
+  const f=best('fast'); if(f.fast>0)cards.push({t:AWARD_TITLES.fast[0],n:f.name,s:`${f.fast} dares inside the clock`});
+  const q=[...state.players].sort((a,b)=>a.pts-b.pts)[0];
+  if(q!==w)cards.push({t:AWARD_TITLES.quiet[0],n:q.name,s:AWARD_TITLES.quiet[1]});
+  cards.push({t:'Session',n:`${state.drawn} cards drawn`,s:`${state.skips} skips taken · nothing recorded anywhere`});
+  $('#awards').innerHTML=cards.map(c=>`<div class="award"><b>${esc(c.t)}</b><span>${esc(c.n)}</span><em>${esc(c.s)}</em></div>`).join('');
+
+  showScreen('screen-end'); confetti();
+}
+function confetti(){
+  const wrap=document.createElement('div'); wrap.className='confetti'; document.body.appendChild(wrap);
+  const cols=['#F2CE1B','#E4572E','#2F9E75','#3160D8','#E0C18C','#6E45C8'];
+  for(let i=0;i<70;i++){
+    const c=document.createElement('i'); c.className='conf';
+    c.style.cssText=`left:${Math.random()*100}vw;top:-24px;background:${pick(cols)};
+      animation-duration:${(2.2+Math.random()*2).toFixed(2)}s;animation-delay:${(Math.random()*.7).toFixed(2)}s;
+      transform:rotate(${Math.random()*360}deg)`;
+    wrap.appendChild(c);
+  }
+  setTimeout(()=>wrap.remove(),5200);
+}
+
+/* ============================================================
+   SETUP UI
+   ============================================================ */
+function renderHumans(){
+  $('#humanSlots').innerHTML=setup.humans.map((n,i)=>`
+    <div class="slotrow">
+      <input value="${esc(n)}" data-h="${i}" placeholder="Player ${i+1}" maxlength="18">
+      ${setup.humans.length>1?`<button class="xbtn" data-x="${i}" aria-label="Remove player">✕</button>`:''}
+    </div>`).join('');
+  $$('#humanSlots input').forEach(el=>el.oninput=()=>{setup.humans[+el.dataset.h]=el.value;});
+  $$('#humanSlots .xbtn').forEach(b=>b.onclick=()=>{setup.humans.splice(+b.dataset.x,1); renderHumans(); count();});
+}
+function renderCast(){
+  $('#castGrid').innerHTML=CAST.map(c=>`
+    <button class="castcard ${setup.bots.has(c.id)?'sel':''}" data-b="${c.id}">
+      ${avatar(c,42)}<b>${esc(c.name)}</b><span>${esc(c.role)}</span></button>`).join('');
+  $$('#castGrid .castcard').forEach(b=>b.onclick=()=>{
+    const id=b.dataset.b;
+    setup.bots.has(id)?setup.bots.delete(id):setup.bots.add(id);
+    renderCast(); count();
+  });
+}
+function renderCustom(){
+  $('#customList').innerHTML=setup.custom.map((t,i)=>
+    `<span class="pill" style="cursor:pointer" data-c="${i}" title="Remove">${esc(t.slice(0,42))}${t.length>42?'…':''} ✕</span>`).join('');
+  $$('#customList .pill').forEach(el=>el.onclick=()=>{setup.custom.splice(+el.dataset.c,1); renderCustom();});
+}
+function count(){
+  const n=setup.humans.length+setup.bots.size;
+  const ok=n>=3&&n<=10;
+  $('#tableCount').innerHTML=`<b>${n}</b> at the table · ${setup.humans.length} human, ${setup.bots.size} bot${setup.bots.size===1?'':'s'} · `+
+    (ok?`ready`:(n<3?`add ${3-n} more to start`:`ten is the sensible maximum`));
+  $('#goRitual').disabled=!ok;
+}
+function toggleSw(el,key){
+  const on=!setup[key]; setup[key]=on;
+  el.classList.toggle('on',on); el.setAttribute('aria-checked',String(on));
+}
+
+/* --- wiring --- */
+$('#goSetup').onclick=()=>{showScreen('screen-setup');};
+$('#backTitle').onclick=()=>showScreen('screen-title');
+$('#goRitual').onclick=()=>showScreen('screen-ritual');
+$('#dealIn').onclick=()=>startSession();
+$('#addHuman').onclick=()=>{if(setup.humans.length<6){setup.humans.push(''); renderHumans(); count();}};
+$('#addCustom').onclick=()=>{
+  const v=$('#customIn').value.trim();
+  if(v.length<6)return;
+  setup.custom.push(v); $('#customIn').value=''; renderCustom();
+};
+$('#customIn').addEventListener('keydown',e=>{if(e.key==='Enter')$('#addCustom').click();});
+$$('#modeGrid .optcard').forEach(b=>b.onclick=()=>{
+  setup.mode=b.dataset.mode;
+  $$('#modeGrid .optcard').forEach(x=>x.classList.toggle('sel',x===b));
+});
+$$('#roundRow .pill').forEach(b=>b.onclick=()=>{
+  setup.rounds=+b.dataset.r;
+  $$('#roundRow .pill').forEach(x=>x.classList.toggle('sel',x===b));
+});
+$('#swHot').onclick=function(){toggleSw(this,'hot');};
+$('#swTimer').onclick=function(){toggleSw(this,'timers');};
+$('#swSound').onclick=function(){toggleSw(this,'sound'); if(setup.sound)tone(660,.1,'sine',.05);};
+$('#deck').onclick=()=>{if(state&&state.awaitDraw)resolve('draw',true);};
+$('#btnRules').onclick=()=>{$('#rulesOverlay').hidden=false;};
+$('#closeRules').onclick=()=>{$('#rulesOverlay').hidden=true;};
+$('#rulesOverlay').onclick=e=>{if(e.target.id==='rulesOverlay')$('#rulesOverlay').hidden=true;};
+$('#btnEnd').onclick=()=>{$('#confirmOverlay').hidden=false;};
+$('#confirmNo').onclick=()=>{$('#confirmOverlay').hidden=true;};
+$('#confirmYes').onclick=()=>{$('#confirmOverlay').hidden=true; endGame('called');};
+$('#playAgain').onclick=()=>startSession();
+$('#newSetup').onclick=()=>{SESSION++; showScreen('screen-setup');};
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){$('#rulesOverlay').hidden=true; $('#confirmOverlay').hidden=true;}
+  if(e.key===' '&&state&&state.awaitDraw&&$('#screen-game').classList.contains('active')){e.preventDefault(); resolve('draw',true);}
+});
+
+renderHumans(); renderCast(); renderCustom(); count();
+$('#deckFace').innerHTML=cardBack();
+</script>
+</body>
+</html>

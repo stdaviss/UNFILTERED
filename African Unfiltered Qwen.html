@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Party Unfiltered™ — 18+ · Play-Based Connection for Grown-Ups</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --plum:#1d0f38; --plum2:#341a5c; --ink:#241430;
+  --gold:#ffd23f; --truth:#fbbf24; --dare:#ff5d73; --scen:#e64980; --arch:#8b5cf6; --safe:#2dd4bf; --fo:#ef4444;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+[hidden]{display:none!important;}
+body{
+  font-family:'Nunito',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif; color:#fdf3ff; overflow-x:hidden;
+  background:radial-gradient(1100px 700px at 85% -10%, rgba(255,122,69,.35) 0%, transparent 55%),
+             radial-gradient(900px 700px at -10% 110%, rgba(230,73,128,.28) 0%, transparent 55%),
+             linear-gradient(160deg, var(--plum) 0%, var(--plum2) 100%);
+  background-attachment:fixed;
+}
+h1,h2,h3,.display{font-family:'Baloo 2','Nunito',sans-serif;}
+button{font-family:inherit;cursor:pointer;} input{font-family:inherit;}
+#bgfx span{position:fixed;opacity:.08;pointer-events:none;z-index:0;animation:floaty ease-in-out infinite alternate;}
+@keyframes floaty{from{transform:translateY(-14px) rotate(-6deg);}to{transform:translateY(14px) rotate(6deg);}}
+.screen{display:none;position:relative;z-index:1;min-height:100vh;flex-direction:column;align-items:center;padding:28px 20px 60px;}
+.screen.active{display:flex;animation:fadein .45s ease;}
+@keyframes fadein{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+.btn{border:none;border-radius:999px;padding:13px 26px;font-weight:800;font-size:16px;transition:transform .12s,box-shadow .12s,background .12s;}
+.btn:hover{transform:translateY(-2px);} .btn:active{transform:translateY(0);}
+.btn.primary{background:var(--gold);color:var(--ink);box-shadow:0 8px 24px rgba(255,210,63,.35);}
+.btn.ghost{background:rgba(255,255,255,.09);color:#fdf3ff;border:1.5px solid rgba(255,255,255,.28);}
+.btn.danger{background:var(--fo);color:#fff;}
+.btn.small{padding:8px 16px;font-size:13px;}
+.iconbtn{background:rgba(255,255,255,.09);border:1.5px solid rgba(255,255,255,.25);color:#fff;border-radius:12px;width:38px;height:38px;font-size:17px;}
+.badge18{background:var(--fo);color:#fff;font-weight:800;border-radius:10px;padding:4px 10px;font-size:13px;letter-spacing:.06em;display:inline-block;box-shadow:0 4px 12px rgba(239,68,68,.4);}
+.logo-card{background:linear-gradient(165deg,#47207a,#2a1250);border:4px solid #fff;outline:3px solid #6d28d9;border-radius:26px;padding:34px 44px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.5);transform:rotate(-1.5deg);max-width:580px;}
+.logo-band{background:var(--gold);color:var(--ink);border-radius:16px;padding:14px 18px;font-family:'Baloo 2';font-weight:800;font-size:clamp(28px,5.4vw,44px);line-height:1.05;box-shadow:0 6px 0 rgba(0,0,0,.18);}
+.logo-sub{margin-top:16px;font-weight:700;color:#f3d9ff;letter-spacing:.14em;font-size:12px;text-transform:uppercase;}
+.tagline{margin:26px 0 6px;font-size:clamp(16px,2.4vw,21px);font-weight:700;color:#f6e3ff;text-align:center;max-width:680px;}
+.cat-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:18px 0 26px;}
+.cat-chip{padding:7px 14px;border-radius:999px;font-weight:800;font-size:13px;color:#1d0f38;letter-spacing:.04em;}
+.note{margin-top:22px;font-size:13px;color:#cba7e8;max-width:560px;text-align:center;}
+.panel{background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.16);border-radius:20px;padding:22px;width:min(920px,100%);margin-top:18px;}
+.panel h3{font-size:18px;margin-bottom:12px;color:var(--gold);}
+.mode-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;}
+.mode-card{border:2px solid rgba(255,255,255,.2);border-radius:16px;padding:14px;background:rgba(255,255,255,.05);text-align:left;color:#fdf3ff;transition:.15s;}
+.mode-card.sel{border-color:var(--gold);background:rgba(255,210,63,.13);box-shadow:0 0 0 3px rgba(255,210,63,.18);}
+.mode-card b{display:block;font-size:16px;margin-bottom:4px;}
+.mode-card span{font-size:12.5px;color:#e3c8f5;line-height:1.35;display:block;}
+.pills-row{display:flex;gap:10px;flex-wrap:wrap;}
+.pillbtn{border-radius:999px;padding:9px 20px;font-weight:800;background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.2);color:#fdf3ff;}
+.pillbtn.sel{background:var(--gold);color:var(--ink);border-color:var(--gold);}
+.cast-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;}
+.cast-card{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 8px;border-radius:16px;border:2px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);color:#fdf3ff;transition:.15s;}
+.cast-card.sel{border-color:var(--gold);background:rgba(255,210,63,.14);}
+.cast-card .cname{font-weight:800;font-size:14px;} .cast-card .crole{font-size:11px;color:#d4b3ec;}
+.human-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.human-row input{flex:1;max-width:260px;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.25);color:#fff;border-radius:12px;padding:9px 14px;font-weight:700;}
+.human-row input::placeholder{color:#b48fd6;}
+.xbtn{background:rgba(255,80,80,.15);border:1.5px solid rgba(255,120,120,.5);color:#ffb4b4;border-radius:10px;width:34px;height:34px;}
+.counter{margin-top:14px;font-weight:800;color:#f3d9ff;} .counter.warn{color:#ffb4b4;}
+/* filters off panel */
+.fo-panel{border:2px solid rgba(239,68,68,.55);background:rgba(239,68,68,.08);}
+.fo-panel h3{color:#ff8f8f;}
+.fo-row{display:flex;gap:12px;align-items:flex-start;margin-bottom:10px;font-weight:700;font-size:14.5px;}
+.fo-row input[type=checkbox]{width:22px;height:22px;accent-color:var(--fo);margin-top:2px;flex:0 0 auto;}
+.fo-toggle{display:inline-flex;align-items:center;gap:10px;font-weight:800;}
+.switch{position:relative;width:56px;height:30px;flex:0 0 auto;}
+.switch input{opacity:0;width:100%;height:100%;position:absolute;cursor:pointer;z-index:2;}
+.switch input:disabled{cursor:not-allowed;}
+.slider{position:absolute;inset:0;background:rgba(255,255,255,.15);border-radius:999px;transition:.2s;border:1.5px solid rgba(255,255,255,.3);}
+.slider::before{content:"";position:absolute;width:22px;height:22px;border-radius:50%;background:#fff;top:2.5px;left:3px;transition:.2s;}
+.switch input:checked+.slider{background:var(--fo);border-color:var(--fo);}
+.switch input:checked+.slider::before{transform:translateX(25px);}
+.switch input:disabled+.slider{opacity:.4;}
+.glossary{margin-top:14px;background:rgba(255,255,255,.05);border:1.5px dashed rgba(255,255,255,.25);border-radius:14px;padding:14px 16px;font-size:13px;color:#e3c8f5;line-height:1.6;}
+.glossary b{color:var(--gold);}
+/* ritual */
+.ritual-list{width:min(660px,100%);display:flex;flex-direction:column;gap:12px;margin:24px 0;}
+.ritual-item{display:flex;gap:14px;align-items:flex-start;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.16);border-radius:16px;padding:14px 18px;font-weight:700;font-size:15.5px;}
+.ritual-item .ri{font-size:22px;}
+.ritual-item.hot{border-color:rgba(239,68,68,.6);background:rgba(239,68,68,.1);}
+/* game */
+.topbar{width:min(1100px,100%);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.brand-mini{display:flex;align-items:center;gap:9px;font-family:'Baloo 2';font-weight:800;font-size:17px;flex-wrap:wrap;}
+.ou-chip{background:var(--gold);color:var(--ink);border-radius:9px;padding:3px 8px;font-size:14px;box-shadow:0 3px 0 rgba(0,0,0,.25);}
+.pills{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.pill{background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.22);border-radius:999px;padding:6px 14px;font-weight:800;font-size:12px;letter-spacing:.08em;}
+.pill.hot{background:rgba(239,68,68,.2);border-color:var(--fo);color:#ffc9c9;cursor:pointer;}
+.meter-wrap{display:flex;align-items:center;gap:8px;}
+.meter{width:120px;height:10px;border-radius:999px;background:rgba(255,255,255,.14);overflow:hidden;}
+.meter>div{height:100%;width:40%;border-radius:999px;background:linear-gradient(90deg,var(--gold),var(--dare));transition:width .5s ease;}
+#energyLabel{font-size:11.5px;font-weight:800;color:#ffd9a8;letter-spacing:.06em;}
+.tb-btns{display:flex;gap:8px;align-items:center;}
+.rail{width:min(1100px,100%);display:flex;gap:10px;overflow-x:auto;padding:18px 2px 6px;}
+.pchip{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:4px;padding:9px 12px;border-radius:16px;background:rgba(255,255,255,.06);border:2px solid transparent;min-width:86px;transition:.2s;}
+.pchip.active{border-color:var(--gold);background:rgba(255,210,63,.13);transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.3);}
+.pchip .pname{font-weight:800;font-size:12.5px;} .pchip .prole{font-size:10px;color:#d4b3ec;}
+.pchip .parch{font-size:10px;font-weight:800;color:#d9c6ff;background:rgba(139,92,246,.25);border-radius:999px;padding:2px 8px;}
+.stage{width:min(1100px,100%);display:grid;grid-template-columns:220px minmax(240px,300px) 1fr;gap:26px;align-items:start;margin-top:10px;}
+.deck-wrap{display:flex;flex-direction:column;align-items:center;gap:10px;}
+.deck{position:relative;width:180px;height:252px;cursor:default;}
+.deck.awaiting{cursor:pointer;animation:pulse 1.4s ease-in-out infinite;}
+@keyframes pulse{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.deck .layer{position:absolute;inset:0;border-radius:16px;background:#2a1250;border:3px solid #fff;box-shadow:0 10px 24px rgba(0,0,0,.35);}
+.deck .l1{transform:translate(8px,8px) rotate(2.5deg);opacity:.7;}
+.deck .l2{transform:translate(4px,4px) rotate(1.2deg);opacity:.85;}
+.deck-count{position:absolute;right:-10px;top:-10px;background:var(--gold);color:var(--ink);font-weight:800;font-size:12px;border-radius:999px;padding:4px 10px;z-index:3;box-shadow:0 4px 10px rgba(0,0,0,.3);}
+.deck-hint{font-size:13px;font-weight:800;color:var(--gold);min-height:18px;}
+.card{width:240px;height:336px;perspective:1300px;margin:0 auto;}
+.card .inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.4,.2,.2,1);}
+.card.flipped .inner{transform:rotateY(180deg);} .card.snap .inner{transition:none;}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:16px;overflow:hidden;box-shadow:0 16px 40px rgba(0,0,0,.4);}
+.face.front{transform:rotateY(180deg);background:#fff;color:var(--ink);display:flex;flex-direction:column;}
+.c-top{color:#fff;display:flex;justify-content:space-between;align-items:center;padding:10px 12px;font-weight:800;letter-spacing:.07em;font-size:12.5px;}
+.c-num{font-size:11px;opacity:.9;font-weight:700;}
+.c-mid{flex:1;display:grid;place-items:center;position:relative;}
+.c-art{font-size:62px;transform:rotate(-6deg);filter:drop-shadow(0 6px 10px rgba(0,0,0,.18));}
+.c-bottom{margin:10px;background:#fdf6fb;border:2.5px solid #ccc;border-radius:13px;padding:11px 12px;font-weight:700;font-size:14px;line-height:1.38;}
+.c-name{font-family:'Baloo 2';font-size:16px;margin-bottom:3px;}
+.c-desc{font-size:12.5px;font-weight:600;color:#5b3a55;}
+.arch-badge{margin:10px auto 0;width:fit-content;background:rgba(139,92,246,.22);border:1.5px solid var(--arch);color:#e5d8ff;font-weight:800;font-size:12.5px;border-radius:999px;padding:6px 14px;}
+.backface{width:100%;height:100%;background:linear-gradient(160deg,#47207a,#2a1250);border:3px solid #fff;outline:2.5px solid #6d28d9;border-radius:16px;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;overflow:hidden;}
+.backface .bp{position:absolute;font-size:18px;opacity:.18;}
+.backface .bubbles{font-size:13px;letter-spacing:4px;opacity:.9;}
+.backface .bbrand{background:var(--gold);color:var(--ink);font-family:'Baloo 2';font-weight:800;font-size:12px;border-radius:10px;padding:6px 12px;transform:rotate(-2deg);box-shadow:0 4px 0 rgba(0,0,0,.22);margin-top:6px;text-align:center;line-height:1.15;}
+.talk{display:flex;flex-direction:column;gap:10px;min-height:300px;}
+.bubble{display:flex;gap:10px;align-items:flex-start;animation:pop .3s ease;}
+@keyframes pop{from{opacity:0;transform:translateY(8px) scale(.97);}to{opacity:1;transform:none;}}
+.bubble .btxt{background:#fff;color:var(--ink);border-radius:16px;border-top-left-radius:4px;padding:11px 15px;font-weight:600;font-size:14.5px;line-height:1.4;max-width:430px;box-shadow:0 8px 20px rgba(0,0,0,.25);}
+.bubble .btxt .who{display:block;font-size:11px;font-weight:800;letter-spacing:.06em;opacity:.6;margin-bottom:2px;}
+.bubble .btxt em{color:#7a5a74;}
+.dots span{display:inline-block;width:7px;height:7px;margin-right:4px;border-radius:50%;background:#a78ba1;animation:blink 1s infinite;}
+.dots span:nth-child(2){animation-delay:.18s;}.dots span:nth-child(3){animation-delay:.36s;}
+@keyframes blink{0%,80%,100%{opacity:.25;}40%{opacity:1;}}
+#toasts{display:flex;flex-direction:column;gap:8px;}
+.toast{display:flex;gap:8px;align-items:center;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.2);border-radius:999px;padding:6px 14px 6px 7px;font-size:13px;font-weight:700;width:fit-content;max-width:100%;animation:pop .3s ease;}
+.toast .t-txt{line-height:1.3;padding:2px 0;}
+.status{width:min(1100px,100%);text-align:center;font-weight:800;font-size:16.5px;color:var(--gold);margin-top:18px;min-height:24px;}
+#actions{width:min(620px,100%);margin:16px auto 0;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.18);border-radius:20px;padding:16px;text-align:center;}
+#answerInput{width:100%;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.28);border-radius:12px;color:#fff;padding:11px 14px;font-weight:600;margin-bottom:12px;}
+#answerInput::placeholder{color:#b48fd6;}
+.abtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.hint{margin-top:10px;font-size:12px;color:#cba7e8;font-weight:700;}
+#reactbar{margin-top:14px;display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;}
+#reactbar .rlabel{font-weight:800;font-size:13px;color:#f3d9ff;}
+.react-btn{font-size:18px;font-weight:800;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.28);color:#fff;border-radius:999px;padding:8px 16px;transition:.12s;}
+.react-btn:hover{transform:scale(1.1);background:rgba(255,210,63,.2);}
+.float-emoji{position:fixed;z-index:80;font-size:26px;pointer-events:none;animation:rise 1.15s ease-out forwards;}
+@keyframes rise{from{opacity:1;transform:translateY(0) scale(1);}to{opacity:0;transform:translateY(-130px) scale(1.5);}}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;width:min(640px,100%);margin:22px 0;}
+.stat{background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.18);border-radius:16px;padding:16px;text-align:center;}
+.stat .v{font-family:'Baloo 2';font-size:30px;color:var(--gold);}
+.stat .k{font-size:11.5px;font-weight:800;letter-spacing:.1em;color:#d4b3ec;text-transform:uppercase;}
+#wordChips{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:16px 0;}
+.word-chip{background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.25);border-radius:999px;padding:8px 18px;font-weight:800;animation:pop .4s ease;}
+.word-chip b{color:var(--gold);}
+.word-input{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:26px;}
+.word-input input{background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.28);border-radius:999px;color:#fff;padding:10px 18px;font-weight:700;width:220px;}
+.word-input input::placeholder{color:#b48fd6;}
+.confetti{position:fixed;top:-24px;width:10px;height:15px;z-index:90;animation:fall linear forwards;border-radius:3px;}
+@keyframes fall{to{transform:translateY(105vh) rotate(720deg);}}
+.overlay{position:fixed;inset:0;z-index:60;display:grid;place-items:center;background:rgba(20,8,40,.8);backdrop-filter:blur(5px);padding:20px;}
+.overlay .obox{background:linear-gradient(160deg,#3d1c69,#241040);border:2px solid rgba(255,255,255,.25);border-radius:24px;padding:30px;max-width:540px;width:100%;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.55);animation:pop .3s ease;}
+.overlay h2{color:var(--gold);margin-bottom:12px;}
+.overlay ul{text-align:left;margin:14px 0 20px;padding-left:4px;list-style:none;display:flex;flex-direction:column;gap:9px;font-weight:700;font-size:14.5px;}
+.breath{width:110px;height:110px;border-radius:50%;background:radial-gradient(circle,rgba(45,212,191,.9),rgba(45,212,191,.25));margin:18px auto;animation:breath 3.8s ease-in-out;}
+@keyframes breath{0%,100%{transform:scale(.7);opacity:.65;}50%{transform:scale(1.15);opacity:1;}}
+@media (max-width:900px){.stage{grid-template-columns:1fr;justify-items:center;}.talk{min-height:auto;width:100%;}.card{width:210px;height:294px;}}
+</style>
+</head>
+<body>
+<div id="bgfx"></div>
+
+<!-- TITLE -->
+<section id="screen-title" class="screen active">
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+    <span class="badge18" style="margin-bottom:16px;">🔞 18+ ONLY</span>
+    <div class="logo-card">
+      <div class="logo-band">PARTY<br>UNFILTERED™</div>
+      <div class="logo-sub">Play-based human connection · East Africa Edition · 170 cards</div>
+    </div>
+    <p class="tagline">A consent-first party game for grown-ups. Shared recognition, big laughs, zero pressure — built for sherehe culture from Nairobi to Kampala to Dar.</p>
+    <div class="cat-row">
+      <span class="cat-chip" style="background:var(--truth)">TRUTH · 50</span>
+      <span class="cat-chip" style="background:var(--dare)">DARE · 50</span>
+      <span class="cat-chip" style="background:var(--scen)">SCENARIO · 25</span>
+      <span class="cat-chip" style="background:var(--arch)">ARCHETYPE · 20</span>
+      <span class="cat-chip" style="background:var(--safe)">SAFETY · 10</span>
+      <span class="cat-chip" style="background:var(--fo);color:#fff">🔞 FILTERS OFF · 15</span>
+    </div>
+    <button class="btn primary" id="btnToSetup" style="font-size:19px;padding:16px 40px;">▶&nbsp; Set up the night</button>
+    <p class="note">Heat levels 🌶 keep you in control. The spicy <b>FILTERS OFF</b> pack stays locked until <u>everyone</u> consents. Nobody ever has to drink to play. Solo vs bots, or pass-&-play multiplayer.</p>
+  </div>
+</section>
+
+<!-- SETUP -->
+<section id="screen-setup" class="screen">
+  <h1 style="margin-top:8px;">🪩 Set up the night</h1>
+  <div class="panel">
+    <h3>1 · Vibe check (mode)</h3>
+    <div class="mode-grid" id="modeGrid">
+      <button class="mode-card" data-mode="WARMUP"><b>🟢 Warm-Up</b><span>Fresh crews, mixed company, early night. Chill heat 🌶 only — recognition first.</span></button>
+      <button class="mode-card sel" data-mode="SHEREHE"><b>🟡 Sherehe <small>(default)</small></b><span>The main event. All categories, heat up to 🌶🌶, full vibes.</span></button>
+      <button class="mode-card" data-mode="AFTERHOURS"><b>🔴 After-Hours</b><span>Max heat 🌶🌶🌶, more Dares & Archetypes. The group has to be in for it.</span></button>
+    </div>
+  </div>
+  <div class="panel">
+    <h3>2 · How long are we going?</h3>
+    <div class="pills-row" id="roundsRow">
+      <button class="pillbtn" data-r="2">2 rounds</button>
+      <button class="pillbtn sel" data-r="3">3 rounds</button>
+      <button class="pillbtn" data-r="4">4 rounds</button>
+      <button class="pillbtn" data-r="5">5 rounds</button>
+    </div>
+  </div>
+  <div class="panel fo-panel">
+    <h3>3 · 🔞 FILTERS OFF pack <small style="color:#ffb4b4;font-weight:600;">(15 spicy cards — adult themes, bolder dares, mild profanity)</small></h3>
+    <div class="fo-row"><input type="checkbox" id="foConsent"><label for="foConsent">I asked <b>everyone</b> at the table, out loud, and every single person said yes. One "no" — or silence — means it stays locked.</label></div>
+    <div class="fo-toggle">
+      <label class="switch"><input type="checkbox" id="foToggle" disabled><span class="slider"></span></label>
+      <span id="foState">Locked 🔒</span>
+    </div>
+    <p class="hint" style="text-align:left;margin-top:10px;">Consent is continuous: anyone can withdraw it at any time and the host re-locks the pack. Works in Sherehe & After-Hours modes.</p>
+  </div>
+  <div class="panel">
+    <h3>4 · Humans at the table <small style="color:#cba7e8;font-weight:600;">(pass &amp; play)</small></h3>
+    <div id="humanSlots"></div>
+    <button class="btn ghost small" id="btnAddHuman">＋ Add human player</button>
+  </div>
+  <div class="panel">
+    <h3>5 · Bot squadmates <small style="color:#cba7e8;font-weight:600;">(the Party Unfiltered cast)</small></h3>
+    <div class="cast-grid" id="castGrid"></div>
+    <div class="glossary"><b>Local flavor glossary:</b> <b>sherehe</b> = party/celebration · <b>boda boda</b> = motorbike taxi · <b>matatu</b> = minibus · <b>harambee / contribution list</b> = group fundraising at events · <b>chama</b> = savings group · <b>tea</b> = gossip · <b>nyama choma</b> = grilled meat · <b>rolex</b> = Ugandan street wrap · <b>"for the plot"</b> = doing it for the story.</div>
+  </div>
+  <p class="counter" id="tableCounter"></p>
+  <div style="margin-top:14px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
+    <button class="btn ghost" id="btnBackTitle">← Back</button>
+    <button class="btn primary" id="btnToRitual" style="font-size:18px;">Continue → Opening ritual</button>
+  </div>
+</section>
+
+<!-- RITUAL -->
+<section id="screen-ritual" class="screen">
+  <span class="badge18" style="margin-top:18px;">🔞 18+</span>
+  <h1 style="margin-top:12px;">✋ Before we deal…</h1>
+  <p class="tagline" style="margin-top:10px;">The opening ritual. Read it once, out loud if you can. Then we sherehe.</p>
+  <div class="ritual-list">
+    <div class="ritual-item"><span class="ri">🎲</span> This is a game — not therapy, not an interrogation, not group-chat evidence.</div>
+    <div class="ritual-item"><span class="ri">⏭️</span> You can skip any card, anytime. No explanation needed. Ever.</div>
+    <div class="ritual-item"><span class="ri">🕵️</span> Keep real names out of it. "Someone I know" energy only.</div>
+    <div class="ritual-item"><span class="ri">🍹</span> Nobody has to drink anything to play this game. Soda, juice, vibes — all valid.</div>
+    <div class="ritual-item hot" id="ritualFO" hidden><span class="ri">🔞</span> FILTERS OFF is unlocked tonight. Anyone can revoke consent at any time — just say so and the host re-locks it.</div>
+    <div class="ritual-item"><span class="ri">💚</span> We're here to have fun, not expose each other. If something doesn't feel right, skip it.</div>
+  </div>
+  <button class="btn primary" id="btnStart" style="font-size:19px;padding:16px 44px;">🪩 Let's sherehe</button>
+</section>
+
+<!-- GAME -->
+<section id="screen-game" class="screen">
+  <header class="topbar">
+    <div class="brand-mini"><span class="ou-chip">PU</span> Party Unfiltered™ <span class="badge18" style="font-size:11px;">18+</span></div>
+    <div class="pills">
+      <span class="pill" id="modePill">SHEREHE</span>
+      <span class="pill" id="roundPill">ROUND 1/3</span>
+      <span class="pill hot" id="foPill" hidden title="Tap to re-lock the Filters Off pack">🔞 FILTERS OFF — tap to lock</span>
+      <div class="meter-wrap"><div class="meter"><div id="energyFill"></div></div><span id="energyLabel">WARM</span></div>
+    </div>
+    <div class="tb-btns">
+      <button class="iconbtn" id="rulesBtn" title="House rules">ℹ️</button>
+      <button class="btn ghost small" id="endBtn">End night</button>
+    </div>
+  </header>
+  <div class="rail" id="rail"></div>
+  <div class="stage">
+    <div class="deck-wrap">
+      <div class="deck" id="deck">
+        <div class="layer l1"></div><div class="layer l2"></div>
+        <div class="layer" style="position:absolute;inset:0;" id="deckTop"></div>
+        <div class="deck-count" id="deckCount">170</div>
+      </div>
+      <div class="deck-hint" id="deckHint"></div>
+    </div>
+    <div>
+      <div class="card" id="gcard"><div class="inner">
+        <div class="face back" id="gcardBack"></div>
+        <div class="face front" id="gcardFront"></div>
+      </div></div>
+      <div class="arch-badge" id="archBadge" hidden></div>
+    </div>
+    <div class="talk"><div id="bubbleZone"></div><div id="toasts"></div></div>
+  </div>
+  <div class="status" id="status"></div>
+  <div id="actions" hidden>
+    <input id="answerInput" placeholder="Say it out loud — or type it for the record (optional)">
+    <div class="abtns" id="actionBtns"></div>
+    <p class="hint">Skipping never needs an explanation. 💚</p>
+  </div>
+  <div id="reactbar" hidden>
+    <span class="rlabel">React:</span>
+    <button class="react-btn" data-e="😂">😂</button>
+    <button class="react-btn" data-e="🔥">🔥</button>
+    <button class="react-btn" data-e="💃">💃</button>
+    <button class="react-btn" data-e="☕">☕ TEA</button>
+    <button class="react-btn" data-e="💯">💯</button>
+  </div>
+</section>
+
+<!-- END -->
+<section id="screen-end" class="screen">
+  <h1 style="margin-top:26px;">🌅 What a night</h1>
+  <p class="tagline" id="endReason" style="margin-top:8px;"></p>
+  <div class="stats-grid" id="statsGrid"></div>
+  <h3 style="color:var(--gold);">Closing ritual — one word for how that felt <span style="color:#cba7e8;font-weight:600;">(optional)</span></h3>
+  <div id="wordChips"></div>
+  <div class="word-input">
+    <input id="wordInput" placeholder="Your one word…" maxlength="24">
+    <button class="btn primary small" id="btnAddWord">Add</button>
+    <button class="btn ghost small" id="btnSkipWord">Pass</button>
+  </div>
+  <button class="btn primary" id="btnAgain" style="font-size:18px;">↻ Run it back</button>
+  <button class="btn ghost" id="btnChangeSetup" style="margin-top:12px;">Change setup</button>
+</section>
+
+<!-- OVERLAYS -->
+<div class="overlay" id="pauseOverlay" hidden>
+  <div class="obox"><h2>🫁 Pause the game</h2><div class="breath"></div><p style="font-weight:700;">Water, air, snacks. The game will wait for you.</p></div>
+</div>
+<div class="overlay" id="rulesOverlay" hidden>
+  <div class="obox">
+    <h2>House rules</h2>
+    <ul>
+      <li>⏭️ Skip any card — no explanation needed.</li>
+      <li>💭 You may always answer hypothetically ("someone I know…").</li>
+      <li>🕵️ No naming real people. No group-chat evidence.</li>
+      <li>🍹 No drinking required. Ever.</li>
+      <li>🤝 No humiliation, no scoring, no pressure.</li>
+      <li>🔞 Filters Off stays only while everyone consents — anyone can re-lock it.</li>
+      <li>🧑‍⚖️ The host can veto any card or end the night.</li>
+    </ul>
+    <button class="btn primary" id="rulesClose">Got it</button>
+  </div>
+</div>
+<div class="overlay" id="confirmOverlay" hidden>
+  <div class="obox">
+    <h2>Call it a night?</h2>
+    <p style="font-weight:700;margin-bottom:18px;">The game closes with the optional one-word ritual.</p>
+    <div style="display:flex;gap:10px;justify-content:center;">
+      <button class="btn ghost" id="confirmNo">Keep going</button>
+      <button class="btn danger" id="confirmYes">End night</button>
+    </div>
+  </div>
+</div>
+<div class="overlay" id="foOverlay" hidden>
+  <div class="obox">
+    <h2>🔒 Re-lock the Filters Off pack?</h2>
+    <p style="font-weight:700;margin-bottom:18px;">Consent is continuous. Locking removes all remaining spicy cards immediately.</p>
+    <div style="display:flex;gap:10px;justify-content:center;">
+      <button class="btn ghost" id="foNo">Keep it unlocked</button>
+      <button class="btn danger" id="foYes">Lock it 🔒</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   PARTY UNFILTERED™ — East Africa Edition (18+)
+   Same Human Play Engine™ architecture as Office Unfiltered™.
+   ===================================================================== */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const rand=(a,b)=>a+Math.random()*(b-a);
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+let AVUID=0;
+
+/* ---------------- DECK: 50 TRUTH [heat, text] ---------------- */
+const TRUTH=[
+[1,`What's the one song that will pull everyone at any party onto the dance floor?`],
+[1,`What's the universal sign that a sherehe has officially turned up?`],
+[1,`At weddings, what's something everyone does but no one admits to?`],
+[2,`What's the most common lie people tell when they're "just heading out"?`],
+[1,`What instantly tells you a party is about to end?`],
+[1,`What's the unwritten rule about the last song of the night?`],
+[2,`At parties, what's something people do purely for the photos?`],
+[1,`What's the most overrated part of going out?`],
+[2,`What's the sign that a party is officially "for the plot"?`],
+[1,`What makes a house party better than a club night?`],
+[2,`What's the clearest sign someone is into you at a party?`],
+[2,`What's a red flag everyone ignores when someone is good-looking?`],
+[2,`What's the most common situationship situation in this city?`],
+[3,`What's a text everyone has sent past midnight but refuses to admit to?`],
+[2,`What's the polite way to end a conversation with someone you're not into?`],
+[2,`What's the honest truth about "we're just friends"?`],
+[2,`What's the biggest lie people tell on dating apps?`],
+[2,`What does the "talking stage" actually mean around here?`],
+[2,`What's a green flag that instantly makes someone more attractive?`],
+[2,`Who usually makes the first move around here — and does it work?`],
+[2,`What's something everyone pretends to be broke for?`],
+[2,`What's the most common lie about money on a group trip?`],
+[2,`What's the unwritten rule about splitting the bill?`],
+[2,`What's a purchase people make just to look like they're winning?`],
+[1,`What's the side hustle everyone talks about starting but never starts?`],
+[2,`What's something people spend money on and regret every single time?`],
+[1,`What's the most common excuse for missing a friend's event?`],
+[2,`What's something people buy at a party they'd never buy anywhere else?`],
+[2,`What's the universal sign someone is about to ask to borrow money?`],
+[1,`What's the thing that's secretly expensive about being an adult here?`],
+[1,`What's the most annoying question aunties ask at family gatherings?`],
+[2,`What's the standard answer when a relative asks "when is your turn?"`],
+[2,`During wedding speeches, what is everyone thinking but no one says?`],
+[2,`What goes through your head when your name is read on the contribution list?`],
+[1,`What's something parents will never understand about going out?`],
+[1,`What's the most common excuse for leaving a family event early?`],
+[1,`What's the unwritten rule about posting family events on social media?`],
+[1,`What's the thing that makes a family wedding actually fun?`],
+[1,`What's the sign that a family group chat is about to turn into a fight?`],
+[2,`What's something every family has but refuses to discuss?`],
+[1,`What's the purpose of the group chat everyone is in but no one leaves?`],
+[1,`What's the most common reason plans get canceled around here?`],
+[2,`What's something best friends do that would embarrass them if it went public?`],
+[1,`What's the universal sign that a friend is about to spill tea?`],
+[1,`What's something every friend group has exactly one of?`],
+[3,`What's the actual rule about dating your friend's ex?`],
+[1,`What's the most common lie behind "I'm on my way"?`],
+[1,`What makes someone a "real one" in your circle?`],
+[2,`What's the sign that a friend is hiding something juicy?`],
+[2,`What's something that should end a friendship... but usually doesn't?`]];
+
+/* ---------------- DECK: 50 DARE ---------------- */
+const DARE=[
+[1,`Do your best dance move to an imaginary gengetone beat.`],
+[2,`Act like you just saw your ex walk into the party.`],
+[1,`Show your "I'm having fun but I want to go home" face.`],
+[1,`Act out what happens when the DJ finally plays your song.`],
+[1,`Pretend you're a matatu tout pulling in customers at rush hour.`],
+[2,`Show your face when the bill arrives and everyone suddenly checks their phone.`],
+[1,`Act like you're greeting an aunty whose name you cannot remember.`],
+[1,`Show your best "professional wedding guest" entrance.`],
+[1,`Act like you just heard the juiciest gossip of the year.`],
+[1,`Show what you look like dancing to amapiano for the first time.`],
+[2,`Come up with a name for the group chat that would expose everyone.`],
+[1,`Create a three-word slogan for tonight.`],
+[1,`Come up with a fake DJ name for yourself.`],
+[1,`Invent a dance move and name it on the spot.`],
+[1,`Create the three-song playlist that would save a dying party.`],
+[2,`Invent a mocktail and name it after tonight's vibes.`],
+[1,`Make a one-line toast that would make the whole table stand up.`],
+[1,`Invent a brand-new excuse for leaving a party early.`],
+[1,`Create a stage name for your future Afrobeats career.`],
+[1,`Pitch a business you could start tonight with only 500 shillings.`],
+[1,`Say "I love this party" in three completely different tones.`],
+[2,`Explain your love life using only weather terms.`],
+[1,`Describe the perfect night out using only three movie titles.`],
+[1,`Say "no more drinks for me" in the politest way possible — without using the word "no."`],
+[2,`Confess "I'm broke until payday" like a movie trailer voice-over.`],
+[1,`Describe the music right now using only food.`],
+[1,`Say "please lower the volume" like you're about to cry.`],
+[2,`Explain situationships like you're explaining them to your grandmother.`],
+[1,`Turn "let's just go home" into something that sounds exciting.`],
+[1,`Announce "my phone is on 2%" like breaking news.`],
+[1,`Everyone shows their best dance face on the count of three.`],
+[1,`One person starts a chant; everyone joins in and stops at the same time.`],
+[1,`Everyone votes with thumbs up, thumbs down, or neutral: was tonight worth it?`],
+[1,`Create a group handshake with zero skin contact in ten seconds.`],
+[1,`Everyone does a slow-motion dance move together for five seconds.`],
+[1,`Count from one to five as a group — one voice at a time; if two go together, restart.`],
+[1,`Everyone shows their "when the beat drops" face at the same time.`],
+[1,`Pick a word like "sherehe" or "twende" and say it together as dramatically as possible.`],
+[1,`Everyone points to the center, then strikes a pose.`],
+[1,`Three seconds of complete silence together — then everyone exhales.`],
+[2,`Give a genuine compliment to someone in this circle and hold eye contact.`],
+[2,`Deliver your best pickup line — the cheesier, the better.`],
+[2,`Show your most confident walk across the room.`],
+[2,`Say your name like a DJ introducing you to a crowd of ten thousand.`],
+[1,`Give yourself a silent, respectful round of applause.`],
+[2,`Show your best "I know something you don't know" smile.`],
+[2,`Say one thing you find attractive in a person — not physical.`],
+[2,`Deliver a toast to your future self.`],
+[2,`Show what "quiet confidence" looks like at a party.`],
+[1,`Take a bow like the whole night was about you.`]];
+
+/* ---------------- DECK: 25 SCENARIO ---------------- */
+const SCENARIO=[
+[1,`The DJ plays that one song, and the dance floor is suddenly full. What happens next?`],
+[2,`Someone says "one last drink," and everyone at the table knows that's a lie.`],
+[2,`Your ex walks into the same party. What does the table do?`],
+[2,`The group trip budget runs out on day two.`],
+[1,`Someone starts a dance-off no one asked for.`],
+[1,`The music stops for thirty seconds. Describe the silence.`],
+[1,`A friend says "five minutes away." It's been an hour.`],
+[2,`The bill arrives and everyone's phone suddenly matters.`],
+[1,`Someone's playlist connects — every single song hits.`],
+[2,`A friend texts: "Come save me from this date."`],
+[2,`A stranger says, "I know you from somewhere."`],
+[1,`The host announces the party is moving to another location.`],
+[1,`Two friends argue over which is better: gengetone or amapiano.`],
+[1,`Someone suggests a group photo — and everyone immediately acts natural.`],
+[1,`At 2 a.m., the boda boda guy becomes the most important person alive.`],
+[2,`A wedding invite arrives for a weekend you already have plans.`],
+[1,`Someone says "let's play a game" at a party that's already going.`],
+[2,`A friend starts acting mysterious about who they're dating.`],
+[1,`Phone battery: 1%. Night: just starting.`],
+[2,`Someone orders for the whole table without asking.`],
+[1,`The group chat plans a trip no one will actually go on.`],
+[2,`A relative shows up at the same spot you're at.`],
+[3,`Someone says, "Tell them what you told me earlier."`],
+[1,`Last song of the night, and nobody wants to admit it's over.`],
+[2,`The afterparty is at someone's place an hour away.`]];
+
+/* ---------------- DECK: 20 ARCHETYPE ---------------- */
+const ARCHETYPE=[
+{name:`The Hype Man`,desc:`Turns every small moment into the best moment of the night.`},
+{name:`The DJ`,desc:`Knows exactly what the room needs to hear next.`},
+{name:`The Auntie`,desc:`Watches over everyone, asks bold questions, makes sure everyone eats.`},
+{name:`The Quiet Observer`,desc:`Sees everything, says little, misses nothing.`},
+{name:`The Life of the Party`,desc:`Energy doesn't drop until sunrise.`},
+{name:`The Responsible One`,desc:`Counts heads, books rides, makes sure everyone gets home safe.`},
+{name:`The Storyteller`,desc:`Every night becomes a story worth telling for years.`},
+{name:`The Flirt`,desc:`Charm first, questions later.`},
+{name:`The Skeptic`,desc:`Questions every plan, especially "just one more."`},
+{name:`The Early Bird`,desc:`Always leaves first, always regrets it.`},
+{name:`The Last One Standing`,desc:`No one knows when — or whether — they go home.`},
+{name:`The Photographer`,desc:`If it wasn't posted, did it even happen?`},
+{name:`The Connector`,desc:`Introduces everyone to everyone and remembers every name.`},
+{name:`The Dancer`,desc:`Speaks fluent body language.`},
+{name:`The Comedian`,desc:`Turns every serious moment into a show.`},
+{name:`The Deep Talker`,desc:`By midnight the conversation is about the universe.`},
+{name:`The Foodie`,desc:`The party is wherever the food is.`},
+{name:`The Peacemaker`,desc:`Calms arguments before they even start.`},
+{name:`The Planner`,desc:`Has a schedule for "spontaneity."`},
+{name:`The Wildcard`,desc:`No one can predict the next move.`}];
+
+/* ---------------- DECK: 10 SAFETY ---------------- */
+const SAFETY=[
+{name:`Skip, No Explanation Needed`,desc:`Skip this card or any future card. No reason required.`,key:`skip`},
+{name:`Answer Hypothetically`,desc:`Answer as "someone I know," "a friend," or "people in general."`,key:`hypo`},
+{name:`Replace the Card`,desc:`Bury this card and draw a fresh one immediately.`,key:`replace`},
+{name:`Group Response Only`,desc:`Everyone answers together. No individual spotlight.`,key:`group`},
+{name:`Pause the Game`,desc:`Take a breather — water, air, snacks. The game waits.`,key:`pause`},
+{name:`Lower the Heat`,desc:`Switch to Warm-Up (chill heat only) for the next 5 turns.`,key:`energy`},
+{name:`Humor Mode`,desc:`For the next round, answers must stay playful and non-serious.`,key:`humor`},
+{name:`Silent Round`,desc:`For the next card, responses are gestures or one word only.`,key:`silent`},
+{name:`Host's Choice`,desc:`The host decides the next card: skip, group answer, or replace.`,key:`facil`},
+{name:`End with Appreciation`,desc:`Close the night with one optional round of gratitude.`,key:`end`}];
+
+/* ---------------- 🔞 FILTERS OFF PACK (consent-gated) ---------------- */
+const FO=[
+{c:'TRUTH',h:3,t:`What's the most trouble you've ever been in on a date?`},
+{c:'TRUTH',h:3,t:`What's the boldest text you've ever sent past midnight?`},
+{c:'TRUTH',h:3,t:`What's the most shameless thing someone has ever done to get your attention?`},
+{c:'TRUTH',h:3,t:`What's the most "what the hell was I doing" moment of your nightlife era?`},
+{c:'TRUTH',h:3,t:`Have you ever kissed someone you just met at a party? One-word review.`},
+{c:'TRUTH',h:3,t:`What's a secret talent you only show people you really like?`},
+{c:'DARE',h:3,t:`Give your best slow dance — with an invisible partner.`},
+{c:'DARE',h:3,t:`Deliver your most dramatic breakup line like a movie scene.`},
+{c:'DARE',h:3,t:`Rate the vibes of this party like you're reviewing a dating profile.`},
+{c:'DARE',h:3,t:`Whisper "the DJ is watching you" to the player on your left like it's classified information.`},
+{c:'SCENARIO',h:3,t:`Someone gets caught slow dancing after the music has already stopped.`},
+{c:'SCENARIO',h:3,t:`Two people have been exchanging looks all night, and the whole table has noticed.`},
+{c:'SCENARIO',h:3,t:`Someone's "I'm heading home" text gets read out loud by accident.`},
+{c:'ARCHETYPE',h:3,name:`The Heartbreaker`,desc:`Charming, unbothered, leaves everyone wondering.`},
+{c:'ARCHETYPE',h:3,name:`The Temptation`,desc:`Knows exactly what the room wants before the room does.`}];
+
+const CATMETA={
+ TRUTH:{color:'#d99a06',icon:'❓',label:'TRUTH',art:'💬',tag:'T'},
+ DARE:{color:'#ff5d73',icon:'⚡',label:'DARE',art:'🕺',tag:'D'},
+ SCENARIO:{color:'#e64980',icon:'🎬',label:'SCENARIO',art:'🌃',tag:'S'},
+ ARCHETYPE:{color:'#8b5cf6',icon:'🎭',label:'ARCHETYPE',art:'🎭',tag:'A'},
+ SAFETY:{color:'#0fa894',icon:'🛡️',label:'SAFETY',art:'🛡️',tag:'✚'}};
+const FOMETA={color:'#c1121f',icon:'🔞',label:'FILTERS OFF',art:'🔥',tag:'FO'};
+
+const MODE_WEIGHTS={
+ WARMUP:{TRUTH:46,SCENARIO:34,DARE:20,ARCHETYPE:0,SAFETY:0},
+ SHEREHE:{TRUTH:28,DARE:28,SCENARIO:20,ARCHETYPE:14,SAFETY:10},
+ AFTERHOURS:{DARE:36,ARCHETYPE:24,SCENARIO:18,TRUTH:14,SAFETY:8}};
+const MODE_HEAT={WARMUP:1,SHEREHE:2,AFTERHOURS:3};
+
+/* ---------------- CAST ---------------- */
+const CAST=[
+{id:'nova',name:'Nova',role:'The Hype',color:'#ffb703',skin:'#a96a43',hair:'#241a12',style:'curly',eyes:'happy',mouth:'smile',shirt:'#ffd23f',openers:[`Okay but I love this —`,`Positive spin:`,`Honestly? Iconic.`]},
+{id:'atlas',name:'Atlas',role:'The Strategist',color:'#3b82f6',skin:'#c98d5f',hair:'#232a33',style:'short',beard:true,eyes:'dots',mouth:'smile',shirt:'#3b82f6',openers:[`Strategically speaking,`,`If we plan this properly,`,`Calm. Structured. Answer:`]},
+{id:'echo',name:'Echo',role:'The Listener',color:'#2dd4bf',skin:'#fcd7b6',hair:'#a34a2a',style:'long',eyes:'dots',mouth:'smile',shirt:'#2dd4bf',openers:[`I hear this one a lot —`,`Listening to the room…`,`This comes up more than you think:`]},
+{id:'spark',name:'Spark',role:'The Wildcard',color:'#8b5cf6',skin:'#7c4a2d',hair:'#7c3aed',style:'curly',eyes:'happy',mouth:'open',shirt:'#ff7a45',openers:[`Ooh, wild take:`,`Creative answer incoming:`,`What if — okay, hear me out:`]},
+{id:'pulse',name:'Pulse',role:'The Energy',color:'#ff5d73',skin:'#e8b184',hair:'#1f2937',style:'spiky',eyes:'happy',mouth:'open',shirt:'#ff5d73',openers:[`FAST ANSWER:`,`No hesitation:`,`LET'S GO:`]},
+{id:'zen',name:'Zen',role:'The Calm',color:'#a3e635',skin:'#d9a06b',hair:'#4a3226',style:'bun',eyes:'closed',mouth:'flat',shirt:'#8b5cf6',openers:[`Deep breath. Then:`,`Peaceful take:`,`Slowly, and with total calm:`]},
+{id:'logic',name:'Logic',role:'The Analyzer',color:'#2563eb',skin:'#eab88f',hair:'#111827',style:'short',glasses:true,eyes:'dots',mouth:'smile',shirt:'#2563eb',openers:[`Logically,`,`The data points to`,`If we analyze this:`]},
+{id:'link',name:'Link',role:'The Connector',color:'#f59e0b',skin:'#5b3320',hair:'#0f1219',style:'short',eyes:'happy',mouth:'open',shirt:'#f59e0b',openers:[`Bringing the table into this:`,`Together answer:`,`Looping everyone in:`]},
+{id:'bold',name:'Bold',role:'The Challenger',color:'#e11d48',skin:'#c98d5f',hair:'#3f2a1d',style:'short',brow:'raised',eyes:'dots',mouth:'smile',shirt:'#ef4444',openers:[`Hot take:`,`I'll say what we're all thinking:`,`Devil's advocate, but:`]},
+{id:'rise',name:'Rise',role:'The Encourager',color:'#10b981',skin:'#eab88f',hair:'#e8b84b',style:'long',eyes:'happy',mouth:'smile',shirt:'#10b981',openers:[`Love this. My answer:`,`Cheerleader mode: ON.`,`You want an answer? Here we go:`]}];
+const HUMAN_AVATARS=[
+{skin:'#fcd7b6',hair:'#6b4226',style:'short',eyes:'dots',mouth:'smile',shirt:'#4cc9f0'},
+{skin:'#a96a43',hair:'#1f2937',style:'long',eyes:'happy',mouth:'smile',shirt:'#f472b6'},
+{skin:'#e8b184',hair:'#b45309',style:'bun',eyes:'dots',mouth:'smile',shirt:'#a3e635'},
+{skin:'#7c4a2d',hair:'#111827',style:'curly',eyes:'happy',mouth:'open',shirt:'#fbbf24'}];
+const ATLAS=CAST[1];
+
+/* ---------------- BOT BRAINS (party-flavored) ---------------- */
+const TRUTH_POOL=[
+`The DJ plays that one song and suddenly everyone is a dancer.`,
+`"I'm five minutes away" means at least an hour. Every time.`,
+`When the bill arrives, everyone suddenly remembers an urgent text.`,
+`The group trip always has one person who booked nothing and brought vibes.`,
+`"One last drink" is the biggest lie known to nightlife.`,
+`Someone is always the unofficial photographer. It's a calling.`,
+`The aunties' questions are the real main event of every wedding.`,
+`Every group chat has one unread-messages legend.`,
+`The afterparty plan is always ambitious and never survives.`,
+`Someone always knows the bouncer. Somehow.`,
+`"We'll split it evenly" is where friendships get tested.`,
+`Every party has one person dancing like nobody's filming. Respect.`,
+`The boda guy at 2 a.m. is basically a superhero.`,
+`Wedding contributions: the names get read, the hearts start racing.`,
+`Everyone has a party era they don't talk about.`,
+`The playlist debate is the real debate.`,
+`"It's not a party, it's just a small gathering" — it's a party.`,
+`Someone's phone dying is the official signal to leave.`,
+`Every friend group has one planner and one "almost made it."`,
+`The situationship status: everyone knows except the two people in it.`,
+`Posting the story before leaving is mandatory. Unwritten law.`,
+`"I don't really drink" — followed by three rounds. Classic.`,
+`The quiet one at 9 p.m. is the loudest one by midnight.`,
+`Every family has that one group chat with no replies.`,
+`Nyama choma fixes approximately 90% of arguments.`];
+const SCEN_POOL=[
+`We all know what happens: someone says "my place" — it's an hour away.`,
+`The table votes with their eyes. No words exchanged. Decision made.`,
+`Someone says "let's be mature about this." Nobody is.`,
+`Three people pretend not to see each other. The silence is loud.`,
+`The group chat explodes by morning. Screenshots live forever.`,
+`Someone quietly pays the bill and gains legendary status.`,
+`Everyone suddenly has an opinion about the music.`,
+`The night splits into two camps: go home vs. one more.`,
+`Someone says "for the plot" — and that's how every bad decision starts.`,
+`By the end, everyone's best friends with the stranger next to them.`,
+`The friend who said they'd leave early is now leading the dance circle.`,
+`A playlist gets passed around like a peace treaty.`,
+`Someone whispers "did you see that?" and now the whole table has a mission.`,
+`The host does the lights-on move. Universal sign. It's over.`,
+`Everyone agrees to keep it a secret from the group chat. It lasts four hours.`];
+const DARE_ACT=[
+`*stands, performs with total conviction, sits back down like nothing happened*`,
+`*gives it 110%. Possibly 112%.*`,
+`*performs while maintaining suspicious eye contact*`,
+`*commits fully. Zero hesitation. Some would say too much.*`,
+`*executes flawlessly, then bows to nobody in particular*`,
+`*does it with the energy of someone who's been waiting all night for this*`,
+`*nails it in one take. The room is altered.*`,
+`*goes for it. Sells it. Ships it.*`];
+const DARE_QUIP=[
+`I prepared nothing and I regret nothing.`,`This is peak performance. No notes.`,
+`Adding this to my story immediately.`,`That one was for the plot.`,
+`Please hold your applause. Actually, don't.`,`I'm open to feedback but will not be applying it.`,
+`Somebody record that. Actually, nobody record that.`,`That's going in the group chat.`];
+const ARCH_LINES={
+'The Hype Man':[`EVERYBODY MAKE SOME NOISE — this is the moment!`,`Forget the plan. The vibe IS the plan.`],
+'The DJ':[`Trust me. The next song fixes everything.`,`I've read the room. The room needs that one song.`],
+'The Auntie':[`Have you eaten? Also — when is it your turn?`,`Eh, my child… come here, let me look at you.`],
+'The Quiet Observer':[`I've seen everything tonight. I'll tell you later.`,`…I'm just watching. It's more fun from here.`],
+'The Life of the Party':[`Home? I don't know her. Next song!`,`The night is young and so are we!`],
+'The Responsible One':[`Everyone has a ride, right? Let me check.`,`I booked the cars. You're all welcome.`],
+'The Storyteller':[`So there we were, 2 a.m., and the boda guy says…`,`This is a story for the wedding speeches one day.`],
+'The Flirt':[`Is it hot in here, or did the playlist just improve?`,`I'm not saying it's destiny, but the seating arrangement is suspicious.`],
+'The Skeptic':[`"Just one more"? We said that an hour ago.`,`I'll believe the afterparty when I see the location.`],
+'The Early Bird':[`I had an amazing time. I'm going home. I mean it this time.`,`Love you all. My bed loves me more.`],
+'The Last One Standing':[`Close the venue? Bold of them to try.`,`I'll leave when the music leaves.`],
+'The Photographer':[`Wait — golden light. Everyone, one more photo.`,`If it's not in the story, it didn't happen.`],
+'The Connector':[`You two haven't met? This is about to be a great friendship.`,`Everyone's invited. I just decided that.`],
+'The Dancer':[`The beat is talking to me. I'm answering.`,`*is already halfway to the dance floor*`],
+'The Comedian':[`The bill arrived — please keep your hands where I can see them.`,`This party has plot twists. Stay tuned.`],
+'The Deep Talker':[`But like… what even IS a party? Think about it.`,`By the way, I believe we're all just vibes in human form.`],
+'The Foodie':[`I saw a food truck outside. That's the real afterparty.`,`The music is fine, but where is the nyama choma?`],
+'The Peacemaker':[`Okay okay — both songs are good. Let's play both.`,`We're all friends here. Except the bill. The bill is the enemy.`],
+'The Planner':[`According to the schedule, we're supposed to be having fun right now.`,`I planned the pre-game, the game, and the post-game.`],
+'The Wildcard':[`New plan. Trust me. Actually, don't. But come.`,`What if we moved to that party across town? Moving.`],
+'The Heartbreaker':[`I don't chase. I attract. It's a policy.`,`Everyone gets a moment. Nobody gets the sequel.`],
+'The Temptation':[`I know what you want. I brought it.`,`Careful — I'm exactly the bad idea you came here for.`]};
+const REACT_LINES=[
+`TEA. ☕`,`EXPOSED.`,`This is why we can't have nice group chats.`,`For the plot. Always for the plot.`,
+`I felt that in my M-Pesa.`,`Too accurate. Unfollow.`,`Someone clip that.`,`The audacity is beautiful.`,
+`No lies detected.`,`This is going in the group chat.`,`😂😂😂`,`💃🕺`,`💯`,`Say it louder!`,`Print it on the party flyers.`];
+const BOT_SKIP=[
+`I'll pass on this one — no reason needed. 🙂`,`Skipping this round — that's what the safety cards are for.`,
+`Pass! The rules say I can, so I do.`,`Sitting this one out — cheering from here though. 👏`];
+const SUPPORT=[
+`Respect. Skip away. 🙌`,`All good — skipping is a feature, not a bug.`,`The deck protects. 👍`,`No explanation needed. Ever. 💚`];
+const HYPO_PREFIX=[`Hypothetically speaking… `,`If this happened to "someone" in this city… `,`In a parallel sherehe… `];
+const HUMOR_TAG=[`(this is the humor round — I'm contractually funny now)`,`😂`,`(laugh track plays)`,`(I was told to keep it playful)`];
+const SILENT_EMOJIS=['👍','🫡','🙌','😌','🤝','✌️','🤫','💪','🎈','🥤'];
+const GROUP_POOL=[`For the plot.`,`Agreed, emphatically.`,`Valid.`,`Big yes.`,`The table agrees.`,`Motion carried.`,`So true.`,`Accurate.`,`Seconded.`,`No further questions.`];
+const GRATITUDE=[
+`Grateful for this table. Same time next weekend?`,`Appreciation round: tonight was for the plot AND the soul.`,
+`Thank you for the laughs. Group chat stays winning.`,`Gratitude: best night, zero regrets, zero screenshots.`];
+const CLOSERS=['Alive','Warm','Free','Lighter','Connected','Young','Seen','Happy','Whole'];
+
+/* ---------------- AVATAR ENGINE ---------------- */
+function avatarSVG(c,s=48,bg=true){
+  const uid='av'+(AVUID++);
+  let hairBack='',hairFront='';
+  if(c.style==='long') hairBack=`<path d="M10,27 Q9,6 30,6 Q51,6 50,27 L51,46 Q40,39 30,41 Q20,39 9,46 Z" fill="${c.hair}"/>`;
+  if(c.style==='bun') hairBack+=`<circle cx="30" cy="7" r="6" fill="${c.hair}"/>`;
+  switch(c.style){
+    case 'curly': hairFront=`<circle cx="19" cy="14" r="7" fill="${c.hair}"/><circle cx="30" cy="10.5" r="8" fill="${c.hair}"/><circle cx="41" cy="14" r="7" fill="${c.hair}"/>`;break;
+    case 'spiky': hairFront=`<path d="M15,24 Q15,12 30,12 Q45,12 45,24 Z" fill="${c.hair}"/><polygon points="15,21 19,9 24,16 30,7 36,16 41,9 45,21" fill="${c.hair}"/>`;break;
+    case 'long': hairFront=`<path d="M15,26 Q15,10 30,10 Q45,10 45,26 Q43,16 30,15 Q17,16 15,26 Z" fill="${c.hair}"/>`;break;
+    default: hairFront=`<path d="M15,26 Q15,11 30,11 Q45,11 45,26 Q42,17 30,16 Q18,17 15,26 Z" fill="${c.hair}"/>`;
+  }
+  const eye=x=> c.eyes==='closed' ? `<path d="M${x-3},26 q3,2.6 6,0" stroke="#242a33" stroke-width="1.8" fill="none" stroke-linecap="round"/>`
+    : c.eyes==='happy' ? `<path d="M${x-3},25.5 q3,-4 6,0" stroke="#242a33" stroke-width="1.9" fill="none" stroke-linecap="round"/>`
+    : `<circle cx="${x}" cy="25.5" r="1.9" fill="#242a33"/>`;
+  const brows=c.brow==='raised'?`<path d="M20,21.5 q3.5,-2 7,0" stroke="#3a2a1c" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M33,18.5 q4,-2.6 7,0" stroke="#3a2a1c" stroke-width="1.6" fill="none" stroke-linecap="round"/>`:'';
+  const glasses=c.glasses?`<circle cx="23.5" cy="25.5" r="4.6" fill="rgba(255,255,255,.18)" stroke="#242a33" stroke-width="1.6"/><circle cx="36.5" cy="25.5" r="4.6" fill="rgba(255,255,255,.18)" stroke="#242a33" stroke-width="1.6"/><path d="M28.1,25.5 h3.8" stroke="#242a33" stroke-width="1.6"/>`:'';
+  let mouth;
+  if(c.beard)mouth='';
+  else if(c.mouth==='open')mouth=`<path d="M24,32 q6,8 12,0 z" fill="#8a4a3d"/>`;
+  else if(c.mouth==='flat')mouth=`<path d="M25,33.5 q5,2.6 10,0" stroke="#8a4a3d" stroke-width="1.9" fill="none" stroke-linecap="round"/>`;
+  else mouth=`<path d="M24,32.5 q6,5.6 12,0" stroke="#8a4a3d" stroke-width="1.9" fill="none" stroke-linecap="round"/>`;
+  const beard=c.beard?`<path d="M15.2,27 Q15,44 30,44 Q45,44 44.8,27 L44.8,31 Q44,40.5 30,40.8 Q16,40.5 15.2,31 Z" fill="${c.hair}"/><path d="M24.5,32.6 q5.5,-2.8 11,0 q-5.5,2.5 -11,0 Z" fill="${c.hair}"/>`:'';
+  const blush=`<circle cx="19.5" cy="30" r="2" fill="rgba(255,120,120,.35)"/><circle cx="40.5" cy="30" r="2" fill="rgba(255,120,120,.35)"/>`;
+  return `<svg viewBox="0 0 60 60" width="${s}" height="${s}" aria-hidden="true">
+    <defs><clipPath id="${uid}"><circle cx="30" cy="30" r="30"/></clipPath></defs>
+    ${bg?`<circle cx="30" cy="30" r="30" fill="${c.shirt}40"/>`:''}
+    <g clip-path="url(#${uid})">${hairBack}
+      <path d="M8,62 Q30,44 52,62 Z" fill="${c.shirt}"/>
+      <circle cx="30" cy="26" r="15" fill="${c.skin}"/>
+      ${hairFront}${brows}${eye(23.5)}${eye(36.5)}${glasses}${beard}${mouth}${blush}
+    </g></svg>`;
+}
+function cardBackHTML(){
+  const spots=[[8,10,'🪩'],[78,16,'🎶'],[40,6,'🥂'],[10,78,'🔥'],[82,72,'💃'],[46,88,'🌙'],[6,44,'✨'],[86,42,'🎉']]
+    .map(p=>`<span class="bp" style="left:${p[0]}%;top:${p[1]}%;">${p[2]}</span>`).join('');
+  return `<div class="backface">${spots}
+    <div class="bubbles">❓ 💡 ✅ ❌ 💬</div>
+    <div style="filter:drop-shadow(0 6px 10px rgba(0,0,0,.35));">${avatarSVG(ATLAS,92)}</div>
+    <div class="bbrand">PARTY<br>UNFILTERED™</div>
+  </div>`;
+}
+
+/* ---------------- STATE ---------------- */
+let SESSION=0;
+let state={};
+let piles={},discards={},HEAT={};
+const setup={mode:'SHEREHE',rounds:3,bots:new Set(['nova','echo','spark','pulse']),humans:['You'],foConsent:false,filtersOff:false};
+
+function makePlayers(){
+  const ps=[];
+  setup.humans.forEach((n,i)=>{
+    ps.push({name:n||('Player '+(i+1)),isBot:false,color:i===0?'#ffd23f':['#4cc9f0','#f472b6','#a3e635'][i-1]||'#ffd23f',av:HUMAN_AVATARS[i%HUMAN_AVATARS.length],activeArch:null});
+  });
+  CAST.filter(c=>setup.bots.has(c.id)).forEach(c=>ps.push({name:c.name,isBot:true,cast:c,color:c.color,av:c,openers:c.openers,activeArch:null}));
+  return ps;
+}
+function allowedHeat(){return state.chillTurns>0?1:MODE_HEAT[state.mode];}
+function hasCards(c){return piles[c].length>0||discards[c].length>0;}
+function takeFrom(cat){if(!piles[cat].length){piles[cat]=shuffle(discards[cat]);discards[cat]=[];}if(!piles[cat].length)return null;return piles[cat].pop();}
+function pickIndex(cat){
+  const mh=allowedHeat();
+  let pool=piles[cat].filter(i=>HEAT[cat][i]<=mh);
+  if(!pool.length)pool=piles[cat];
+  if(!pool.length)return null;
+  const idx=pool[Math.floor(Math.random()*pool.length)];
+  piles[cat].splice(piles[cat].indexOf(idx),1);
+  return idx;
+}
+function drawCard(only){
+  if(state.filtersOn&&state.foPile.length&&allowedHeat()>=2&&Math.random()<0.16){
+    const fi=state.foPile.pop();
+    return makeFO(FO[fi],fi);
+  }
+  const mode=state.chillTurns>0?'WARMUP':state.mode;
+  let cat;
+  if(only){const cs=only.filter(hasCards);if(!cs.length)return null;cat=pick(cs);}
+  else{
+    const w=MODE_WEIGHTS[mode];
+    const opts=Object.keys(w).filter(k=>w[k]>0&&hasCards(k));
+    if(!opts.length)return null;
+    let tot=opts.reduce((s,k)=>s+w[k],0),r=Math.random()*tot;cat=opts[0];
+    for(const k of opts){r-=w[k];if(r<=0){cat=k;break;}}
+  }
+  const idx=pickIndex(cat);
+  if(idx==null)return null;
+  return makeCard(cat,idx);
+}
+function makeCard(cat,i){
+  const h=HEAT[cat][i];
+  if(cat==='ARCHETYPE')return{cat,name:ARCHETYPE[i].name,desc:ARCHETYPE[i].desc,num:`A-${i+1}`,heat:h};
+  if(cat==='SAFETY')return{cat,name:SAFETY[i].name,desc:SAFETY[i].desc,key:SAFETY[i].key,num:`✚-${i+1}`,heat:0};
+  return{cat,text:{TRUTH,DARE,SCENARIO}[cat][i][1],num:`${CATMETA[cat].tag}-${i+1}`,heat:h};
+}
+function makeFO(e,fi){
+  if(e.c==='ARCHETYPE')return{cat:'ARCHETYPE',name:e.name,desc:e.desc,num:`FO-${fi+1}`,heat:3,fo:true};
+  return{cat:e.c,text:e.t,num:`FO-${fi+1}`,heat:3,fo:true};
+}
+function waitFor(key){return new Promise(r=>{state.waiters.push({key,r});});}
+function resolveWait(key,val){const i=state.waiters.findIndex(w=>w.key===key);if(i>-1){const w=state.waiters.splice(i,1)[0];w.r(val);}}
+function wakeAll(){state.waiters.forEach(w=>w.r(undefined));state.waiters=[];}
+
+/* ---------------- UI helpers ---------------- */
+function showScreen(id){$$('.screen').forEach(s=>s.classList.remove('active'));$('#'+id).classList.add('active');window.scrollTo(0,0);}
+function status(t){$('#status').textContent=t;}
+function bumpEnergy(n){state.energy=Math.max(0,Math.min(100,state.energy+n));$('#energyFill').style.width=state.energy+'%';
+  $('#energyLabel').textContent=state.energy<30?'CHILL':state.energy<60?'WARM':state.energy<85?'BUZZING':'ON FIRE 🔥';}
+function updateDeckBadge(){const n=['TRUTH','DARE','SCENARIO','ARCHETYPE','SAFETY'].reduce((s,k)=>s+piles[k].length,0)+(state.foPile?state.foPile.length:0);$('#deckCount').textContent=n;}
+function updateTopbar(){$('#modePill').textContent=(state.chillTurns>0?'WARM-UP (forced)':state.mode)+' MODE';$('#roundPill').textContent=`ROUND ${Math.max(1,state.round)}/${state.rounds}`;}
+function updateChips(){
+  $('#rail').innerHTML=state.players.map(p=>`
+    <div class="pchip ${state.active===p?'active':''}">
+      ${avatarSVG(p.av,44)}
+      <span class="pname">${esc(p.name)}</span>
+      <span class="prole">${p.isBot?p.cast.role:(p===state.players[0]?'You · host':'Human')}</span>
+      ${p.activeArch?`<span class="parch">🎭 ${p.activeArch.replace('The ','')}</span>`:''}
+    </div>`).join('');
+}
+function clearTalk(){$('#bubbleZone').innerHTML='';$('#toasts').innerHTML='';$('#archBadge').hidden=true;}
+function showTyping(p){$('#bubbleZone').innerHTML=`<div class="bubble">${avatarSVG(p.av,40)}<div class="btxt"><span class="who">${esc(p.name).toUpperCase()}</span><span class="dots"><span></span><span></span><span></span></span></div></div>`;}
+function showSpeech(p,html){$('#bubbleZone').innerHTML=`<div class="bubble">${avatarSVG(p.av,40)}<div class="btxt"><span class="who">${esc(p.name).toUpperCase()}</span>${html}</div></div>`;}
+function toast(p,text){const t=$('#toasts');const el=document.createElement('div');el.className='toast';
+  el.innerHTML=`${avatarSVG(p.av,26)}<span class="t-txt">${text}</span>`;t.appendChild(el);
+  while(t.children.length>4)t.removeChild(t.firstChild);}
+function floatEmoji(e,x,y){const s=document.createElement('span');s.className='float-emoji';s.textContent=e;
+  s.style.left=(x+rand(-14,14))+'px';s.style.top=y+'px';document.body.appendChild(s);setTimeout(()=>s.remove(),1200);}
+function buildFront(card){
+  const m=card.fo?FOMETA:CATMETA[card.cat];
+  const heat=card.heat>0?` <span style="opacity:.95">${'🌶'.repeat(card.heat)}</span>`:'';
+  let bottom;
+  if(card.cat==='ARCHETYPE'||card.cat==='SAFETY')bottom=`<div class="c-name" style="color:${card.fo?FOMETA.color:'#6b21a8'}">${card.name}</div><div class="c-desc">${card.desc}</div>`;
+  else bottom=`<div>${card.text}</div>`;
+  $('#gcardFront').innerHTML=`
+    <div class="c-top" style="background:${m.color}"><span>${m.icon} ${m.label}</span><span class="c-num">${heat} № ${card.num}</span></div>
+    <div class="c-mid" style="background:radial-gradient(circle at 50% 42%, ${m.color}26, transparent 65%);"><div class="c-art">${m.art}</div></div>
+    <div class="c-bottom" style="border-color:${m.color}">${bottom}</div>`;
+}
+async function revealCard(card){
+  const el=$('#gcard');
+  el.classList.add('snap');el.classList.remove('flipped');
+  buildFront(card);void el.offsetWidth;el.classList.remove('snap');
+  await sleep(60);el.classList.add('flipped');await sleep(600);
+}
+function showActions(kind){
+  const box=$('#actions'),btns=$('#actionBtns'),inp=$('#answerInput');
+  inp.hidden=false;box.hidden=false;$('#reactbar').hidden=true;
+  if(kind==='default'){
+    inp.placeholder=`Say it out loud — or type it for the record (optional)`;
+    btns.innerHTML=`<button class="btn primary" data-a="answer">✅ I answered</button>
+      <button class="btn ghost" data-a="hypo">💭 Hypothetically</button>
+      <button class="btn ghost" data-a="skip">⏭️ Skip</button>`;
+  }else{
+    inp.placeholder=`One word or one line — everyone answers together`;
+    btns.innerHTML=`<button class="btn primary" data-a="answer">👍 That's my answer</button>
+      <button class="btn ghost" data-a="skip">⏭️ Pass</button>`;
+  }
+  btns.onclick=e=>{const a=e.target.dataset.a;if(!a)return;const text=inp.value.trim();inp.value='';box.hidden=true;resolveWait('action',{type:a,text});};
+  inp.focus();
+}
+function hideActions(){$('#actions').hidden=true;}
+function showReactBar(){const bar=$('#reactbar');bar.hidden=false;clearTimeout(bar._t);bar._t=setTimeout(()=>bar.hidden=true,5200);}
+$$('#reactbar .react-btn').forEach(b=>b.onclick=e=>{state.stats.reactions++;bumpEnergy(3);floatEmoji(b.dataset.e,e.clientX,e.clientY);});
+
+/* ---------------- responses ---------------- */
+function genResponse(bot,card,ctx={}){
+  if(ctx.silent)return pick(SILENT_EMOJIS);
+  let body;
+  if(ctx.archetype)body=pick(ARCH_LINES[ctx.archetype]||[`*answers thoughtfully in character*`]);
+  else if(card.cat==='TRUTH')body=pick(TRUTH_POOL);
+  else if(card.cat==='SCENARIO')body=pick(SCEN_POOL);
+  else body=pick(DARE_ACT)+' '+pick(DARE_QUIP);
+  if(ctx.hypo)body=pick(HYPO_PREFIX)+body;
+  else if(Math.random()<.42)body=pick(bot.openers)+' '+body;
+  if(state.turn<=state.humorUntil)body+=' '+pick(HUMOR_TAG);
+  return body;
+}
+function humanDoneLine(card,hypo){
+  if(hypo)return `💭 You answer hypothetically — "someone" in this city relates hard.`;
+  if(card.cat==='DARE')return `⚡ You go for it. The table loses it.`;
+  if(card.cat==='SCENARIO')return `🎬 You play out exactly how it goes. Everyone's seen this movie.`;
+  return `💬 You answer. Heads nod — somebody yells "TEA."`;
+}
+
+/* ---------------- turn engine ---------------- */
+async function doTurn(p,tok){
+  if(state.finished||tok!==SESSION)return;
+  state.turn++;if(state.chillTurns>0)state.chillTurns--;
+  state.active=p;updateChips();clearTalk();updateTopbar();
+  const humans=state.players.filter(x=>!x.isBot);
+  if(p.isBot)status(`${p.name} is up…`);
+  else if(humans.length>1)status(`📱 Pass the device to ${p.name} — tap the deck when ready!`);
+  else status(`Your turn — tap the deck to draw! 🪩`);
+  if(!p.isBot){
+    state.awaitingDraw=true;$('#deck').classList.add('awaiting');$('#deckHint').textContent='👆 Tap to draw';
+    await waitFor('draw');
+    state.awaitingDraw=false;$('#deck').classList.remove('awaiting');$('#deckHint').textContent='';
+    if(state.finished||tok!==SESSION)return;
+  }else{await sleep(rand(850,1500));if(state.finished)return;}
+  const card=drawCard();
+  if(!card){endGame('deck');return;}
+  state.stats.drawn++;updateDeckBadge();
+  await revealCard(card);
+  await processCard(card,p,tok);
+  p.activeArch=null;updateChips();
+}
+async function processCard(card,p,tok){
+  if(state.finished)return;
+  if(p.isBot&&card.cat!=='SAFETY'&&Math.random()<0.05){
+    state.stats.skips++;showSpeech(p,pick(BOT_SKIP));
+    await sleep(800);toast(pick(state.players.filter(x=>x!==p&&x.isBot)),pick(SUPPORT));return;
+  }
+  const ctx={hypo:state.hypoNext,silent:state.silentNext,archetype:p.activeArch};
+  state.hypoNext=false;state.silentNext=false;
+  if(ctx.archetype){const b=$('#archBadge');b.textContent=`🎭 Answering as ${ctx.archetype}`;b.hidden=false;}
+  if(card.cat==='SAFETY')return safetyFlow(card,p,tok);
+  if(card.cat==='ARCHETYPE')return archetypeFlow(card,p,tok);
+  return respondTo(card,p,ctx,tok);
+}
+async function respondTo(card,p,ctx,tok){
+  if(state.finished)return;
+  if(!p.isBot){
+    showActions('default');
+    const ch=await waitFor('action');hideActions();
+    if(state.finished||tok!==SESSION||!ch||ch.type==='skip'){
+      if(ch&&ch.type==='skip'){state.stats.skips++;status('Skipped — no explanation needed. 💚');toast(pick(state.players.filter(x=>x.isBot)),pick(SUPPORT));}
+      return;
+    }
+    const hypo=ch.type==='hypo'||ctx.hypo;
+    showSpeech(p,ch.text?`"${esc(ch.text)}"`:`<em>${humanDoneLine(card,hypo)}</em>`);
+    if(card.cat==='DARE')bumpEnergy(6);else bumpEnergy(2);
+    await sleep(650);
+    const bots=shuffle(state.players.filter(x=>x.isBot&&x!==p)).slice(0,2+Math.floor(Math.random()*2));
+    for(const b of bots){if(state.finished)return;toast(b,pick(REACT_LINES));await sleep(rand(450,750));}
+  }else{
+    showTyping(p);await sleep(rand(950,1800));if(state.finished)return;
+    showSpeech(p,esc(genResponse(p,card,ctx)));
+    if(card.cat==='DARE')bumpEnergy(6);else bumpEnergy(2);
+    await sleep(600);
+    const other=state.players.filter(x=>x.isBot&&x!==p);
+    if(other.length)toast(pick(other),pick(REACT_LINES));
+    if(state.players.some(x=>!x.isBot))showReactBar();
+    await sleep(1400);
+  }
+}
+async function archetypeFlow(card,p,tok){
+  p.activeArch=card.name;updateChips();
+  status(`${p.name} steps into "${card.name}" for the next card…`);
+  await sleep(1200);if(state.finished)return;
+  let fu=drawCard(['TRUTH','SCENARIO']);
+  if(fu){state.stats.drawn++;updateDeckBadge();await revealCard(fu);}
+  else fu={cat:'TRUTH',text:`(Deck's nearly empty — improvise in character: how is your night going?)`,num:'✱',heat:0};
+  await respondTo(fu,p,{archetype:card.name},tok);
+}
+async function redrawAndProcess(p,tok,cats){
+  let c=drawCard(cats||['TRUTH','DARE','SCENARIO','ARCHETYPE']);
+  if(!c)c=drawCard(['TRUTH','SCENARIO']);
+  if(!c){endGame('deck');return;}
+  state.stats.drawn++;updateDeckBadge();
+  await revealCard(c);await processCard(c,p,tok);
+}
+async function groupResponse(p,tok){
+  const prompt=drawCard(['TRUTH','SCENARIO']);
+  if(prompt){state.stats.drawn++;updateDeckBadge();await revealCard(prompt);}
+  status('GROUP RESPONSE — everyone answers together. No spotlight.');
+  const bots=shuffle(state.players.filter(x=>x.isBot&&x!==p)).slice(0,4);
+  for(const b of bots){if(state.finished)return;showSpeech(b,pick(GROUP_POOL));await sleep(rand(800,1200));}
+  if(state.players.some(x=>!x.isBot)){
+    showActions('group');
+    const ch=await waitFor('action');hideActions();
+    if(state.finished)return;
+    const human=state.players.find(x=>!x.isBot);
+    if(ch&&ch.type==='answer')showSpeech(human,ch.text?`"${esc(ch.text)}"`:`<em>👍 You add your voice to the group.</em>`);
+    else{state.stats.skips++;toast(pick(state.players.filter(x=>x.isBot)),pick(SUPPORT));}
+  }
+}
+async function safetyFlow(card,p,tok){
+  status(`🛡️ SAFETY CARD — ${card.name}`);
+  await sleep(1100);if(state.finished)return;
+  switch(card.key){
+    case 'skip':
+      state.stats.skips++;
+      showSpeech(p,`<em>Free skip on the house. Turn passes — zero explanation required. 💚</em>`);
+      const sup=state.players.filter(x=>x.isBot&&x!==p);if(sup.length)toast(pick(sup),pick(SUPPORT));
+      return;
+    case 'hypo':
+      toast(p,`💭 Next answer is hypothetical — "someone I know"…`);
+      state.hypoNext=true;await sleep(700);
+      return redrawAndProcess(p,tok,['TRUTH','DARE','SCENARIO']);
+    case 'replace':
+      toast(p,`🔄 Burying that one. Fresh card incoming…`);await sleep(700);
+      return redrawAndProcess(p,tok,['TRUTH','DARE','SCENARIO','ARCHETYPE']);
+    case 'group':return groupResponse(p,tok);
+    case 'pause':
+      $('#pauseOverlay').hidden=false;await sleep(3800);$('#pauseOverlay').hidden=true;
+      toast(p,`🫁 Reset complete. Back to the sherehe.`);
+      return redrawAndProcess(p,tok,['TRUTH','DARE','SCENARIO']);
+    case 'energy':
+      state.chillTurns=5;bumpEnergy(-8);
+      toast(p,`🟢 Heat lowered — Warm-Up mode for the next 5 turns.`);
+      return redrawAndProcess(p,tok,['TRUTH','SCENARIO']);
+    case 'humor':
+      state.humorUntil=state.turn+state.players.length;
+      toast(p,`🤡 Humor Mode ON for the next round. Seriously. It's the rules.`);
+      return redrawAndProcess(p,tok,['TRUTH','DARE','SCENARIO']);
+    case 'silent':
+      state.silentNext=true;
+      toast(p,`🤫 Silent round — gestures and one word only.`);
+      return redrawAndProcess(p,tok,['TRUTH','DARE','SCENARIO']);
+    case 'facil':{
+      const r=pick(['replace','group','skip']);
+      toast(p,`🧑‍⚖️ Host's choice: <b>${r.toUpperCase()}</b>`);
+      await sleep(800);
+      if(r==='skip'){state.stats.skips++;showSpeech(p,`<em>Host grants a free skip. 💚</em>`);}
+      else if(r==='group')return groupResponse(p,tok);
+      else return redrawAndProcess(p,tok,['TRUTH','DARE','SCENARIO','ARCHETYPE']);
+      return;
+    }
+    case 'end':{
+      const bots=shuffle(state.players.filter(x=>x.isBot)).slice(0,3);
+      for(const b of bots){if(state.finished)return;showSpeech(b,pick(GRATITUDE));await sleep(1300);}
+      return endGame('gratitude');
+    }
+  }
+}
+async function startSession(){
+  const tok=++SESSION;
+  HEAT={TRUTH:TRUTH.map(c=>c[0]),DARE:DARE.map(c=>c[0]),SCENARIO:SCENARIO.map(c=>c[0]),ARCHETYPE:ARCHETYPE.map(()=>1),SAFETY:SAFETY.map(()=>0)};
+  piles={TRUTH:shuffle([...Array(50).keys()]),DARE:shuffle([...Array(50).keys()]),SCENARIO:shuffle([...Array(25).keys()]),ARCHETYPE:shuffle([...Array(20).keys()]),SAFETY:shuffle([...Array(10).keys()])};
+  discards={TRUTH:[],DARE:[],SCENARIO:[],ARCHETYPE:[],SAFETY:[]};
+  state={mode:setup.mode,rounds:setup.rounds,players:makePlayers(),finished:false,round:0,turn:0,
+    chillTurns:0,hypoNext:false,silentNext:false,humorUntil:0,waiters:[],
+    filtersOn:setup.filtersOff,foPile:setup.filtersOff?shuffle([...Array(FO.length).keys()]):[],
+    stats:{drawn:0,skips:0,reactions:0},energy:42,active:null};
+  $('#foPill').hidden=!state.filtersOn;
+  $('#gcardBack').innerHTML=cardBackHTML();$('#deckTop').innerHTML=cardBackHTML();
+  $('#gcard').classList.add('snap');$('#gcard').classList.remove('flipped');
+  clearTalk();hideActions();$('#reactbar').hidden=true;
+  updateTopbar();updateChips();updateDeckBadge();bumpEnergy(0);
+  showScreen('screen-game');
+  status(`Round 1 — let's go! 🪩`);
+  await sleep(600);
+  for(let r=1;r<=state.rounds;r++){
+    if(state.finished)break;
+    state.round=r;updateTopbar();
+    for(const p of state.players){if(state.finished)break;await doTurn(p,tok);}
+  }
+  if(!state.finished&&tok===SESSION)endGame('rounds');
+}
+function endGame(reason){
+  if(state.finished)return;
+  state.finished=true;wakeAll();
+  const reasons={rounds:'You completed all the rounds. Legendary.',called:'Night closed by the host. Clean exit.',
+    gratitude:'The deck called it: End with Appreciation. 💚',deck:'The deck ran out. Impressive stamina.'};
+  $('#endReason').textContent=reasons[reason]||'';
+  $('#statsGrid').innerHTML=`
+    <div class="stat"><div class="v">${state.stats.drawn}</div><div class="k">Cards drawn</div></div>
+    <div class="stat"><div class="v">${state.stats.skips}</div><div class="k">Skips honored</div></div>
+    <div class="stat"><div class="v">${state.stats.reactions}</div><div class="k">Your reactions</div></div>
+    <div class="stat"><div class="v">${Math.min(state.round,state.rounds)}</div><div class="k">Rounds played</div></div>`;
+  $('#wordChips').innerHTML='';$('#wordInput').value='';
+  showScreen('screen-end');confetti();
+  const tok=SESSION;
+  (async()=>{
+    await sleep(700);
+    const bots=shuffle(state.players.filter(p=>p.isBot)).slice(0,5);
+    for(const b of bots){
+      if(tok!==SESSION)return;
+      const w=document.createElement('div');w.className='word-chip';
+      w.innerHTML=`${b.name}: <b>${pick(CLOSERS)}</b>`;$('#wordChips').appendChild(w);
+      await sleep(rand(550,900));
+    }
+  })();
+}
+function confetti(){
+  const colors=['#ffd23f','#ff5d73','#e64980','#8b5cf6','#2dd4bf','#ff7a45','#ffffff'];
+  for(let i=0;i<90;i++){
+    const c=document.createElement('div');c.className='confetti';
+    c.style.left=rand(0,100)+'vw';c.style.background=pick(colors);
+    c.style.animationDuration=rand(2.4,4.6)+'s';c.style.animationDelay=rand(0,.9)+'s';
+    c.style.transform=`rotate(${rand(0,360)}deg)`;
+    document.body.appendChild(c);setTimeout(()=>c.remove(),6000);
+  }
+}
+
+/* ---------------- setup UI ---------------- */
+function renderCastGrid(){
+  $('#castGrid').innerHTML=CAST.map(c=>`
+    <button class="cast-card ${setup.bots.has(c.id)?'sel':''}" data-cast="${c.id}">
+      ${avatarSVG(c,52)}<span class="cname">${c.name}</span><span class="crole">${c.role}</span>
+    </button>`).join('');
+  $$('#castGrid .cast-card').forEach(b=>b.onclick=()=>{
+    const id=b.dataset.cast;
+    if(setup.bots.has(id))setup.bots.delete(id);else setup.bots.add(id);
+    renderCastGrid();updateCounter();
+  });
+}
+function renderHumans(){
+  $('#humanSlots').innerHTML=setup.humans.map((h,i)=>`
+    <div class="human-row">
+      ${avatarSVG(HUMAN_AVATARS[i%HUMAN_AVATARS.length],38)}
+      <input data-h="${i}" value="${esc(h)}" placeholder="Player ${i+1}">
+      ${i>0?`<button class="xbtn" data-x="${i}">✕</button>`:`<span style="font-size:12px;color:#cba7e8;font-weight:800;">HOST</span>`}
+    </div>`).join('');
+  $$('#humanSlots input').forEach(inp=>inp.oninput=()=>{setup.humans[+inp.dataset.h]=inp.value;});
+  $$('#humanSlots .xbtn').forEach(b=>b.onclick=()=>{setup.humans.splice(+b.dataset.x,1);renderHumans();updateCounter();});
+}
+function updateCounter(){
+  const total=setup.humans.length+setup.bots.size;
+  const el=$('#tableCounter');
+  el.textContent=`Table size: ${total} player${total!==1?'s':''} · ideal 4–8 · minimum 3`;
+  el.classList.toggle('warn',total<3);
+  $('#btnToRitual').disabled=total<3;
+  $('#btnToRitual').style.opacity=total<3?.45:1;
+}
+function initSetup(){
+  renderCastGrid();renderHumans();updateCounter();
+  $$('#modeGrid .mode-card').forEach(b=>b.onclick=()=>{
+    $$('#modeGrid .mode-card').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');setup.mode=b.dataset.mode;
+  });
+  $$('#roundsRow .pillbtn').forEach(b=>b.onclick=()=>{
+    $$('#roundsRow .pillbtn').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');setup.rounds=+b.dataset.r;
+  });
+  $('#btnAddHuman').onclick=()=>{if(setup.humans.length<4){setup.humans.push('');renderHumans();updateCounter();}};
+  $('#foConsent').onchange=e=>{
+    setup.foConsent=e.target.checked;
+    $('#foToggle').disabled=!setup.foConsent;
+    if(!setup.foConsent){$('#foToggle').checked=false;setup.filtersOff=false;$('#foState').textContent='Locked 🔒';}
+  };
+  $('#foToggle').onchange=e=>{
+    setup.filtersOff=e.target.checked;
+    $('#foState').textContent=setup.filtersOff?'Unlocked 🔞 — handle with vibes':'Locked 🔒';
+  };
+}
+
+/* ---------------- wiring ---------------- */
+$('#btnToSetup').onclick=()=>showScreen('screen-setup');
+$('#btnBackTitle').onclick=()=>showScreen('screen-title');
+$('#btnToRitual').onclick=()=>{
+  if(setup.humans.length+setup.bots.size>=3){
+    $('#ritualFO').hidden=!setup.filtersOff;
+    showScreen('screen-ritual');
+  }
+};
+$('#btnStart').onclick=()=>startSession();
+$('#btnAgain').onclick=()=>startSession();
+$('#btnChangeSetup').onclick=()=>{SESSION++;showScreen('screen-setup');};
+$('#deck').onclick=()=>{if(state.awaitingDraw)resolveWait('draw',true);};
+$('#endBtn').onclick=()=>$('#confirmOverlay').hidden=false;
+$('#confirmNo').onclick=()=>$('#confirmOverlay').hidden=true;
+$('#confirmYes').onclick=()=>{$('#confirmOverlay').hidden=true;endGame('called');};
+$('#rulesBtn').onclick=()=>$('#rulesOverlay').hidden=false;
+$('#rulesClose').onclick=()=>$('#rulesOverlay').hidden=true;
+$('#rulesOverlay').addEventListener('click',e=>{if(e.target.id==='rulesOverlay')$('#rulesOverlay').hidden=true;});
+$('#foPill').onclick=()=>$('#foOverlay').hidden=false;
+$('#foNo').onclick=()=>$('#foOverlay').hidden=true;
+$('#foYes').onclick=()=>{
+  $('#foOverlay').hidden=true;
+  state.filtersOn=false;state.foPile=[];$('#foPill').hidden=true;updateDeckBadge();
+  toast(state.players.find(p=>p.isBot)||state.players[0],`🔒 Filters Off pack locked. Consent is continuous.`);
+};
+$('#btnAddWord').onclick=()=>{const v=$('#wordInput').value.trim();if(!v)return;
+  const w=document.createElement('div');w.className='word-chip';
+  w.innerHTML=`${esc(setup.humans[0]||'You')}: <b>${esc(v)}</b>`;$('#wordChips').appendChild(w);$('#wordInput').value='';};
+$('#btnSkipWord').onclick=()=>{$('#wordInput').value='';};
+
+(function(){
+  const ems=['🪩','✨','🎶','🥂','🔥','💃','🌙','🎉'];
+  const fx=$('#bgfx');
+  for(let i=0;i<16;i++){
+    const s=document.createElement('span');s.textContent=pick(ems);
+    s.style.left=rand(0,96)+'vw';s.style.top=rand(0,96)+'vh';
+    s.style.fontSize=rand(20,44)+'px';s.style.animationDuration=rand(9,18)+'s';
+    fx.appendChild(s);
+  }
+})();
+initSetup();
+</script>
+</body>
+</html>
