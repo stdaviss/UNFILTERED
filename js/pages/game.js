@@ -5,6 +5,7 @@ import {
   awards,
   beginTurn,
   completeTurn,
+  createSession,
   currentCard,
   currentPlayer,
   endGame,
@@ -14,6 +15,7 @@ import {
   replaceCard,
   resumeGame,
   skipCard,
+  startGame,
   timeAgo,
   revealCard,
 } from "../engine/game.js";
@@ -25,8 +27,9 @@ initChrome({ active: "lobby" });
 bindOverlayDismiss();
 
 let session = getSession();
-if (!session) {
-  location.href = "lobby.html";
+if (!session || session.status === "lobby") {
+  if (!session) session = createSession({ mode: "classic", roomCode: "OU-4827", hostName: "Dave" });
+  session = startGame(session);
 }
 
 const primary = $("#primary-btn");
@@ -231,6 +234,9 @@ if (session.status === "starting" || session.status === "lobby") {
   setTimeout(() => {
     closeOverlay("start-modal");
     session = beginTurn(session);
+    if (new URLSearchParams(location.search).get("reveal") === "1") {
+      session = revealCard(session);
+    }
     render();
   }, 1400);
 } else {

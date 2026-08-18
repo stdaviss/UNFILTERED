@@ -8,6 +8,11 @@ function uid(prefix) {
   return `${prefix}-${Math.random().toString(36).slice(2, 8)}`;
 }
 
+function pinFeatured(deck) {
+  const featured = "truth-001";
+  return [featured, ...deck.filter((id) => id !== featured)];
+}
+
 export function generateRoomCode() {
   const n = Math.floor(1000 + Math.random() * 9000);
   return `OU-${n}`;
@@ -44,7 +49,7 @@ export function createSession({ mode = "classic", totalRounds, roomCode, hostNam
     currentCardId: null,
     lastCardId: null,
     revealed: false,
-    deck: buildPool(mode),
+    deck: pinFeatured(buildPool(mode)),
     discard: [],
     events: [],
     scoringEnabled: settings.scoringEnabled !== false,

@@ -112,8 +112,8 @@ button { cursor: pointer; border: 0; background: none; }
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
-.logo span:first-child { font-size: 13px; color: #fff; }
-.logo span:last-child { font-size: 12px; color: var(--green); }
+.logo span:first-child { font-size: 16px; color: #fff; }
+.logo span:last-child { font-size: 14px; color: var(--green); }
 .nav-links {
   display: flex;
   gap: 8px;
@@ -291,16 +291,16 @@ button { cursor: pointer; border: 0; background: none; }
 .avatar-stack img:first-child { margin-left: 0; }
 .social-proof b { color: var(--green); }
 
-.hero-visual { position: relative; min-height: 420px; }
+.hero-visual { position: relative; min-height: 460px; }
 .game-box {
   position: absolute;
-  right: 8%;
-  top: 18%;
-  width: 220px;
-  z-index: 2;
+  right: 4%;
+  top: 72px;
+  width: 240px;
+  z-index: 1;
   filter: drop-shadow(0 24px 30px rgba(0,0,0,.5));
 }
-.card-fan { position: relative; height: 420px; }
+.card-fan { position: relative; height: 460px; z-index: 2; }
 .fan-card {
   position: absolute;
   width: 168px;
