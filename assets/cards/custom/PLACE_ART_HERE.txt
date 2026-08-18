@@ -1,0 +1,10 @@
+Drop replacement PNG, SVG, or WebP files in this folder, then map them in js/data/art-overrides.js:
+
+  export const ART_OVERRIDES = {
+    "truth-001": "assets/cards/custom/movie-genre.png"
+  };
+
+Character-wide swaps: replace assets/characters/<name>.svg
+Avatar swaps: replace assets/avatars/<name>.svg
+Card back: replace assets/cards/back.svg
+Background: replace assets/backgrounds/office.svg

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lobby — Office Unfiltered</title>
+  <link rel="icon" href="assets/brand/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="top-nav">
+    <a class="logo" href="index.html"><span>Office</span><span>Unfiltered</span></a>
+    <nav class="nav-links" aria-label="Primary"></nav>
+    <div class="nav-user">
+      <button class="menu-toggle icon-btn" aria-label="Open menu"><span>☰</span></button>
+      <a class="user-chip" href="profile.html">
+        <img class="avatar" data-user-avatar src="assets/avatars/dave.svg" alt="">
+        <span class="user-meta"><strong data-user-name>Dave</strong><small><span class="status-dot"></span> Online</small></span>
+      </a>
+      <a class="icon-btn" href="profile.html" aria-label="Settings"><img src="assets/icons/gear.svg" alt=""></a>
+    </div>
+  </header>
+
+  <main id="main" class="page">
+    <section class="lobby-hero">
+      <div class="panel">
+        <p class="panel-title">Room code</p>
+        <div class="lobby-code" id="room-code">OU-0000</div>
+        <div class="ready-line" id="ready-line">0 PLAYERS READY</div>
+        <p id="mode-line">Classic mode · 10 rounds · pass-and-play</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" id="start-btn">Start Game</button>
+          <button class="btn btn-ghost" id="copy-btn"><img src="assets/icons/copy.svg" alt=""> Copy Link</button>
+          <button class="btn btn-ghost" id="add-btn">Add player</button>
+        </div>
+        <p class="notice">Minimum 3 ready players. Comfort first — anyone can skip any card later, no explanation needed.</p>
+      </div>
+      <div class="panel" id="lobby-players"></div>
+    </section>
+  </main>
+  <nav class="bottom-nav" aria-label="Mobile"></nav>
+  <script type="module" src="js/pages/lobby.js"></script>
+</body>
+</html>

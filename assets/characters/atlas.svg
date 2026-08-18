@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 480" fill="none">
+  <title>Atlas — The Strategist</title>
+  <g opacity=".9">
+    <ellipse cx="86" cy="92" rx="36" ry="32" fill="#fff" stroke="#1E4F86" stroke-width="4"/>
+    <text x="86" y="104" text-anchor="middle" font-size="32" font-family="Arial Black, sans-serif" fill="#1E4F86">?</text>
+    <ellipse cx="50" cy="150" rx="24" ry="22" fill="#fff" stroke="#1E4F86" stroke-width="3.5"/>
+    <path d="M44 144 l6 0 2-6 2 6 6 0-5 4 2 6-5-3-5 3 2-6z" fill="#F5B83D"/>
+    <ellipse cx="40" cy="198" rx="18" ry="16" fill="#fff" stroke="#1E4F86" stroke-width="3"/>
+    <path d="M34 198 h12 M40 192 v12" stroke="#2F9E75" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <ellipse cx="200" cy="438" rx="100" ry="16" fill="#000" opacity=".18"/>
+  <path d="M120 438 C120 292 132 250 200 248 C268 250 280 292 280 438 Z" fill="#1F3A5F"/>
+  <path d="M150 328 h100 v14 c0 20-22 32-50 32s-50-12-50-32z" fill="#17304E"/>
+  <circle cx="200" cy="196" r="78" fill="#D2A679"/>
+  <path d="M126 188 C130 108 166 86 200 86 C246 88 278 118 274 188 C266 146 238 124 200 122 C164 124 136 148 126 188Z" fill="#2C2118"/>
+  <ellipse cx="176" cy="194" rx="8" ry="10" fill="#2A241C"/>
+  <ellipse cx="224" cy="194" rx="8" ry="10" fill="#2A241C"/>
+  <ellipse cx="179" cy="191" rx="2.4" ry="2.6" fill="#fff"/>
+  <ellipse cx="227" cy="191" rx="2.4" ry="2.6" fill="#fff"/>
+  <path d="M184 224 Q200 232 218 224" fill="none" stroke="#B45A4A" stroke-width="3.2" stroke-linecap="round"/>
+  <path d="M148 248 C156 280 174 298 200 300 C226 298 244 280 252 248 C242 270 224 282 200 282 C176 282 158 270 148 248Z" fill="#3A2A20"/>
+</svg>

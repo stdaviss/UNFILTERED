@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 630 880" fill="none">
+  <title>Office Unfiltered card back</title>
+  <rect width="630" height="880" rx="36" fill="#F7F4EE"/>
+  <rect x="18" y="18" width="594" height="844" rx="28" fill="#2E7BC4"/>
+  <rect x="34" y="34" width="562" height="812" rx="22" fill="#347FCA"/>
+  <g opacity=".16" fill="#1E4F86">
+    <g font-family="Arial Black, sans-serif" font-size="22">
+      <text x="70" y="80">OU</text><text x="190" y="140">OU</text><text x="310" y="80">OU</text>
+      <text x="430" y="140">OU</text><text x="550" y="80">OU</text>
+      <text x="70" y="220">?</text><text x="200" y="280">✓</text><text x="340" y="220">✎</text>
+      <text x="470" y="280">?</text><text x="70" y="360">OU</text><text x="220" y="420">OU</text>
+      <text x="360" y="360">OU</text><text x="500" y="420">OU</text>
+      <text x="90" y="520">?</text><text x="250" y="580">OU</text><text x="420" y="520">✓</text>
+      <text x="80" y="680">OU</text><text x="240" y="740">?</text><text x="400" y="680">OU</text>
+      <text x="520" y="740">OU</text>
+    </g>
+  </g>
+  <ellipse cx="315" cy="340" rx="150" ry="18" fill="#1E4F86" opacity=".25"/>
+  <g transform="translate(115,70) scale(.9)">
+    <path d="M120 438 C120 292 132 250 200 248 C268 250 280 292 280 438 Z" fill="#1F3A5F"/>
+    <circle cx="200" cy="196" r="78" fill="#D2A679"/>
+    <path d="M126 188 C130 108 166 86 200 86 C246 88 278 118 274 188 C266 146 238 124 200 122 C164 124 136 148 126 188Z" fill="#2C2118"/>
+    <ellipse cx="176" cy="194" rx="8" ry="10" fill="#2A241C"/>
+    <ellipse cx="224" cy="194" rx="8" ry="10" fill="#2A241C"/>
+    <ellipse cx="179" cy="191" rx="2.4" ry="2.6" fill="#fff"/>
+    <ellipse cx="227" cy="191" rx="2.4" ry="2.6" fill="#fff"/>
+    <path d="M184 224 Q200 232 218 224" fill="none" stroke="#B45A4A" stroke-width="3.2" stroke-linecap="round"/>
+    <path d="M148 248 C156 280 174 298 200 300 C226 298 244 280 252 248 C242 270 224 282 200 282 C176 282 158 270 148 248Z" fill="#3A2A20"/>
+    <ellipse cx="86" cy="92" rx="36" ry="32" fill="#fff"/>
+    <text x="86" y="104" text-anchor="middle" font-size="32" font-family="Arial Black, sans-serif" fill="#1E4F86">?</text>
+    <ellipse cx="318" cy="88" rx="28" ry="24" fill="#fff"/>
+    <path d="M310 80 l8 0 3-8 3 8 8 0-6 5 2 8-7-4-7 4 2-8z" fill="#F5B83D"/>
+  </g>
+  <path d="M34 640 C180 600 450 600 596 640 L596 846 C596 858 586 868 574 868 L56 868 C44 868 34 858 34 846 Z" fill="#F5D76E"/>
+  <text x="315" y="720" text-anchor="middle" font-family="Arial Black, sans-serif" font-size="36" fill="#111">OFFICE</text>
+  <text x="315" y="768" text-anchor="middle" font-family="Arial Black, sans-serif" font-size="34" fill="#1A3A1A">UNFILTERED</text>
+</svg>

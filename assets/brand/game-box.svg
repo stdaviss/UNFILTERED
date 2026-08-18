@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 460" fill="none">
+  <title>Office Unfiltered game box</title>
+  <defs>
+    <filter id="boxs" x="-15%" y="-15%" width="130%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="16" flood-color="#000" flood-opacity=".55"/>
+    </filter>
+  </defs>
+  <g filter="url(#boxs)">
+    <rect x="48" y="28" width="324" height="324" rx="18" fill="#141816"/>
+    <rect x="48" y="28" width="324" height="324" rx="18" fill="none" stroke="#2A332E" stroke-width="3"/>
+    <rect x="70" y="50" width="280" height="280" rx="8" fill="#0E1210"/>
+    <text x="210" y="150" text-anchor="middle" font-family="Arial Black, sans-serif" font-size="28" fill="#fff">OFFICE</text>
+    <text x="210" y="186" text-anchor="middle" font-family="Arial Black, sans-serif" font-size="22" fill="#9EE493">UNFILTERED</text>
+    <rect x="96" y="220" width="228" height="1" fill="#2A332E"/>
+    <text x="210" y="250" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#B7C2BA">AGE 16+</text>
+    <text x="210" y="272" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#B7C2BA">PLAYERS 3–15</text>
+    <text x="210" y="294" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#B7C2BA">TIME 30–90 MIN</text>
+    <rect x="48" y="352" width="324" height="28" rx="4" fill="#0B0D0C"/>
+  </g>
+</svg>

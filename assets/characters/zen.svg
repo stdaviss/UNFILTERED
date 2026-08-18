@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 480" fill="none">
+  <title>Zen — The Calm Anchor</title>
+  <ellipse cx="200" cy="438" rx="96" ry="16" fill="#000" opacity=".18"/>
+  <path d="M128 438 C128 302 138 258 200 256 C262 258 272 302 272 438 Z" fill="#39B7A5"/>
+  <path d="M156 330 h88 v12 c0 18-18 30-44 30s-44-12-44-30z" fill="#2C9788"/>
+  <circle cx="200" cy="198" r="76" fill="#E0AC69"/>
+  <path d="M130 200 C128 128 162 104 200 104 C240 104 272 130 270 200 C262 156 236 136 200 136 C164 136 140 156 130 200Z" fill="#C9C4B8"/>
+  <ellipse cx="176" cy="198" rx="7" ry="5" fill="#2A241C"/>
+  <ellipse cx="224" cy="198" rx="7" ry="5" fill="#2A241C"/>
+  <path d="M184 226 Q200 234 218 226" fill="none" stroke="#C46A58" stroke-width="3" stroke-linecap="round"/>
+  <path d="M168 176 Q176 170 184 176" fill="none" stroke="#2A241C" stroke-width="2.6" stroke-linecap="round"/>
+  <path d="M216 176 Q224 170 232 176" fill="none" stroke="#2A241C" stroke-width="2.6" stroke-linecap="round"/>
+</svg>

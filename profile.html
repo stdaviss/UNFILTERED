@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Profile — Office Unfiltered</title>
+  <link rel="icon" href="assets/brand/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="top-nav">
+    <a class="logo" href="index.html"><span>Office</span><span>Unfiltered</span></a>
+    <nav class="nav-links" aria-label="Primary"></nav>
+    <div class="nav-user">
+      <button class="menu-toggle icon-btn" aria-label="Open menu"><span>☰</span></button>
+      <a class="user-chip" href="profile.html">
+        <img class="avatar" data-user-avatar src="assets/avatars/dave.svg" alt="">
+        <span class="user-meta"><strong data-user-name>Dave</strong><small><span class="status-dot"></span> Online</small></span>
+      </a>
+      <a class="icon-btn" href="profile.html" aria-label="Settings"><img src="assets/icons/gear.svg" alt=""></a>
+    </div>
+  </header>
+  <main id="main" class="page">
+    <div class="lobby-hero">
+      <div class="panel">
+        <h2>Profile</h2>
+        <div class="player-row" style="margin:12px 0 18px">
+          <img class="avatar lg" id="preview-avatar" src="assets/avatars/dave.svg" alt="">
+          <div>
+            <div class="name" id="preview-name">Dave</div>
+            <div class="meta">Online · no account required</div>
+          </div>
+        </div>
+        <div class="field">
+          <label for="name">Display name</label>
+          <input id="name" maxlength="24">
+        </div>
+        <div class="field">
+          <label for="avatar">Avatar</label>
+          <select id="avatar">
+            <option value="assets/avatars/dave.svg">Dave</option>
+            <option value="assets/avatars/sarah.svg">Sarah</option>
+            <option value="assets/avatars/michael.svg">Michael</option>
+            <option value="assets/avatars/jessica.svg">Jessica</option>
+            <option value="assets/avatars/guest.svg">Guest</option>
+          </select>
+        </div>
+        <p class="notice">To swap custom portraits, replace the SVG/PNG files in <code>assets/avatars/</code> or add a new option here. Card art lives in <code>assets/characters/</code>.</p>
+      </div>
+      <div class="panel">
+        <h2>Game settings</h2>
+        <div class="field">
+          <label for="scoring">Playful scoreboard</label>
+          <select id="scoring">
+            <option value="on">On — participation points only</option>
+            <option value="off">Off — no scores</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="rounds">Default rounds</label>
+          <select id="rounds">
+            <option value="6">6</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" id="save">Save</button>
+      </div>
+    </div>
+  </main>
+  <nav class="bottom-nav" aria-label="Mobile"></nav>
+  <script type="module" src="js/pages/profile.js"></script>
+</body>
+</html>

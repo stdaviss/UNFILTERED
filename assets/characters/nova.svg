@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 480" fill="none">
+  <title>Nova — The Optimist</title>
+  <g opacity=".95">
+    <ellipse cx="292" cy="78" rx="48" ry="42" fill="#fff" stroke="#1E4F86" stroke-width="5"/>
+    <text x="292" y="90" text-anchor="middle" font-size="42" font-family="Arial Black, sans-serif" fill="#1E4F86">?</text>
+    <ellipse cx="338" cy="148" rx="28" ry="26" fill="#fff" stroke="#1E4F86" stroke-width="4"/>
+    <path d="M330 140 l8 0 3-8 3 8 8 0-6 5 2 8-7-4-7 4 2-8z" fill="#F5B83D"/>
+    <ellipse cx="358" cy="198" rx="20" ry="18" fill="#fff" stroke="#1E4F86" stroke-width="3.5"/>
+    <path d="M351 198 h14 M358 191 v14" stroke="#2F9E75" stroke-width="3.2" stroke-linecap="round"/>
+    <ellipse cx="368" cy="240" rx="14" ry="12" fill="#fff" stroke="#1E4F86" stroke-width="3"/>
+    <rect x="361" y="234" width="14" height="12" rx="2" fill="#3BAAF0"/>
+  </g>
+  <ellipse cx="200" cy="430" rx="92" ry="18" fill="#000" opacity=".18"/>
+  <path d="M132 430 C132 300 140 250 200 248 C260 250 268 300 268 430 Z" fill="#F5D76E"/>
+  <path d="M152 318 h96 v18 c0 22-20 34-48 34s-48-12-48-34z" fill="#E8C04A"/>
+  <circle cx="200" cy="196" r="78" fill="#F7C9A8"/>
+  <path d="M132 188 C128 108 168 86 200 88 C248 90 278 122 270 188 C262 148 240 128 200 126 C162 128 140 150 132 188 Z" fill="#F4D06A"/>
+  <path d="M124 200 C118 150 150 118 178 122 C160 148 148 176 150 214 C140 210 128 208 124 200Z" fill="#E8C04A"/>
+  <path d="M276 200 C282 150 250 118 222 122 C240 148 252 176 250 214 C260 210 272 208 276 200Z" fill="#E8C04A"/>
+  <ellipse cx="176" cy="196" rx="8" ry="10" fill="#2A241C"/>
+  <ellipse cx="224" cy="196" rx="8" ry="10" fill="#2A241C"/>
+  <ellipse cx="179" cy="193" rx="2.6" ry="2.8" fill="#fff"/>
+  <ellipse cx="227" cy="193" rx="2.6" ry="2.8" fill="#fff"/>
+  <path d="M188 228 Q200 238 214 228" fill="none" stroke="#C46A58" stroke-width="3.4" stroke-linecap="round"/>
+  <path d="M164 176 Q176 168 186 176" fill="none" stroke="#2A241C" stroke-width="3" stroke-linecap="round"/>
+  <path d="M214 176 Q224 168 236 176" fill="none" stroke="#2A241C" stroke-width="3" stroke-linecap="round"/>
+  <ellipse cx="168" cy="214" rx="12" ry="7" fill="#F0A090" opacity=".45"/>
+  <ellipse cx="232" cy="214" rx="12" ry="7" fill="#F0A090" opacity=".45"/>
+  <path d="M248 250 C278 268 292 310 286 352" fill="none" stroke="#F7C9A8" stroke-width="18" stroke-linecap="round"/>
+  <circle cx="292" cy="358" r="16" fill="#F7C9A8"/>
+  <path d="M278 348 Q292 332 304 348" fill="none" stroke="#C46A58" stroke-width="2.4"/>
+</svg>
