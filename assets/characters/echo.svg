@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 480" fill="none">
+  <title>Echo — The Listener</title>
+  <ellipse cx="200" cy="438" rx="96" ry="16" fill="#000" opacity=".18"/>
+  <path d="M126 438 C126 300 136 254 200 252 C264 254 274 300 274 438 Z" fill="#6FAE8A"/>
+  <path d="M154 328 h92 v14 c0 20-20 32-46 32s-46-12-46-32z" fill="#588F70"/>
+  <circle cx="200" cy="198" r="76" fill="#C68642"/>
+  <path d="M122 206 C116 120 158 88 200 88 C250 90 286 128 278 206 C270 150 238 122 200 120 C162 122 132 152 122 206Z" fill="#2A1810"/>
+  <path d="M130 168 C142 128 170 118 188 128 C170 148 158 176 160 210Z" fill="#1A100C"/>
+  <path d="M270 168 C258 128 230 118 212 128 C230 148 242 176 240 210Z" fill="#1A100C"/>
+  <ellipse cx="176" cy="198" rx="8" ry="10" fill="#1A120C"/>
+  <ellipse cx="224" cy="198" rx="8" ry="10" fill="#1A120C"/>
+  <ellipse cx="179" cy="195" rx="2.4" ry="2.6" fill="#fff"/>
+  <ellipse cx="227" cy="195" rx="2.4" ry="2.6" fill="#fff"/>
+  <path d="M180 228 Q200 240 222 228" fill="none" stroke="#8A3A2A" stroke-width="3.4" stroke-linecap="round"/>
+  <path d="M108 292 C88 240 126 214 154 236" fill="none" stroke="#C68642" stroke-width="16" stroke-linecap="round"/>
+</svg>

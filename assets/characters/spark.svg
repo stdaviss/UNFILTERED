@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 480" fill="none">
+  <title>Spark — The Creative</title>
+  <defs>
+    <linearGradient id="sparkHair" x1="120" y1="80" x2="280" y2="200">
+      <stop stop-color="#F472B6"/>
+      <stop offset="1" stop-color="#60A5FA"/>
+    </linearGradient>
+  </defs>
+  <circle cx="86" cy="120" r="10" fill="#F5B83D"/>
+  <circle cx="320" cy="96" r="8" fill="#9B6BDE"/>
+  <circle cx="348" cy="160" r="6" fill="#3BAAF0"/>
+  <ellipse cx="200" cy="438" rx="96" ry="16" fill="#000" opacity=".18"/>
+  <path d="M124 438 C124 296 136 250 200 248 C264 250 276 296 276 438 Z" fill="#E85A9A"/>
+  <path d="M152 326 h96 v14 c0 22-20 34-48 34s-48-12-48-34z" fill="#C44780"/>
+  <circle cx="200" cy="196" r="76" fill="#F1C27D"/>
+  <path d="M126 200 C118 108 168 78 200 80 C248 82 292 118 276 204" fill="none" stroke="url(#sparkHair)" stroke-width="44" stroke-linecap="round"/>
+  <path d="M128 188 C132 108 168 84 200 84 C244 86 276 118 272 188 C262 140 234 118 200 116 C166 118 140 142 128 188Z" fill="#F472B6"/>
+  <path d="M240 100 C270 120 286 160 274 198" fill="none" stroke="#60A5FA" stroke-width="28" stroke-linecap="round"/>
+  <ellipse cx="176" cy="196" rx="8" ry="10" fill="#2A241C"/>
+  <ellipse cx="224" cy="196" rx="8" ry="10" fill="#2A241C"/>
+  <ellipse cx="179" cy="193" rx="2.4" ry="2.6" fill="#fff"/>
+  <ellipse cx="227" cy="193" rx="2.4" ry="2.6" fill="#fff"/>
+  <path d="M178 226 Q200 244 224 226" fill="none" stroke="#C46A58" stroke-width="3.6" stroke-linecap="round"/>
+  <path d="M98 300 C76 244 118 210 150 234" fill="none" stroke="#F1C27D" stroke-width="16" stroke-linecap="round"/>
+  <path d="M302 300 C324 244 282 210 250 234" fill="none" stroke="#F1C27D" stroke-width="16" stroke-linecap="round"/>
+</svg>

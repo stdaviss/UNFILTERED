@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 480" fill="none">
+  <title>Logic — The Analyzer</title>
+  <ellipse cx="318" cy="110" rx="58" ry="46" fill="#fff" stroke="#5B3A2E" stroke-width="4"/>
+  <path d="M300 110 Q318 92 336 110 Q318 128 300 110Z" fill="#E8D5C8"/>
+  <ellipse cx="200" cy="438" rx="96" ry="16" fill="#000" opacity=".18"/>
+  <path d="M126 438 C126 300 138 256 200 254 C262 256 274 300 274 438 Z" fill="#3B6FA0"/>
+  <path d="M154 328 h92 v14 c0 20-20 32-46 32s-46-12-46-32z" fill="#2E5A86"/>
+  <circle cx="200" cy="196" r="76" fill="#E8B896"/>
+  <path d="M128 186 C130 112 162 92 200 90 C244 92 274 118 272 186 C268 150 240 128 200 126 C162 128 136 150 128 186Z" fill="#4A3728"/>
+  <rect x="148" y="176" width="104" height="8" rx="3" fill="#2A241C"/>
+  <circle cx="172" cy="196" r="22" fill="none" stroke="#2A241C" stroke-width="5"/>
+  <circle cx="228" cy="196" r="22" fill="none" stroke="#2A241C" stroke-width="5"/>
+  <path d="M194 196 h12" stroke="#2A241C" stroke-width="4"/>
+  <ellipse cx="172" cy="196" rx="7" ry="9" fill="#2A241C"/>
+  <ellipse cx="228" cy="196" rx="7" ry="9" fill="#2A241C"/>
+  <ellipse cx="175" cy="193" rx="2.2" ry="2.4" fill="#fff"/>
+  <ellipse cx="231" cy="193" rx="2.2" ry="2.4" fill="#fff"/>
+  <path d="M186 228 Q200 232 216 228" fill="none" stroke="#C46A58" stroke-width="3.2" stroke-linecap="round"/>
+  <path d="M150 250 C158 278 176 292 200 294 C224 292 242 278 250 250 C240 268 222 276 200 276 C178 276 160 268 150 250Z" fill="#6B4A36"/>
+  <path d="M118 300 C90 250 120 210 150 236" fill="none" stroke="#E8B896" stroke-width="16" stroke-linecap="round"/>
+  <circle cx="112" cy="248" r="14" fill="#E8B896"/>
+</svg>

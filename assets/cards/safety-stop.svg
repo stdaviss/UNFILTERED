@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 480" fill="none">
+  <title>Safety — STOP</title>
+  <defs>
+    <filter id="s" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000" flood-opacity=".35"/>
+    </filter>
+  </defs>
+  <polygon filter="url(#s)" points="200,70 290,106 326,196 290,286 200,322 110,286 74,196 110,106" fill="#C43B2E" stroke="#F4EDE4" stroke-width="14"/>
+  <polygon points="200,92 274,122 304,196 274,270 200,300 126,270 96,196 126,122" fill="#E23B2E"/>
+  <text x="200" y="214" text-anchor="middle" font-family="Arial Black, Impact, sans-serif" font-size="54" font-weight="800" fill="#fff" letter-spacing="4">STOP</text>
+  <text x="200" y="380" text-anchor="middle" font-family="Arial Black, sans-serif" font-size="28" fill="#F4EDE4" letter-spacing="6">SAFETY</text>
+</svg>
